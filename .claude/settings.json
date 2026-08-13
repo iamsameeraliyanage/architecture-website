@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(claude plugin *)",
+      "Skill(update-config)",
+      "Skill(update-config:*)",
+      "Read(//Users/sameera/.claude/**)",
+      "Read(//Users/sameera/.claude/plugins/**)",
+      "Read(//Users/sameera/.claude/plugins/marketplaces/**)",
+      "Read(//Users/sameera/**)",
+      "Read(//Users/sameera/.claude/plugins/marketplaces/ui-ux-pro-max-skill/.claude-plugin/**)",
+      "Bash(python3 -c ' *)"
+    ],
+    "defaultMode": "bypassPermissions"
+  }
+}

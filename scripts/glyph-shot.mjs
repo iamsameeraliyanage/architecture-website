@@ -1,0 +1,10 @@
+import { chromium } from "playwright";
+const browser = await chromium.launch();
+const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+await page.goto("http://localhost:3311/en", { waitUntil: "domcontentloaded" });
+await page.waitForTimeout(4000);
+await page.evaluate(() => window.scrollTo({ top: 1250, behavior: "instant" }));
+await page.waitForTimeout(1200);
+await page.screenshot({ path: "playwright-shots/glyph-st01.png" });
+await browser.close();
+console.log("ok");

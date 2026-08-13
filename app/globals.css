@@ -1,0 +1,164 @@
+@import "tailwindcss";
+
+/*
+  ScanCrew design tokens.
+  Brand palette (Dark Blue #0B3B60, Deep Coral #D52B1E, Cerulean #00AEEF,
+  Gravity #979797) on a deep blue-black ground so point clouds read against
+  darkness, plus a paper ground for the specification sections.
+
+  Theme-dependent colors are defined as raw custom properties below and
+  flipped by [data-theme="light"]; @theme inline binds them to Tailwind
+  utilities so every component follows the switch automatically.
+*/
+
+:root {
+  /* dark theme (default) */
+  --t-ground: #05090f;
+  --t-raised: #0a121d;
+  --t-frost: #eaf1f7;
+  --t-mist: #8fa5b8;
+  --t-line-dark: #1a2836;
+  --t-cerulean: #00aeef;
+  --t-cerulean-soft: #7fd4f5;
+  --t-coral-bright: #ff5a4d;
+  --t-steel: #979797;
+}
+
+:root[data-theme="light"] {
+  --t-ground: #fbfcfd;
+  --t-raised: #f1f5f8;
+  --t-frost: #0d1722;
+  --t-mist: #4a5c6e;
+  --t-line-dark: #d5dde4;
+  --t-cerulean: #0077b3;
+  --t-cerulean-soft: #0d6a9c;
+  --t-coral-bright: #c22315;
+  --t-steel: #6b7680;
+}
+
+@theme inline {
+  /* theme-dependent */
+  --color-ground: var(--t-ground);
+  --color-raised: var(--t-raised);
+  --color-frost: var(--t-frost);
+  --color-mist: var(--t-mist);
+  --color-line-dark: var(--t-line-dark);
+  --color-cerulean: var(--t-cerulean);
+  --color-cerulean-soft: var(--t-cerulean-soft);
+  --color-coral-bright: var(--t-coral-bright);
+  --color-steel: var(--t-steel);
+}
+
+@theme {
+  /* static, both themes */
+  --color-paper: #f7f9fb; /* light sections */
+  --color-paper-dim: #edf1f5; /* alternate light surface */
+  --color-blueprint: #0b3b60; /* brand dark blue */
+  --color-blueprint-deep: #082c49;
+  --color-coral: #d52b1e; /* brand deep coral — CTAs + registration marks only */
+  --color-sky: #7fd4f5; /* fixed light accent for the always-dark blueprint band */
+  --color-ink: #0d1722; /* text on paper */
+  --color-ink-soft: #4a5c6e; /* muted text on paper */
+  --color-line-light: #d5dde4; /* hairlines on paper */
+
+  /* type */
+  --font-display: var(--font-grotesk), "Helvetica Neue", Arial, sans-serif;
+  --font-sans: var(--font-inter), "Inter", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: var(--font-plex-mono), "IBM Plex Mono", "SFMono-Regular", Menlo, monospace;
+
+  /* type scale */
+  --text-display-xl: clamp(2.5rem, 5.2vw, 4.6rem);
+  --text-display-lg: clamp(2rem, 4.2vw, 3.5rem);
+  --text-display-md: clamp(1.5rem, 2.6vw, 2.25rem);
+
+  --ease-authored: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  background-color: var(--color-ground);
+  color: var(--color-frost);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--color-cerulean);
+  color: var(--color-ground);
+}
+
+/* Visible keyboard focus everywhere; flips with theme */
+:focus-visible {
+  outline: 2px solid var(--color-cerulean);
+  outline-offset: 3px;
+  border-radius: 1px;
+}
+.on-paper :focus-visible {
+  outline-color: var(--color-coral);
+}
+
+/* Display type — neutral grotesque, tight and plain (Swiss register) */
+.display-tight {
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  line-height: 1.02;
+}
+
+.mono-label {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+/* Survey-document hairline rules */
+.rule-dark {
+  border-color: var(--color-line-dark);
+}
+.rule-light {
+  border-color: var(--color-line-light);
+}
+
+/* Dotted "point field" texture for placeholder blocks */
+.dot-field-dark {
+  background-image: radial-gradient(var(--color-line-dark) 1px, transparent 1px);
+  background-size: 14px 14px;
+}
+.dot-field-light {
+  background-image: radial-gradient(var(--color-line-light) 1px, transparent 1px);
+  background-size: 14px 14px;
+}
+
+/* Pipeline progressive enhancement: stacked list until GSAP takes over */
+[data-pin-enhanced="true"] .stage-panel {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  visibility: hidden;
+}
+[data-pin-enhanced="true"] .stage-panel[data-first="true"] {
+  opacity: 1;
+  visibility: visible;
+}
+[data-pin-enhanced="true"] .pipeline-rail {
+  display: block;
+}
+[data-pin-enhanced="true"] .stage-stack {
+  height: min(58vh, 560px);
+}
+[data-pin-enhanced="true"] .pipeline-pin {
+  padding-top: 6.5rem;
+  padding-bottom: 3rem;
+}
