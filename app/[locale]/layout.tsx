@@ -3,6 +3,9 @@ import { Instrument_Sans, Inter, IBM_Plex_Mono } from "next/font/google";
 import { notFound } from "next/navigation";
 import { content } from "@/lib/content";
 import { isLocale, locales, type Locale } from "@/lib/i18n";
+import LenisProvider from "@/components/motion/LenisProvider";
+import ScrollProgress from "@/components/ui/ScrollProgress";
+import ThemeInit from "@/components/ThemeInit";
 import "../globals.css";
 
 const grotesk = Instrument_Sans({
@@ -77,14 +80,16 @@ export default async function LocaleLayout({
   if (!isLocale(locale)) notFound();
 
   return (
-    <html lang={locale} className={`${grotesk.variable} ${inter.variable} ${plexMono.variable}`}>
+    <html
+      lang={locale}
+      suppressHydrationWarning
+      className={`${grotesk.variable} ${inter.variable} ${plexMono.variable}`}
+    >
       <body>
         {/* set the stored theme before first paint to avoid a flash */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `try{if(localStorage.getItem("theme")==="light")document.documentElement.dataset.theme="light"}catch(e){}`,
-          }}
-        />
+        <ThemeInit />
+        <LenisProvider />
+        <ScrollProgress />
         {children}
       </body>
     </html>

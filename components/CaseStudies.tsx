@@ -1,6 +1,7 @@
 import SectionHeader from "./ui/SectionHeader";
 import Reveal from "./ui/Reveal";
 import RegistrationMark from "./ui/RegistrationMark";
+import Parallax from "./ui/Parallax";
 import type { Content } from "@/lib/content";
 
 export default function CaseStudies({ t }: { t: Content["cases"] }) {
@@ -19,8 +20,12 @@ export default function CaseStudies({ t }: { t: Content["cases"] }) {
                   <p className="mono-label text-frost">{entry}</p>
                   <RegistrationMark className="h-3 w-3 text-coral" />
                 </div>
-                <div className="dot-field-dark relative flex aspect-[4/3] items-center justify-center border-b rule-dark">
-                  <p className="mono-label max-w-[80%] text-center text-steel">{t.placeholderTag}</p>
+                <div className="relative flex aspect-[4/3] items-center justify-center overflow-hidden border-b rule-dark">
+                  {/* overscanned dot layer drifts on scroll (ERA data-parallax="img") */}
+                  <Parallax className="dot-field-dark absolute inset-x-0 -inset-y-[14%]" from={-6} to={6} />
+                  <p className="mono-label relative max-w-[80%] text-center text-steel">
+                    {t.placeholderTag}
+                  </p>
                 </div>
                 <dl className="px-5 py-4">
                   {t.fields.map((field, j) => (

@@ -1,26 +1,33 @@
 import RegistrationMark from "./ui/RegistrationMark";
 
 /*
-  Flip to true once the real logo file is added at public/logo.svg
-  (and, if available, a light variant at public/logo-light.svg for dark grounds).
+  Real brand files live at public/logo.svg (coral mark + dark-blue lettering)
+  and public/logo-light.svg (coral mark + white lettering), extracted from
+  "Scancrew- Brand Assests New 2/1. Logo/SVG/1. Primary Logo" with a tight viewBox.
 */
-const HAS_LOGO_FILE = false;
+const HAS_LOGO_FILE = true;
 
 export default function Logo({
   tone = "light",
   className = "",
 }: {
-  /** "light" = light lettering for dark grounds, "dark" = brand dark-blue lettering for paper */
+  /**
+   * "light" = sits on the theme-flipping ground (white lettering in dark mode,
+   * dark-blue in light mode). "dark" = always the dark-blue variant, for
+   * surfaces that stay light in both themes.
+   */
   tone?: "light" | "dark";
   className?: string;
 }) {
   if (HAS_LOGO_FILE) {
+    if (tone === "dark") {
+      return <img src="/logo.svg" alt="ScanCrew" className={`h-8 w-auto ${className}`} />;
+    }
     return (
-      <img
-        src={tone === "light" ? "/logo-light.svg" : "/logo.svg"}
-        alt="ScanCrew"
-        className={`h-7 w-auto ${className}`}
-      />
+      <span className={`inline-flex ${className}`}>
+        <img src="/logo-light.svg" alt="ScanCrew" className="theme-dark-only h-8 w-auto" />
+        <img src="/logo.svg" alt="ScanCrew" className="theme-light-only h-8 w-auto" />
+      </span>
     );
   }
 

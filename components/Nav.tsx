@@ -6,6 +6,8 @@ import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import Logo from "./Logo";
 import LanguageSwitcher from "./LanguageSwitcher";
 import ThemeSwitcher from "./ThemeSwitcher";
+import RollText from "./ui/RollText";
+import Magnetic from "./ui/Magnetic";
 import type { Content } from "@/lib/content";
 import type { Locale } from "@/lib/i18n";
 
@@ -58,7 +60,7 @@ export default function Nav({ locale, t }: { locale: Locale; t: Content["nav"] }
               href={link.href}
               className="text-sm text-mist transition-colors hover:text-frost"
             >
-              {link.label}
+              <RollText text={link.label} />
             </Link>
           ))}
         </nav>
@@ -70,12 +72,14 @@ export default function Nav({ locale, t }: { locale: Locale; t: Content["nav"] }
           <Link href="#" className="text-sm text-mist transition-colors hover:text-frost">
             {t.clientLogin}
           </Link>
-          <Link
-            href={`/${locale}#contact`}
-            className="bg-coral px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-coral-bright"
-          >
-            {t.cta}
-          </Link>
+          <Magnetic strength={16}>
+            <Link
+              href={`/${locale}#contact`}
+              className="block bg-coral px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-coral-bright"
+            >
+              {t.cta}
+            </Link>
+          </Magnetic>
         </div>
 
         {/* Mobile: CTA + burger */}

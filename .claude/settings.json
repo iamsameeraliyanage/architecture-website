@@ -9,7 +9,13 @@
       "Read(//Users/sameera/.claude/plugins/marketplaces/**)",
       "Read(//Users/sameera/**)",
       "Read(//Users/sameera/.claude/plugins/marketplaces/ui-ux-pro-max-skill/.claude-plugin/**)",
-      "Bash(python3 -c ' *)"
+      "Bash(python3 -c ' *)",
+      "Bash(npm install *)",
+      "Bash(python3 -)",
+      "Bash(node scripts/shoot.mjs http://localhost:3311/en anim)",
+      "Bash(lsof -ti:3311)",
+      "Bash(xargs kill)",
+      "Bash(curl -s -o /dev/null -w '%{http_code}\\\\n' http://localhost:3312/en)"
     ],
     "defaultMode": "bypassPermissions"
   }

@@ -123,6 +123,14 @@ body {
   font-weight: 500;
 }
 
+/* Theme-dependent asset swap (e.g. logo variants) */
+:root[data-theme="light"] .theme-dark-only {
+  display: none;
+}
+:root:not([data-theme="light"]) .theme-light-only {
+  display: none;
+}
+
 /* Survey-document hairline rules */
 .rule-dark {
   border-color: var(--color-line-dark);

@@ -1,4 +1,5 @@
 import RegistrationMark from "./RegistrationMark";
+import SplitReveal from "./SplitReveal";
 
 /*
   Standard section head in the survey-document style:
@@ -30,14 +31,15 @@ export default function SectionHeader({
         <RegistrationMark className="h-3 w-3 shrink-0 text-coral" />
         <p className="mono-label">{kicker}</p>
       </div>
-      <h2
+      <SplitReveal
+        as="h2"
         id={id}
         className={`display-tight mt-8 max-w-3xl text-display-lg ${
           isDark ? "text-frost" : "text-ink"
         }`}
       >
         {title}
-      </h2>
+      </SplitReveal>
       {intro ? (
         <p className={`mt-5 max-w-2xl text-base leading-relaxed md:text-lg ${isDark ? "text-mist" : "text-ink-soft"}`}>
           {intro}

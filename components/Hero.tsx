@@ -1,6 +1,8 @@
 import Link from "next/link";
 import HeroVisual from "./hero/HeroVisual";
 import Reveal from "./ui/Reveal";
+import SplitReveal from "./ui/SplitReveal";
+import Magnetic from "./ui/Magnetic";
 import type { Content } from "@/lib/content";
 import type { Locale } from "@/lib/i18n";
 
@@ -24,13 +26,16 @@ export default function Hero({ locale, t }: { locale: Locale; t: Content["hero"]
             <p className="mono-label text-cerulean">{t.eyebrow}</p>
           </Reveal>
 
-          <Reveal immediate delay={0.25}>
-            <h1 className="display-tight mt-6 max-w-5xl text-display-xl text-frost">
-              {t.headlineA}
-              <br />
-              <span className="text-cerulean-soft">{t.headlineB}</span>
-            </h1>
-          </Reveal>
+          <SplitReveal
+            as="h1"
+            immediate
+            delay={0.25}
+            className="display-tight mt-6 max-w-5xl text-display-xl text-frost"
+          >
+            {t.headlineA}
+            <br />
+            <span className="text-cerulean-soft">{t.headlineB}</span>
+          </SplitReveal>
 
           <Reveal immediate delay={0.45}>
             <p className="mt-7 max-w-xl text-base leading-relaxed text-mist md:text-lg">
@@ -40,12 +45,14 @@ export default function Hero({ locale, t }: { locale: Locale; t: Content["hero"]
 
           <Reveal immediate delay={0.6}>
             <div className="mt-9 flex flex-wrap items-center gap-6">
-              <Link
-                href={`/${locale}#contact`}
-                className="bg-coral px-7 py-4 text-sm font-medium text-white transition-colors hover:bg-coral-bright"
-              >
-                {t.ctaPrimary}
-              </Link>
+              <Magnetic>
+                <Link
+                  href={`/${locale}#contact`}
+                  className="block bg-coral px-7 py-4 text-sm font-medium text-white transition-colors hover:bg-coral-bright"
+                >
+                  {t.ctaPrimary}
+                </Link>
+              </Magnetic>
               <Link
                 href={`/${locale}#process`}
                 className="group inline-flex items-center gap-2 text-sm text-mist transition-colors hover:text-frost"

@@ -29,13 +29,12 @@ export default async function Image({ params }: { params: Promise<{ locale: stri
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: 18 }}>
-          <svg width="34" height="34" viewBox="0 0 24 24" fill="none">
-            <circle cx="12" cy="12" r="6.5" stroke="#d52b1e" strokeWidth="1.8" />
-            <line x1="12" y1="0" x2="12" y2="4.5" stroke="#d52b1e" strokeWidth="1.8" />
-            <line x1="12" y1="19.5" x2="12" y2="24" stroke="#d52b1e" strokeWidth="1.8" />
-            <line x1="0" y1="12" x2="4.5" y2="12" stroke="#d52b1e" strokeWidth="1.8" />
-            <line x1="19.5" y1="12" x2="24" y2="12" stroke="#d52b1e" strokeWidth="1.8" />
-            <circle cx="12" cy="12" r="1.4" fill="#00aeef" />
+          {/* brand mark */}
+          <svg width="46" height="37" viewBox="109 128 181 143" fill="none">
+            <path
+              d="M233.875 128.37L109.476 170.668V270.63H290V172.384L233.875 128.406V128.37ZM275.269 203.478L239.84 197.602V151.836L275.269 179.573V203.478ZM225.109 146.982V195.157L194.664 190.12L124.244 203.296V181.289L225.109 146.982ZM124.244 218.332L187.353 206.507V255.777H124.244V218.332ZM202.12 255.813V206.361L275.269 218.478V255.813H202.12Z"
+              fill="#D52B1E"
+            />
           </svg>
           <div style={{ fontSize: 34, fontWeight: 700, letterSpacing: 2 }}>SCANCREW</div>
         </div>
