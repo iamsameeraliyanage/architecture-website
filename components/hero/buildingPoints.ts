@@ -1,15 +1,30 @@
 /*
-  Procedural scan-target geometry for the hero point cloud:
-  a simple gabled Swiss building massing, sampled across its surfaces the way
-  a laser scan would land on them — plus window outlines and sparse ground returns.
-  No model files; everything is generated.
+  Scan-target geometry for the hero point cloud.
+
+  The hero scans the same apartment the pipeline orbit models — same plan, same
+  openings, same partitions — read as laser returns instead of solid geometry.
+  Points are sampled across the real box faces from apartmentModel, so the
+  dotted massing and the modelled one are provably the same building.
+
+  Flat-topped: the roof/ceiling slab is deliberately omitted, so the scan reads
+  as an open plan seen from above, the way a cut-away survey does.
 */
 
+import {
+  PLAN,
+  exteriorWalls,
+  interiorWalls,
+  furniture,
+  floorSlab,
+  glazing,
+  type Box,
+} from "./apartmentModel";
+
+/** Overall massing, for the static fallback drawing. Flat top — no ridge. */
 export const BUILDING = {
-  W: 11, // width along x (ridge axis)
-  D: 7, // depth along z
-  H: 5.2, // eaves height
-  RIDGE: 7.5, // ridge height
+  W: PLAN.W,
+  D: PLAN.D,
+  H: PLAN.H + PLAN.SLAB,
 };
 
 type Rng = () => number;
@@ -31,46 +46,110 @@ function gaussianish(rng: Rng, sigma: number) {
   return (rng() + rng() + rng() - 1.5) * sigma * 2;
 }
 
+/**
+ * One sampleable face of a box. The scanner never sees undersides, so the
+ * -Y face of every box is skipped when the face list is built.
+ */
+type Face = {
+  area: number;
+  /** map two uniform randoms onto a point on the face */
+  at: (u: number, v: number) => [number, number, number];
+  intensity: number;
+};
+
+/** Faces of one box, minus the floor-facing one, weighted by true area. */
+function facesOf(b: Box, intensity: number, includeTop = true): Face[] {
+  const [px, py, pz] = b.pos;
+  const [sx, sy, sz] = b.size;
+  const hx = sx / 2;
+  const hy = sy / 2;
+  const hz = sz / 2;
+  const faces: Face[] = [];
+
+  // ±X
+  for (const s of [1, -1]) {
+    faces.push({
+      area: sy * sz,
+      intensity,
+      at: (u, v) => [px + s * hx, py - hy + u * sy, pz - hz + v * sz],
+    });
+  }
+  // ±Z
+  for (const s of [1, -1]) {
+    faces.push({
+      area: sx * sy,
+      intensity,
+      at: (u, v) => [px - hx + u * sx, py - hy + v * sy, pz + s * hz],
+    });
+  }
+  // top only — a scan gets strong returns off horizontal upward faces
+  if (includeTop) {
+    faces.push({
+      area: sx * sz,
+      intensity: intensity * 0.8,
+      at: (u, v) => [px - hx + u * sx, py + hy, pz - hz + v * sz],
+    });
+  }
+  return faces;
+}
+
+/** Perimeter segments of a glazing pane — the bright frame returns. */
+function paneOutline(b: Box): Array<[number, number, number]> {
+  const [px, py, pz] = b.pos;
+  const [sx, sy, sz] = b.size;
+  // panes are thin in one axis; the frame runs in the other two
+  const alongX = sx >= sz;
+  const hu = (alongX ? sx : sz) / 2;
+  const hv = sy / 2;
+  const pts: Array<[number, number, number]> = [];
+  const push = (u: number, v: number) =>
+    pts.push(alongX ? [px + u, py + v, pz] : [px, py + v, pz + u]);
+  push(-hu, -hv);
+  push(hu, -hv);
+  push(hu, hv);
+  push(-hu, hv);
+  return pts;
+}
+
 export function generatePoints(count: number, seed = 1337) {
-  const { W, D, H, RIDGE } = BUILDING;
   const rng = mulberry32(seed);
   const targets = new Float32Array(count * 3);
   const starts = new Float32Array(count * 3);
   const rands = new Float32Array(count);
-  // pseudo scan-return intensity per point — this is what makes the massing
-  // read as 3D form: each surface family gets its own brightness
+  // pseudo scan-return intensity per point — what makes the massing read as
+  // 3D form: each surface family gets its own brightness
   const intensities = new Float32Array(count);
 
-  const hw = W / 2;
-  const hd = D / 2;
-  const gable = RIDGE - H;
-  const slopeLen = Math.hypot(hd, gable);
+  // Surface families, brightest first. Exterior envelope carries the read;
+  // partitions and furniture sit behind it; the slab is the faintest.
+  const faces: Face[] = [
+    ...exteriorWalls().flatMap((b) => facesOf(b, 1.0)),
+    ...interiorWalls().flatMap((b) => facesOf(b, 0.6)),
+    ...furniture().flatMap((b) => facesOf(b, 0.78)),
+    ...floorSlab().flatMap((b) => facesOf(b, 0.3)),
+  ];
 
-  // surface areas → sampling weights
-  const areaFront = W * H; // ×2 (front/back)
-  const areaEnd = D * H + (D * gable) / 2; // ×2 (left/right incl. gable triangle)
-  const areaRoof = W * slopeLen; // ×2 (two pitches)
-  const totalWall = 2 * areaFront + 2 * areaEnd + 2 * areaRoof;
+  // cumulative area table for weighted face picking
+  const cumulative = new Float32Array(faces.length);
+  let total = 0;
+  faces.forEach((f, i) => {
+    total += f.area;
+    cumulative[i] = total;
+  });
 
-  const groundShare = 0.045;
-  const windowShare = 0.16;
-  const surfaceShare = 1 - groundShare - windowShare;
-
-  // window grid on front & back walls
-  const winCols = 5;
-  const winRows = 2;
-  const winW = 1.15;
-  const winH = 1.4;
-  const windows: Array<[number, number, number]> = []; // cx, cy, z-side
-  for (const side of [1, -1]) {
-    for (let c = 0; c < winCols; c++) {
-      for (let r = 0; r < winRows; r++) {
-        const cx = -hw + ((c + 0.5) / winCols) * W;
-        const cy = 1.4 + r * 2.1;
-        windows.push([cx, cy, side]);
-      }
+  const pickFace = (): Face => {
+    const target = rng() * total;
+    let lo = 0;
+    let hi = faces.length - 1;
+    while (lo < hi) {
+      const mid = (lo + hi) >> 1;
+      if (cumulative[mid] < target) lo = mid + 1;
+      else hi = mid;
     }
-  }
+    return faces[lo];
+  };
+
+  const panes = glazing().map(paneOutline);
 
   const setPoint = (i: number, x: number, y: number, z: number, intensity = 1) => {
     intensities[i] = intensity * (0.85 + rng() * 0.3);
@@ -81,115 +160,87 @@ export function generatePoints(count: number, seed = 1337) {
     // start: random shell around the scene
     const theta = rng() * Math.PI * 2;
     const phi = Math.acos(2 * rng() - 1);
-    const radius = 10 + rng() * 5;
+    const radius = 11 + rng() * 5;
     starts[i * 3] = radius * Math.sin(phi) * Math.cos(theta);
     starts[i * 3 + 1] = Math.abs(radius * Math.cos(phi)) * 0.85 + 0.2;
     starts[i * 3 + 2] = radius * Math.sin(phi) * Math.sin(theta);
     rands[i] = rng();
   };
 
+  const groundShare = 0.05;
+  const windowShare = 0.13;
   let i = 0;
   const nGround = Math.floor(count * groundShare);
   const nWindow = Math.floor(count * windowShare);
   const nSurface = count - nGround - nWindow;
 
   // ground returns — sparse disc around the footprint, faint
+  const groundR = Math.max(PLAN.W, PLAN.D) * 0.62;
   for (let g = 0; g < nGround; g++, i++) {
     const angle = rng() * Math.PI * 2;
-    const radius = Math.sqrt(rng()) * 7 + 1.2;
+    const radius = Math.sqrt(rng()) * groundR + 1.4;
     setPoint(i, Math.cos(angle) * radius, 0, Math.sin(angle) * radius, 0.22);
   }
 
-  // window outlines — bright frame lines around otherwise-empty openings
+  // window frames — bright outlines around the openings
   for (let w = 0; w < nWindow; w++, i++) {
-    const [cx, cy, side] = windows[Math.floor(rng() * windows.length)];
-    const perim = rng() * 2 * (winW + winH);
-    let x = 0;
-    let y = 0;
-    if (perim < winW) {
-      x = -winW / 2 + perim;
-      y = -winH / 2;
-    } else if (perim < winW + winH) {
-      x = winW / 2;
-      y = -winH / 2 + (perim - winW);
-    } else if (perim < 2 * winW + winH) {
-      x = winW / 2 - (perim - winW - winH);
-      y = winH / 2;
-    } else {
-      x = -winW / 2;
-      y = winH / 2 - (perim - 2 * winW - winH);
-    }
-    setPoint(i, cx + x, cy + y, side * hd, 1.35);
+    const outline = panes[Math.floor(rng() * panes.length)];
+    const edge = Math.floor(rng() * 4);
+    const a = outline[edge];
+    const b = outline[(edge + 1) % 4];
+    const t = rng();
+    setPoint(
+      i,
+      a[0] + (b[0] - a[0]) * t,
+      a[1] + (b[1] - a[1]) * t,
+      a[2] + (b[2] - a[2]) * t,
+      1.35,
+    );
   }
 
-  const inWindow = (x: number, y: number) => {
-    for (const [cx, cy] of windows) {
-      if (Math.abs(x - cx) < winW / 2 && Math.abs(y - cy) < winH / 2) return true;
-    }
-    return false;
-  };
-
-  // building surfaces, weighted by area; brightness per surface family
-  // (front facade bright, end walls mid, roof dim) fakes scan-return shading
+  // building surfaces, weighted by true face area
   for (let s = 0; s < nSurface; s++, i++) {
-    const pick = rng() * totalWall;
-    if (pick < 2 * areaFront) {
-      // front/back walls — windows are holes, not denser texture
-      const side = pick < areaFront ? 1 : -1;
-      let x = -hw + rng() * W;
-      let y = rng() * H;
-      let guard = 0;
-      while (inWindow(x, y) && guard < 8) {
-        x = -hw + rng() * W;
-        y = rng() * H;
-        guard++;
-      }
-      setPoint(i, x, y, side * hd, side === 1 ? 1.0 : 0.55);
-    } else if (pick < 2 * areaFront + 2 * areaEnd) {
-      // end walls incl. gable triangle
-      const side = pick < 2 * areaFront + areaEnd ? 1 : -1;
-      const wallArea = D * H;
-      const triArea = (D * gable) / 2;
-      const endIntensity = side === 1 ? 0.62 : 0.45;
-      if (rng() * (wallArea + triArea) < wallArea) {
-        setPoint(i, side * hw, rng() * H, -hd + rng() * D, endIntensity);
-      } else {
-        // gable triangle: width shrinks toward the ridge
-        const yy = H + (1 - Math.sqrt(rng())) * gable;
-        const halfWidth = hd * (1 - (yy - H) / gable);
-        setPoint(i, side * hw, yy, -halfWidth + rng() * (halfWidth * 2), endIntensity);
-      }
-    } else {
-      // roof pitches — dimmest family, so the roof stops swallowing the form
-      const side = rng() < 0.5 ? 1 : -1;
-      const along = rng(); // eaves → ridge
-      const x = -hw + rng() * W;
-      const y = H + along * gable;
-      const z = side * hd * (1 - along);
-      setPoint(i, x, y, z, side === 1 ? 0.4 : 0.3);
-    }
+    const face = pickFace();
+    const [x, y, z] = face.at(rng(), rng());
+    setPoint(i, x, y, z, face.intensity);
   }
 
   return { targets, starts, rands, intensities };
 }
 
-/** Edge list of the massing, for the resolved wireframe overlay. */
+/**
+ * Edge list of the massing for the resolved wireframe overlay: the flat-topped
+ * envelope plus the partition lines, so the plan reads without a roof.
+ */
 export function buildingEdges(): number[] {
-  const { W, D, H, RIDGE } = BUILDING;
+  const { W, D } = PLAN;
+  const H = PLAN.H + PLAN.SLAB;
   const hw = W / 2;
   const hd = D / 2;
   // prettier-ignore
   const v = {
     a: [-hw, 0, hd], b: [hw, 0, hd], c: [hw, 0, -hd], d: [-hw, 0, -hd],
     e: [-hw, H, hd], f: [hw, H, hd], g: [hw, H, -hd], h: [-hw, H, -hd],
-    r1: [-hw, RIDGE, 0], r2: [hw, RIDGE, 0],
   };
   const pairs: Array<[number[], number[]]> = [
     [v.a, v.b], [v.b, v.c], [v.c, v.d], [v.d, v.a], // base
-    [v.a, v.e], [v.b, v.f], [v.c, v.g], [v.d, v.h], // columns
-    [v.e, v.f], [v.f, v.g], [v.g, v.h], [v.h, v.e], // eaves
-    [v.e, v.r1], [v.h, v.r1], [v.f, v.r2], [v.g, v.r2], // gables
-    [v.r1, v.r2], // ridge
+    [v.a, v.e], [v.b, v.f], [v.c, v.g], [v.d, v.h], // corners
+    [v.e, v.f], [v.f, v.g], [v.g, v.h], [v.h, v.e], // flat parapet — no ridge
   ];
+
+  // partition head lines, so the interior plan is legible from outside
+  const t = PLAN.H;
+  for (const [ax, az, bx, bz] of [
+    [-2.2, -hd, -2.2, 0.6],
+    [-hw, -1.9, -2.2, -1.9],
+    [2.2, 1.4, 2.2, hd],
+    [2.2, 1.4, hw, 1.4],
+  ] as const) {
+    pairs.push([
+      [ax, t, az],
+      [bx, t, bz],
+    ]);
+  }
+
   return pairs.flatMap(([p, q]) => [...p, ...q]);
 }

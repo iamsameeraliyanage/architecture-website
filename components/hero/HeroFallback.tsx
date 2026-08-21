@@ -11,7 +11,9 @@ function project([x, y, z]: number[]): [number, number] {
   // simple axonometric projection matching the 3D camera's general view
   const sx = (x - z) * 0.72;
   const sy = -y * 0.82 + (x + z) * 0.22;
-  return [sx * 16 + 330, sy * 16 + 330];
+  // scaled for the flat apartment massing (wider and much shallower than a
+  // gabled house, so it needs a larger scale to fill the same frame)
+  return [sx * 34 + 330, sy * 34 + 326];
 }
 
 function line(a: number[], b: number[]) {
@@ -21,21 +23,26 @@ function line(a: number[], b: number[]) {
 }
 
 export default function HeroFallback({ dimmed = false }: { dimmed?: boolean }) {
-  const { W, D, H, RIDGE } = BUILDING;
+  const { W, D, H } = BUILDING;
   const hw = W / 2;
   const hd = D / 2;
   // prettier-ignore
   const v = {
     a: [-hw, 0, hd], b: [hw, 0, hd], c: [hw, 0, -hd], d: [-hw, 0, -hd],
     e: [-hw, H, hd], f: [hw, H, hd], g: [hw, H, -hd], h: [-hw, H, -hd],
-    r1: [-hw, RIDGE, 0], r2: [hw, RIDGE, 0],
   };
   const edges: Array<[number[], number[]]> = [
+    // footprint (front edges left open, as before, so the form reads in)
     [v.a, v.b], [v.b, v.c], [v.d, v.a],
+    // corners
     [v.a, v.e], [v.b, v.f], [v.c, v.g], [v.d, v.h],
+    // flat parapet — no ridge
     [v.e, v.f], [v.f, v.g], [v.g, v.h], [v.h, v.e],
-    [v.e, v.r1], [v.h, v.r1], [v.f, v.r2], [v.g, v.r2],
-    [v.r1, v.r2],
+    // partition heads, echoing the modelled plan
+    [[-2.2, H, -hd], [-2.2, H, 0.6]],
+    [[-hw, H, -1.9], [-2.2, H, -1.9]],
+    [[2.2, H, 1.4], [2.2, H, hd]],
+    [[2.2, H, 1.4], [hw, H, 1.4]],
   ];
 
   return (

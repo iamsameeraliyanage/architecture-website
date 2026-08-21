@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef } from "react";
 import { Canvas, useFrame, useThree, invalidate } from "@react-three/fiber";
 import * as THREE from "three";
 import { generatePoints, buildingEdges } from "./buildingPoints";
+import ScanDrone, { type ScanState } from "./ScanDrone";
 
 /*
   The page's single Three.js moment: scattered scan points resolve into a
@@ -64,16 +65,22 @@ const FRAG = /* glsl */ `
   }
 `;
 
-const REVEAL_START = -10;
+const REVEAL_START = -9;
 const REVEAL_SPEED = 7.2; // world units / second for the first pass
-const REVEAL_END = 12;
+const REVEAL_END = 10;
 const BEAM_PERIOD = 9; // seconds per beam cycle after the first pass
 
 /* per-theme scene palette: on dark ground the scan glows; on light it reads
    like blueprint ink on paper, with the beam as the darkest element */
 const SCENE_COLORS = {
-  dark: { dim: "#1d3345", resolved: "#4fc3f7", beam: "#c9ecff", wire: "#2a6ea3" },
-  light: { dim: "#c3d3de", resolved: "#1273ad", beam: "#0b3b60", wire: "#9cb9cd" },
+  dark: {
+    dim: "#1d3345", resolved: "#4fc3f7", beam: "#c9ecff", wire: "#2a6ea3",
+    drone: "#9fb6c9", droneAccent: "#ff5a4d",
+  },
+  light: {
+    dim: "#c3d3de", resolved: "#1273ad", beam: "#0b3b60", wire: "#9cb9cd",
+    drone: "#41637d", droneAccent: "#c22315",
+  },
 } as const;
 
 type SceneTheme = keyof typeof SCENE_COLORS;
@@ -90,6 +97,8 @@ function Cloud({
   const points = useRef<THREE.Points>(null);
   const lines = useRef<THREE.LineSegments>(null);
   const group = useRef<THREE.Group>(null);
+  // written here each frame, read by the drone so its flight matches the beam
+  const scan = useRef<ScanState>({ p: 0, active: false });
   const { camera, pointer } = useThree();
 
   const { geometry, material, lineGeometry, lineMaterial } = useMemo(() => {
@@ -163,6 +172,7 @@ function Cloud({
     if (!animated) {
       material.uniforms.uReveal.value = 999;
       material.uniforms.uBeam.value = -999;
+      scan.current = { p: 0.42, active: false };
       lineMaterial.opacity = 0.35;
       if (group.current) group.current.rotation.y = -0.3;
       invalidate();
@@ -190,6 +200,12 @@ function Cloud({
         cycle < 0.62 ? REVEAL_START + (cycle / 0.62) * (REVEAL_END - REVEAL_START) : -999;
     }
 
+    const beamX = material.uniforms.uBeam.value as number;
+    scan.current.active = beamX > -900;
+    if (scan.current.active) {
+      scan.current.p = (beamX - REVEAL_START) / (REVEAL_END - REVEAL_START);
+    }
+
     // wireframe fades in as the first pass completes
     const lineIn = THREE.MathUtils.clamp((t - firstPassDuration + 0.6) / 1.6, 0, 1);
     lineMaterial.opacity = lineIn * 0.35;
@@ -204,9 +220,19 @@ function Cloud({
   });
 
   return (
-    <group ref={group} position={[0.4, -2.55, 0]} scale={0.74}>
+    <group ref={group} position={[0.3, -1.0, 0]} scale={0.56}>
       <points ref={points} geometry={geometry} material={material} frustumCulled={false} />
       <lineSegments ref={lines} geometry={lineGeometry} material={lineMaterial} />
+      <ScanDrone
+        scan={scan}
+        animated={animated}
+        additive={theme !== "light"}
+        colors={{
+          body: SCENE_COLORS[theme].drone,
+          accent: SCENE_COLORS[theme].droneAccent,
+          beam: SCENE_COLORS[theme].beam,
+        }}
+      />
     </group>
   );
 }
