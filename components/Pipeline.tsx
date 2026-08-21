@@ -184,12 +184,7 @@ export default function Pipeline({ t }: { t: Content["pipeline"] }) {
                   className="stage-panel border-t rule-dark py-12 lg:border-t-0 lg:py-0"
                   data-first={i === 0 ? "true" : undefined}
                 >
-                  <div className="flex items-baseline gap-4">
-                    <span className="mono-label text-cerulean">{stage.code}</span>
-                    <span aria-hidden="true" className="display-tight text-6xl text-frost/10 md:text-7xl">
-                      {String(i + 1).padStart(2, "0")}
-                    </span>
-                  </div>
+                  <span className="mono-label block text-cerulean">{stage.code}</span>
                   <h3 className="display-tight mt-4 text-display-md text-frost">{stage.name}</h3>
                   <p className="mt-5 max-w-lg text-base leading-relaxed text-mist md:text-lg">
                     {stage.body}

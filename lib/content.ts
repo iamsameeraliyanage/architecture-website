@@ -42,45 +42,45 @@ const en = {
       frame: "CH1903+ / LV95",
     },
     stages: [
-      { code: "ST-01", name: "Reality Capture" },
-      { code: "ST-02", name: "Point Cloud" },
-      { code: "ST-03", name: "BIM Production" },
-      { code: "ST-04", name: "QA/QC" },
-      { code: "ST-05", name: "Delivery" },
+      { code: "Step 1", name: "Reality Capture" },
+      { code: "Step 2", name: "Point Cloud" },
+      { code: "Step 3", name: "BIM Production" },
+      { code: "Step 4", name: "QA/QC" },
+      { code: "Step 5", name: "Delivery" },
     ],
   },
   pipeline: {
-    kicker: "SEC 01 — The Pipeline",
+    kicker: "The Pipeline",
     title: "One chain. No handoffs.",
     intro:
       "Capture, processing, modelling and quality control run inside one team. Brief us once and we hand back a model your project can build on — or start mid-chain and send us your existing point cloud.",
     stages: [
       {
-        code: "ST-01",
+        code: "Step 1",
         name: "Reality Capture",
         body: "Our own Swiss crew on site with terrestrial laser scanners and drones. Georeferenced, full coverage, and planned around the daily routine of an occupied building.",
         specs: ["Terrestrial LiDAR", "Drone survey", "CH1903+ / LV95", "Occupied buildings"],
       },
       {
-        code: "ST-02",
+        code: "Step 2",
         name: "Point Cloud",
         body: "Scans are registered and validated, noise is cleaned, and the coordinate system is fixed. What leaves this stage is a dataset you can measure against.",
         specs: ["Registration", "Validation", "Noise cleaning", "E57 · RCP · RCS"],
       },
       {
-        code: "ST-03",
+        code: "Step 3",
         name: "BIM Production",
         body: "Architectural and structural elements are modelled in Revit or Archicad, aligned directly to the point cloud, to the agreed LOD — not traced from exports.",
         specs: ["Revit", "Archicad", "LOD 200 · 300 · 350", "Cloud-aligned"],
       },
       {
-        code: "ST-04",
+        code: "Step 4",
         name: "QA/QC",
         body: "Three reviews before release: the modeller verifies geometry against the scan, a Senior BIM Modeller runs the technical review, and the Team Lead performs final validation.",
         specs: ["Modeller self-check", "Senior technical review", "Team Lead validation"],
       },
       {
-        code: "ST-05",
+        code: "Step 5",
         name: "Delivery",
         body: "The native model plus IFC for openBIM workflows, optional 2D drawings, and review snapshots with documentation.",
         specs: [".RVT / .PLN", ".IFC", "2D — PDF · DWG", "Review snapshots"],
@@ -88,7 +88,7 @@ const en = {
     ],
   },
   audiences: {
-    kicker: "SEC 02 — Who it's for",
+    kicker: "Who it's for",
     title: "Built for the people who have to trust it.",
     blocks: [
       {
@@ -114,7 +114,7 @@ const en = {
     ],
   },
   standards: {
-    kicker: "SEC 03 — Accuracy & Standards",
+    kicker: "Accuracy & Standards",
     title: "Specification, not claims.",
     sheetLabel: "DATASHEET / SC-STD-01",
     rows: [
@@ -127,7 +127,7 @@ const en = {
     ],
   },
   pricing: {
-    kicker: "SEC 04 — Pricing",
+    kicker: "Pricing",
     title: "Rates on the table.",
     intro:
       "Nobody in this market publishes prices. We do — modelling rates per square metre, stated up front, so you can budget before you ever talk to us.",
@@ -157,7 +157,7 @@ const en = {
     note: "Indicative modelling rates. Capture is quoted per site — geometry, access and location drive the scanning effort.",
   },
   deliverables: {
-    kicker: "SEC 05 — Deliverables",
+    kicker: "Deliverables",
     title: "What lands in your inbox.",
     items: [
       { format: "Revit model", ext: ".RVT" },
@@ -169,7 +169,7 @@ const en = {
     ],
   },
   cases: {
-    kicker: "SEC 06 — Case Studies",
+    kicker: "Case Studies",
     title: "Projects will be documented here.",
     note: "First projects are in production. Each entry publishes with building type, location, area, LOD and delivery time — real figures only, no invented references.",
     placeholderTag: "PLACEHOLDER — PROJECT DOCUMENTATION PENDING",
@@ -183,7 +183,7 @@ const en = {
     entries: ["CASE-01", "CASE-02", "CASE-03"],
   },
   faq: {
-    kicker: "SEC 07 — FAQ",
+    kicker: "FAQ",
     title: "Technical questions, plain answers.",
     items: [
       {
@@ -224,7 +224,7 @@ const en = {
     line: "ScanCrew works in partnership with Innofab GmbH.",
   },
   team: {
-    kicker: "SEC 08 — Team",
+    kicker: "Team",
     title: "The team behind the tolerance.",
     note: "Placeholder profiles — the crew will be introduced here.",
     members: [
@@ -237,7 +237,7 @@ const en = {
     ],
   },
   contact: {
-    kicker: "SEC 09 — Contact",
+    kicker: "Contact",
     title: "Get a Scan-to-BIM Quote",
     body: "Tell us the building, the approximate area and the LOD you need. You get a scoped quote with rates, timeline and deliverables — no obligation.",
     form: {
@@ -252,7 +252,24 @@ const en = {
       message: "Project details",
       messagePlaceholder: "Building type, location, timeline…",
       submit: "Request quote",
-      hint: "Submitting opens your email client with the request pre-filled.",
+      submitting: "Opening your email client…",
+      optional: "optional",
+      errors: {
+        nameRequired: "Tell us who to reply to.",
+        nameShort: "Please enter your full name.",
+        emailRequired: "We need an email address to send the quote to.",
+        emailInvalid: "That does not look like a valid email address.",
+        areaInvalid: "Enter the area as a number in m² — leave it blank if you are unsure.",
+        areaRange: "Enter an area between 1 and 1,000,000 m².",
+        messageRequired: "A sentence about the building helps us scope the quote.",
+        messageShort: "Please add a little more detail — at least 10 characters.",
+        summary: "Check the highlighted fields and try again.",
+      },
+      sent: {
+        title: "Your email client should be open.",
+        body: "If nothing happened, write to us directly at the address on the left — the details you entered are below.",
+        again: "Edit and send again",
+      },
     },
     detailsLabel: "Direct",
     details: {
@@ -265,6 +282,47 @@ const en = {
       addressLabel: "Office",
       address: "Musterstrasse 0, 8000 Zürich, Switzerland",
       addressNote: "placeholder",
+    },
+  },
+  about: {
+    kicker: "About",
+    title: "One team, from the tripod to the model.",
+    lead: "Capture, processing, modelling and quality control sit in one Swiss team — which is why we can publish a tolerance and a rate card.",
+    body: [
+      "ScanCrew is a Swiss scan-to-BIM practice. We put our own crew and our own scanners on site, process the point cloud ourselves, and model the building in Revit or Archicad — so nobody in the chain has to explain someone else's data.",
+      "That structure exists for one reason: an as-built model is only worth what its worst handoff allows. Keeping capture, processing, modelling and quality control under one roof is how we can put a tolerance figure and a rate card in public and stand behind both.",
+    ],
+    factsLabel: "Company",
+    facts: [
+      { label: "Based in", value: "Switzerland — projects nationwide" },
+      { label: "Discipline", value: "Reality capture · point-cloud processing · BIM production" },
+      { label: "Coordinate frame", value: "CH1903+ / LV95" },
+      { label: "Working languages", value: "German · English" },
+      { label: "Partnership", value: "Innofab GmbH" },
+    ],
+  },
+  cta: {
+    kicker: "Next step",
+    title: "Tell us about the building.",
+    body: "Area, target LOD and a rough timeline are enough for a scoped quote with rates, deliverables and dates.",
+    primary: "Get a quote",
+    secondary: "See the rate card",
+  },
+  pages: {
+    pricing: {
+      metaTitle: "Pricing — Scan-to-BIM rates per m² | ScanCrew",
+      metaDescription:
+        "Published scan-to-BIM modelling rates: LOD 200, 300 and 350 priced per square metre, with the pricing formula and what drives the capture quote.",
+    },
+    about: {
+      metaTitle: "About ScanCrew — the Swiss scan-to-BIM team",
+      metaDescription:
+        "Who we are: a Swiss team running reality capture, point-cloud processing, BIM production and QA in one chain — and the people behind the ±20 mm tolerance.",
+    },
+    contact: {
+      metaTitle: "Contact ScanCrew — request a scan-to-BIM quote",
+      metaDescription:
+        "Request a scoped scan-to-BIM quote: rates, timeline and deliverables. Direct email, phone and office details for our Swiss team.",
     },
   },
   footer: {
@@ -317,45 +375,45 @@ const de: Content = {
       frame: "CH1903+ / LV95",
     },
     stages: [
-      { code: "ST-01", name: "Gebäudeerfassung" },
-      { code: "ST-02", name: "Punktwolke" },
-      { code: "ST-03", name: "BIM-Produktion" },
-      { code: "ST-04", name: "Qualitätssicherung" },
-      { code: "ST-05", name: "Lieferung" },
+      { code: "Schritt 1", name: "Gebäudeerfassung" },
+      { code: "Schritt 2", name: "Punktwolke" },
+      { code: "Schritt 3", name: "BIM-Produktion" },
+      { code: "Schritt 4", name: "Qualitätssicherung" },
+      { code: "Schritt 5", name: "Lieferung" },
     ],
   },
   pipeline: {
-    kicker: "SEC 01 — Die Prozesskette",
+    kicker: "Die Prozesskette",
     title: "Eine Kette. Keine Schnittstellenverluste.",
     intro:
       "Erfassung, Verarbeitung, Modellierung und Qualitätssicherung laufen in einem Team. Sie briefen uns einmal und erhalten ein Modell, auf dem Ihr Projekt aufbauen kann — oder Sie steigen mitten in der Kette ein und senden uns Ihre bestehende Punktwolke.",
     stages: [
       {
-        code: "ST-01",
+        code: "Schritt 1",
         name: "Gebäudeerfassung",
         body: "Unser eigenes Schweizer Team vor Ort, mit terrestrischen Laserscannern und Drohnen. Georeferenziert, vollständige Abdeckung — und so geplant, dass der Betrieb im Gebäude weiterläuft.",
         specs: ["Terrestrisches LiDAR", "Drohnenaufnahme", "CH1903+ / LV95", "Genutzte Gebäude"],
       },
       {
-        code: "ST-02",
+        code: "Schritt 2",
         name: "Punktwolke",
         body: "Die Scans werden registriert und validiert, Rauschen wird bereinigt, das Koordinatensystem fixiert. Was diese Stufe verlässt, ist ein Datensatz, an dem Sie messen können.",
         specs: ["Registrierung", "Validierung", "Rauschbereinigung", "E57 · RCP · RCS"],
       },
       {
-        code: "ST-03",
+        code: "Schritt 3",
         name: "BIM-Produktion",
         body: "Architektur- und Tragwerkselemente werden in Revit oder Archicad direkt an der Punktwolke modelliert, im vereinbarten LOD — nicht von Exporten abgepaust.",
         specs: ["Revit", "Archicad", "LOD 200 · 300 · 350", "An der Punktwolke ausgerichtet"],
       },
       {
-        code: "ST-04",
+        code: "Schritt 4",
         name: "Qualitätssicherung",
         body: "Drei Prüfungen vor der Freigabe: Der Modellierer verifiziert die Geometrie am Scan, ein Senior BIM Modeller führt die technische Prüfung durch, der Team Lead validiert final.",
         specs: ["Eigenprüfung Modellierer", "Technische Prüfung Senior", "Validierung Team Lead"],
       },
       {
-        code: "ST-05",
+        code: "Schritt 5",
         name: "Lieferung",
         body: "Das native Modell plus IFC für openBIM-Workflows, optional 2D-Pläne sowie Review-Ansichten mit Dokumentation.",
         specs: [".RVT / .PLN", ".IFC", "2D — PDF · DWG", "Review-Ansichten"],
@@ -363,7 +421,7 @@ const de: Content = {
     ],
   },
   audiences: {
-    kicker: "SEC 02 — Für wen",
+    kicker: "Für wen",
     title: "Gebaut für alle, die sich darauf verlassen müssen.",
     blocks: [
       {
@@ -389,7 +447,7 @@ const de: Content = {
     ],
   },
   standards: {
-    kicker: "SEC 03 — Genauigkeit & Standards",
+    kicker: "Genauigkeit & Standards",
     title: "Spezifikation statt Behauptung.",
     sheetLabel: "DATENBLATT / SC-STD-01",
     rows: [
@@ -402,7 +460,7 @@ const de: Content = {
     ],
   },
   pricing: {
-    kicker: "SEC 04 — Preise",
+    kicker: "Preise",
     title: "Preise auf dem Tisch.",
     intro:
       "Niemand in diesem Markt publiziert Preise. Wir schon — Modellierungspreise pro Quadratmeter, offen ausgewiesen, damit Sie budgetieren können, bevor Sie mit uns sprechen.",
@@ -432,7 +490,7 @@ const de: Content = {
     note: "Richtpreise für die Modellierung. Die Erfassung wird pro Objekt offeriert — Geometrie, Zugänglichkeit und Lage bestimmen den Scanaufwand.",
   },
   deliverables: {
-    kicker: "SEC 05 — Lieferumfang",
+    kicker: "Lieferumfang",
     title: "Was bei Ihnen ankommt.",
     items: [
       { format: "Revit-Modell", ext: ".RVT" },
@@ -444,7 +502,7 @@ const de: Content = {
     ],
   },
   cases: {
-    kicker: "SEC 06 — Referenzprojekte",
+    kicker: "Referenzprojekte",
     title: "Hier werden Projekte dokumentiert.",
     note: "Die ersten Projekte sind in Produktion. Jeder Eintrag erscheint mit Gebäudetyp, Standort, Fläche, LOD und Lieferzeit — nur echte Zahlen, keine erfundenen Referenzen.",
     placeholderTag: "PLATZHALTER — PROJEKTDOKUMENTATION FOLGT",
@@ -458,7 +516,7 @@ const de: Content = {
     entries: ["CASE-01", "CASE-02", "CASE-03"],
   },
   faq: {
-    kicker: "SEC 07 — FAQ",
+    kicker: "FAQ",
     title: "Technische Fragen, klare Antworten.",
     items: [
       {
@@ -499,7 +557,7 @@ const de: Content = {
     line: "ScanCrew arbeitet in Partnerschaft mit der Innofab GmbH.",
   },
   team: {
-    kicker: "SEC 08 — Team",
+    kicker: "Team",
     title: "Das Team hinter der Toleranz.",
     note: "Platzhalter-Profile — das Team wird hier vorgestellt.",
     members: [
@@ -512,7 +570,7 @@ const de: Content = {
     ],
   },
   contact: {
-    kicker: "SEC 09 — Kontakt",
+    kicker: "Kontakt",
     title: "Scan-to-BIM-Offerte anfordern",
     body: "Nennen Sie uns das Gebäude, die ungefähre Fläche und das gewünschte LOD. Sie erhalten eine klar umrissene Offerte mit Preisen, Terminen und Lieferumfang — unverbindlich.",
     form: {
@@ -527,7 +585,24 @@ const de: Content = {
       message: "Projektangaben",
       messagePlaceholder: "Gebäudetyp, Standort, Zeitrahmen…",
       submit: "Offerte anfordern",
-      hint: "Beim Absenden öffnet sich Ihr E-Mail-Programm mit der vorbereiteten Anfrage.",
+      submitting: "E-Mail-Programm wird geöffnet…",
+      optional: "optional",
+      errors: {
+        nameRequired: "Sagen Sie uns, an wen die Antwort gehen soll.",
+        nameShort: "Bitte geben Sie Ihren vollständigen Namen an.",
+        emailRequired: "Wir brauchen eine E-Mail-Adresse für die Offerte.",
+        emailInvalid: "Das sieht nicht nach einer gültigen E-Mail-Adresse aus.",
+        areaInvalid: "Bitte die Fläche als Zahl in m² angeben — oder das Feld leer lassen.",
+        areaRange: "Bitte eine Fläche zwischen 1 und 1'000'000 m² angeben.",
+        messageRequired: "Ein Satz zum Gebäude hilft uns bei der Offerte.",
+        messageShort: "Bitte etwas mehr Detail — mindestens 10 Zeichen.",
+        summary: "Bitte prüfen Sie die markierten Felder und senden Sie erneut.",
+      },
+      sent: {
+        title: "Ihr E-Mail-Programm sollte sich geöffnet haben.",
+        body: "Falls nicht, schreiben Sie uns direkt an die Adresse links — Ihre Angaben stehen unten.",
+        again: "Bearbeiten und erneut senden",
+      },
     },
     detailsLabel: "Direkt",
     details: {
@@ -540,6 +615,47 @@ const de: Content = {
       addressLabel: "Büro",
       address: "Musterstrasse 0, 8000 Zürich, Schweiz",
       addressNote: "Platzhalter",
+    },
+  },
+  about: {
+    kicker: "Über uns",
+    title: "Ein Team, vom Stativ bis zum Modell.",
+    lead: "Erfassung, Verarbeitung, Modellierung und Qualitätssicherung liegen in einem Schweizer Team — deshalb können wir Toleranz und Preise öffentlich nennen.",
+    body: [
+      "ScanCrew ist ein Schweizer Scan-to-BIM-Büro. Wir sind mit eigener Crew und eigenen Scannern vor Ort, verarbeiten die Punktwolke selbst und modellieren das Gebäude in Revit oder Archicad — so muss niemand in der Kette die Daten eines anderen erklären.",
+      "Diese Struktur hat einen Grund: Ein Bestandsmodell ist nur so gut wie seine schwächste Übergabe. Weil Erfassung, Verarbeitung, Modellierung und Qualitätssicherung bei uns unter einem Dach liegen, können wir Toleranz und Preise öffentlich nennen und für beides geradestehen.",
+    ],
+    factsLabel: "Unternehmen",
+    facts: [
+      { label: "Standort", value: "Schweiz — Projekte schweizweit" },
+      { label: "Disziplin", value: "Reality Capture · Punktwolken-Verarbeitung · BIM-Produktion" },
+      { label: "Bezugsrahmen", value: "CH1903+ / LV95" },
+      { label: "Arbeitssprachen", value: "Deutsch · Englisch" },
+      { label: "Partnerschaft", value: "Innofab GmbH" },
+    ],
+  },
+  cta: {
+    kicker: "Nächster Schritt",
+    title: "Erzählen Sie uns vom Gebäude.",
+    body: "Fläche, Ziel-LOD und ein grober Zeitrahmen genügen für eine Offerte mit Preisen, Lieferumfang und Terminen.",
+    primary: "Offerte anfordern",
+    secondary: "Zur Preisliste",
+  },
+  pages: {
+    pricing: {
+      metaTitle: "Preise — Scan-to-BIM Ansätze pro m² | ScanCrew",
+      metaDescription:
+        "Veröffentlichte Scan-to-BIM-Modellierungspreise: LOD 200, 300 und 350 pro Quadratmeter, mit Preisformel und den Faktoren der Erfassungs-Offerte.",
+    },
+    about: {
+      metaTitle: "Über ScanCrew — das Schweizer Scan-to-BIM-Team",
+      metaDescription:
+        "Wer wir sind: ein Schweizer Team, das Erfassung, Punktwolken-Verarbeitung, BIM-Produktion und QA in einer Kette führt — und die Menschen hinter den ±20 mm.",
+    },
+    contact: {
+      metaTitle: "Kontakt ScanCrew — Scan-to-BIM Offerte anfordern",
+      metaDescription:
+        "Fordern Sie eine Scan-to-BIM-Offerte an: Preise, Termine und Lieferumfang. Direkte E-Mail-, Telefon- und Adressangaben unseres Schweizer Teams.",
     },
   },
   footer: {

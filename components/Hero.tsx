@@ -47,7 +47,7 @@ export default function Hero({ locale, t }: { locale: Locale; t: Content["hero"]
             <div className="mt-9 flex flex-wrap items-center gap-6">
               <Magnetic>
                 <Link
-                  href={`/${locale}#contact`}
+                  href={`/${locale}/contact`}
                   className="block bg-coral px-7 py-4 text-sm font-medium text-white transition-colors hover:bg-coral-bright"
                 >
                   {t.ctaPrimary}

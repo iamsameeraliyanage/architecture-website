@@ -7,11 +7,9 @@ import type { Locale } from "@/lib/i18n";
 export default function Footer({ locale, t }: { locale: Locale; t: Content }) {
   const year = new Date().getFullYear();
   const links = [
-    { label: t.nav.services, href: "#" },
-    { label: t.nav.process, href: `/${locale}#process` },
-    { label: t.nav.pricing, href: `/${locale}#pricing` },
-    { label: t.nav.about, href: "#" },
-    { label: t.nav.contact, href: `/${locale}#contact` },
+    { label: t.nav.pricing, href: `/${locale}/pricing` },
+    { label: t.nav.about, href: `/${locale}/about` },
+    { label: t.nav.contact, href: `/${locale}/contact` },
   ];
 
   return (
@@ -56,7 +54,7 @@ export default function Footer({ locale, t }: { locale: Locale; t: Content }) {
 
           <div className="md:col-span-2">
             <p className="mono-label mb-4 text-steel">{t.nav.langLabel}</p>
-            <LanguageSwitcher locale={locale} label={t.nav.langLabel} />
+            <LanguageSwitcher locale={locale} label={t.nav.langLabel} variant="inline" />
           </div>
         </div>
 

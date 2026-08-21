@@ -1,16 +1,11 @@
-import SectionHeader from "./ui/SectionHeader";
 import Reveal from "./ui/Reveal";
 import type { Content } from "@/lib/content";
 
 export default function Pricing({ t }: { t: Content["pricing"] }) {
   return (
-    <section id="pricing" className="on-paper scroll-mt-20 bg-paper-dim" aria-labelledby="pricing-title">
+    <section id="pricing" className="on-paper scroll-mt-20 bg-paper-dim" aria-label={t.title}>
       <div className="mx-auto max-w-7xl px-5 py-20 md:px-8 md:py-28">
         <Reveal>
-          <SectionHeader id="pricing-title" kicker={t.kicker} title={t.title} intro={t.intro} tone="light" />
-        </Reveal>
-
-        <Reveal delay={0.1}>
           <div className="grid border rule-light bg-white md:grid-cols-3">
             {t.tiers.map((tier, i) => (
               <article

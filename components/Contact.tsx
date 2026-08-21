@@ -1,4 +1,3 @@
-import SectionHeader from "./ui/SectionHeader";
 import Reveal from "./ui/Reveal";
 import ContactForm from "./ContactForm";
 import type { Content } from "@/lib/content";
@@ -12,21 +11,11 @@ export default function Contact({ t }: { t: Content["contact"] }) {
   ];
 
   return (
-    <section id="contact" className="scroll-mt-20 bg-ground" aria-labelledby="contact-title">
+    <section id="contact" className="scroll-mt-20 bg-ground" aria-label={t.title}>
       <div className="mx-auto max-w-7xl px-5 py-20 md:px-8 md:py-28">
         <div className="grid gap-14 lg:grid-cols-12 lg:gap-10">
           <div className="lg:col-span-5">
             <Reveal>
-              <SectionHeader
-                id="contact-title"
-                kicker={t.kicker}
-                title={t.title}
-                intro={t.body}
-                tone="dark"
-                className="mb-10"
-              />
-            </Reveal>
-            <Reveal delay={0.1}>
               <div className="border-t rule-dark">
                 <p className="mono-label mt-5 text-steel">{t.detailsLabel}</p>
                 <dl className="mt-4 space-y-4">

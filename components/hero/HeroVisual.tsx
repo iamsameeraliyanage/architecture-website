@@ -8,6 +8,10 @@ import { useTheme } from "../ThemeSwitcher";
 
 const PointCloudScene = dynamic(() => import("./PointCloudScene"), { ssr: false });
 
+// the scan stage only has room to read from lg up; below that the hero is
+// type on the grid, and no WebGL is downloaded or rendered at all
+const DESKTOP_QUERY = "(min-width: 1024px)";
+
 function webglAvailable(): boolean {
   try {
     const canvas = document.createElement("canvas");
@@ -21,26 +25,33 @@ export default function HeroVisual() {
   const wrapper = useRef<HTMLDivElement>(null);
   const reduced = useReducedMotion();
   const theme = useTheme();
-  const [webgl, setWebgl] = useState<boolean | null>(null);
-  const [particles, setParticles] = useState(15000);
+  const [desktop, setDesktop] = useState(false);
+  const [webgl, setWebgl] = useState(false);
   const [ready, setReady] = useState(false);
   const [active, setActive] = useState(true);
 
   useEffect(() => {
-    setWebgl(webglAvailable());
-    setParticles(window.innerWidth < 768 ? 6500 : 15000);
+    const media = window.matchMedia(DESKTOP_QUERY);
+    const sync = () => setDesktop(media.matches);
+    sync();
+    media.addEventListener("change", sync);
+    return () => media.removeEventListener("change", sync);
   }, []);
+
+  useEffect(() => {
+    if (desktop) setWebgl(webglAvailable());
+  }, [desktop]);
 
   // pause the render loop when the hero is scrolled out of view
   useEffect(() => {
     const node = wrapper.current;
-    if (!node) return;
+    if (!node || !desktop) return;
     const observer = new IntersectionObserver(([entry]) => setActive(entry.isIntersecting), {
       threshold: 0.05,
     });
     observer.observe(node);
     return () => observer.disconnect();
-  }, []);
+  }, [desktop]);
 
   return (
     <div ref={wrapper} className="absolute inset-0" aria-hidden="true">
@@ -55,18 +66,18 @@ export default function HeroVisual() {
       />
 
       {/* the scan stage, aligned to the content container */}
-      <div className="absolute inset-0">
+      <div className="absolute inset-0 hidden lg:block">
         <div className="relative mx-auto h-full max-w-7xl px-5 md:px-8">
           <div className="absolute bottom-0 left-5 right-5 top-0 md:left-8 md:right-8 lg:left-auto lg:w-[58%]">
             <HeroFallback dimmed={ready} />
-            {webgl && (
+            {desktop && webgl && (
               <div
                 className={`absolute inset-0 transition-opacity duration-1000 ${
                   ready ? "opacity-100" : "opacity-0"
                 }`}
               >
                 <PointCloudScene
-                  count={particles}
+                  count={15000}
                   animated={!reduced}
                   active={active}
                   theme={theme}

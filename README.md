@@ -20,11 +20,14 @@ node scripts/shoot.mjs [url] [prefix] [--mobile]   # screenshot sweep for visual
 | All copy, both languages | `lib/content.ts` — every visible string; edit translations in one place |
 | Design tokens (colors, type scale) | `app/globals.css` — theme-flipping vars in `:root` / `[data-theme="light"]`, bound via `@theme inline` |
 | Theme switcher (dark default, light mode) | `components/ThemeSwitcher.tsx`; persisted in `localStorage`, FOUC-guard script in `app/[locale]/layout.tsx` |
-| Page composition | `app/[locale]/page.tsx` — one component per section under `components/` |
+| Page composition | `app/[locale]/page.tsx` (home) plus `pricing/`, `about/`, `contact/` — one component per section under `components/` |
+| Standalone page header | `components/ui/PageHero.tsx` — every page other than home must open with one; it supplies the dark ground the transparent nav sits on |
+| Closing call to action | `components/CtaBand.tsx` — `omit` drops the link pointing at the current page |
+| Quote form + validation | `components/ContactForm.tsx` — react-hook-form, validates on blur; messages live in `lib/content.ts` (`contact.form.errors`, both locales) |
 | Hero 3D scene | `components/hero/PointCloudScene.tsx` + `buildingPoints.ts` (procedural geometry) |
 | Static hero fallback (no WebGL / reduced motion) | `components/hero/HeroFallback.tsx` |
 | Pinned pipeline scroll sequence | `components/Pipeline.tsx` (degrades to a stacked list) |
-| Per-locale metadata + OG image | `app/[locale]/layout.tsx`, `app/[locale]/opengraph-image.tsx` |
+| Per-locale metadata + OG image | `app/[locale]/layout.tsx`, `app/[locale]/opengraph-image.tsx`; each page adds its own title/description/canonical via `generateMetadata` |
 
 ## Placeholders to replace before launch
 
