@@ -28,7 +28,7 @@ node scripts/shoot.mjs [url] [prefix] [--mobile]   # screenshot sweep for visual
 
 ## Placeholders to replace before launch
 
-- ~~Logo~~ — done: real brand SVGs at `public/logo.svg` / `public/logo-light.svg` (tight-viewBox copies from `Scancrew- Brand Assests New 2/1. Logo/SVG/1. Primary Logo`), favicon from the logo icon. The `Logo` component swaps variants with the theme.
+- ~~Logo~~ — done: the designer's primary-logo set lives in `public/brand/`, one SVG per colourway (`coral-dark-blue`, `coral-white`, `dark-blue`, `black`, `white`). Each is the delivered file with a tight viewBox applied; `viewBox="0 0 400 400"` plus width/height 400 restores the original canvas, favicon from the logo icon. The `Logo` component swaps variants with the theme.
 - **Contact details** — email / phone / address in `lib/content.ts` (`contact.details`, both locales); marked `placeholder` in the UI.
 - **Domain** — `SITE_URL` in `app/[locale]/layout.tsx`, `app/sitemap.ts`, `app/robots.ts` (currently `scancrew.example`).
 - **Case studies** — placeholder entries in `lib/content.ts` (`cases`); fields are ready for building type, location, area, LOD, delivery time.

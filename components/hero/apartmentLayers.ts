@@ -13,7 +13,7 @@ import {
   interiorWalls,
   furniture,
   floorSlab,
-  boxEdges,
+  glazing,
   type Box,
 } from "./apartmentModel";
 
@@ -191,90 +191,165 @@ export function qcFlag(): Float32Array {
 
 /* ------------------------------------------------------------------ ST-05 */
 
-const ENV_W = W * 0.94;
-const ENV_D = D * 0.78;
-const ENV_Y = 0.5;
-const ENV_T = 0.42; // body thickness, so it reads as an object not a decal
-const FLAP_H = 3.0;
+/*
+  What actually ships: the drawing sheet. The model is laid flat as a scaled
+  plan — walls filled, openings shown, dimensioned, in a bordered sheet with a
+  title block. A flat sheet also happens to be the one thing that stays legible
+  under an orbiting camera, which an upright drawing would not.
+*/
+
+const SHEET_W = 20;
+const SHEET_D = 15;
+const SHEET_Y = 0.34;
+/** Poché sits a hair above the paper so it never z-fights with it. */
+const POCHE_Y = SHEET_Y + 0.03;
+
+/** The paper itself. */
+export function sheetPanel(): Box[] {
+  return [{ pos: [0, SHEET_Y - 0.04, 0], size: [SHEET_W, 0.08, SHEET_D] }];
+}
+
+/** Walls filled solid — the poché that makes a plan read as a plan. */
+export function planPoche(): Box[] {
+  return [...exteriorWalls(), ...interiorWalls()].map((b) => ({
+    pos: [b.pos[0], POCHE_Y, b.pos[2]] as [number, number, number],
+    size: [b.size[0], 0.02, b.size[2]] as [number, number, number],
+  }));
+}
+
+function rect(out: number[], x0: number, z0: number, x1: number, z1: number, y: number) {
+  const c = [
+    [x0, y, z0],
+    [x1, y, z0],
+    [x1, y, z1],
+    [x0, y, z1],
+  ];
+  for (let i = 0; i < 4; i++) out.push(...c[i], ...c[(i + 1) % 4]);
+}
 
 /**
- * The parcel the model ships in: an envelope sitting in the building's own
- * footprint, its flap standing open and the delivered sheet lifting clear.
- * Given as a solid with a tall flap because the camera orbits — a flat outline
- * with folds meeting at a centre apex just reads as a crossed rectangle.
+ * Door swings. These mirror the openings cut in exteriorWalls/interiorWalls —
+ * an annotation layer over the same plan, drawn the way a door is drawn.
  */
-export function envelopeLines(): Float32Array {
+const DOORS: Array<{ x: number; z: number; w: number; a0: number; dir: 1 | -1 }> = [
+  // entry, north facade
+  { x: 3.9, z: -PLAN.D / 2, w: 1.1, a0: 0, dir: 1 },
+  // bedroom corridor, on the x = -2.2 partition
+  { x: -2.2, z: -1.2, w: 0.9, a0: Math.PI / 2, dir: 1 },
+  // bathroom, on the x = 2.2 partition
+  { x: 2.2, z: 3.4, w: 0.85, a0: Math.PI / 2, dir: -1 },
+];
+
+/** Wall outlines, door swings and the structural grid, all at sheet level. */
+export function planInk(): Float32Array {
   const out: number[] = [];
-  const ew = ENV_W / 2;
-  const ed = ENV_D / 2;
-  const yb = ENV_Y;
-  const yt = ENV_Y + ENV_T;
+  const y = POCHE_Y + 0.01;
 
-  const ring = (y: number) => {
-    const c: number[][] = [
-      [-ew, y, ed],
-      [ew, y, ed],
-      [ew, y, -ed],
-      [-ew, y, -ed],
-    ];
-    for (let i = 0; i < 4; i++) out.push(...c[i], ...c[(i + 1) % 4]);
-    return c;
-  };
-  const bottom = ring(yb);
-  const top = ring(yt);
-  for (let i = 0; i < 4; i++) out.push(...bottom[i], ...top[i]);
-
-  // flap, hinged on the back edge and standing open
-  const tip = [0, yt + FLAP_H, -ed + ENV_D * 0.5];
-  out.push(...top[3], ...tip);
-  out.push(...top[2], ...tip);
-  out.push(...tip, 0, yt, -ed + ENV_D * 0.16); // fold crease
-
-  // the sheet being delivered — lifted clear and pushed out the front
-  const sw = ew * 0.68;
-  const sd = ed * 0.6;
-  const sy = yt + 1.5;
-  const sz = ed * 0.95;
-  const sheet: number[][] = [
-    [-sw, sy, sz + sd],
-    [sw, sy, sz + sd],
-    [sw, sy + 0.5, sz - sd],
-    [-sw, sy + 0.5, sz - sd],
-  ];
-  for (let i = 0; i < 4; i++) out.push(...sheet[i], ...sheet[(i + 1) % 4]);
-  // ruled lines, so the sheet reads as a drawing rather than a blank card
-  for (const f of [0.34, 0.56, 0.78]) {
-    const lz = sz + sd - f * sd * 2;
-    const ly = sy + f * 0.5;
-    out.push(-sw * 0.7, ly, lz, sw * 0.7, ly, lz);
+  // outline every wall footprint, so the poché reads crisply
+  for (const b of [...exteriorWalls(), ...interiorWalls()]) {
+    const [px, , pz] = b.pos;
+    const [sx, , sz] = b.size;
+    rect(out, px - sx / 2, pz - sz / 2, px + sx / 2, pz + sz / 2, y);
   }
-  // it is coming out of the envelope, not floating beside it
-  out.push(-sw, sy, sz + sd * 0.2, -sw * 0.8, yt, ed * 0.2);
-  out.push(sw, sy, sz + sd * 0.2, sw * 0.8, yt, ed * 0.2);
 
-  // stamp, back-right corner of the face
-  const stx = ew - 1.4;
-  const stz = -ed + 0.95;
-  const ss = 0.55;
-  const st: number[][] = [
-    [stx - ss, yt, stz + ss],
-    [stx + ss, yt, stz + ss],
-    [stx + ss, yt, stz - ss],
-    [stx - ss, yt, stz - ss],
-  ];
-  for (let i = 0; i < 4; i++) out.push(...st[i], ...st[(i + 1) % 4]);
+  // door leaf + quarter-circle swing
+  for (const d of DOORS) {
+    const hingeX = d.a0 === 0 ? d.x - (d.w / 2) * d.dir : d.x;
+    const hingeZ = d.a0 === 0 ? d.z : d.z - (d.w / 2) * d.dir;
+    const leafA = d.a0 + (Math.PI / 2) * d.dir;
+    out.push(
+      hingeX,
+      y,
+      hingeZ,
+      hingeX + Math.cos(leafA) * d.w,
+      y,
+      hingeZ + Math.sin(leafA) * d.w,
+    );
+    const STEPS = 9;
+    for (let i = 0; i < STEPS; i++) {
+      const a1 = d.a0 + ((Math.PI / 2) * i * d.dir) / STEPS;
+      const a2 = d.a0 + ((Math.PI / 2) * (i + 1) * d.dir) / STEPS;
+      out.push(
+        hingeX + Math.cos(a1) * d.w,
+        y,
+        hingeZ + Math.sin(a1) * d.w,
+        hingeX + Math.cos(a2) * d.w,
+        y,
+        hingeZ + Math.sin(a2) * d.w,
+      );
+    }
+  }
+
+  // windows: a line across each opening on the wall centreline
+  for (const g of glazing()) {
+    const [px, , pz] = g.pos;
+    const [sx, , sz] = g.size;
+    if (sx >= sz) out.push(px - sx / 2, y, pz, px + sx / 2, y, pz);
+    else out.push(px, y, pz - sz / 2, px, y, pz + sz / 2);
+  }
 
   return new Float32Array(out);
 }
 
-/** Solid body under the outline, so it reads as paper not a wireframe. */
-export function envelopePanel(): Box[] {
-  return [{ pos: [0, ENV_Y + ENV_T / 2, 0], size: [ENV_W, ENV_T, ENV_D] }];
+/** Dimension strings placed clear of the title block. */
+export function planDimensions(): Float32Array {
+  const out: number[] = [];
+  const y = POCHE_Y + 0.01;
+  // overall + grid along the top edge, depth down the left edge
+  dimensionRun(out, "x", [-hw, ...PLAN.GRID_X.slice(1, -1), hw], hd + 1.5, y);
+  dimensionRun(out, "z", [-hd, 0, hd], -hw - 1.5, y);
+  return new Float32Array(out);
 }
 
-/** Edges of the delivered box — a thin slab standing in for the model file. */
-export function deliveryEdges(): Float32Array {
+/**
+ * Sheet border, title block, north point and scale bar. The title block and
+ * north point take the far edge — the orbit foreshortens it heavily, so the
+ * near edge is reserved for the dimension strings that have to stay readable.
+ */
+export function sheetFrame(): Float32Array {
   const out: number[] = [];
-  envelopePanel().forEach((b) => boxEdges(b, out));
+  const y = SHEET_Y + 0.02;
+  const sw = SHEET_W / 2;
+  const sd = SHEET_D / 2;
+  const inset = 0.45;
+
+  rect(out, -sw, -sd, sw, sd, y);
+  rect(out, -sw + inset, -sd + inset, sw - inset, sd - inset, y);
+
+  // title block, far-right
+  const tx0 = 3.4;
+  const tz0 = -sd + inset;
+  const tx1 = sw - inset;
+  const tz1 = -5.2;
+  rect(out, tx0, tz0, tx1, tz1, y);
+  for (const f of [0.36, 0.66]) {
+    const lz = tz0 + (tz1 - tz0) * f;
+    out.push(tx0, y, lz, tx1, y, lz);
+  }
+  out.push(tx0 + (tx1 - tx0) * 0.44, y, tz0 + (tz1 - tz0) * 0.66, tx0 + (tx1 - tx0) * 0.44, y, tz1);
+
+  // north point — triangle in a circle, far-left
+  const nx = -sw + 1.6;
+  const nz = -sd + 1.5;
+  const r = 0.72;
+  const STEPS = 20;
+  for (let i = 0; i < STEPS; i++) {
+    const a1 = (i / STEPS) * Math.PI * 2;
+    const a2 = ((i + 1) / STEPS) * Math.PI * 2;
+    out.push(nx + Math.cos(a1) * r, y, nz + Math.sin(a1) * r, nx + Math.cos(a2) * r, y, nz + Math.sin(a2) * r);
+  }
+  const tip: number[] = [nx, y, nz - r * 0.92];
+  out.push(...tip, nx - r * 0.42, y, nz + r * 0.72);
+  out.push(...tip, nx + r * 0.42, y, nz + r * 0.72);
+  out.push(nx - r * 0.42, y, nz + r * 0.72, nx + r * 0.42, y, nz + r * 0.72);
+
+  // scale bar, near-left, clear of the width string above it
+  const bx = -sw + 1.4;
+  const bz = sd - 1.0;
+  const seg = 0.82;
+  const bh = 0.28;
+  rect(out, bx, bz - bh / 2, bx + seg * 4, bz + bh / 2, y);
+  for (let i = 1; i < 4; i++) out.push(bx + seg * i, y, bz - bh / 2, bx + seg * i, y, bz + bh / 2);
+
   return new Float32Array(out);
 }

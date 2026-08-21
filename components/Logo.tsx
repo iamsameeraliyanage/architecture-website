@@ -1,11 +1,18 @@
-import RegistrationMark from "./ui/RegistrationMark";
-
 /*
-  Real brand files live at public/logo.svg (coral mark + dark-blue lettering)
-  and public/logo-light.svg (coral mark + white lettering), extracted from
-  "Scancrew- Brand Assests New 2/1. Logo/SVG/1. Primary Logo" with a tight viewBox.
+  The designer's primary-logo set lives in public/brand/, one file per colourway.
+  They are the delivered SVGs with a tight viewBox applied (the originals ship on
+  a 400x400 canvas, so `viewBox="0 0 400 400"` + width/height 400 restores them).
 */
-const HAS_LOGO_FILE = true;
+const LOGO = {
+  /** Coral mark + dark-blue lettering — for light grounds. */
+  "coral-dark-blue": "/brand/scancrew-logo-coral-dark-blue.svg",
+  /** Coral mark + white lettering — for dark grounds. */
+  "coral-white": "/brand/scancrew-logo-coral-white.svg",
+  /** Single-colour variants, for print and constrained placements. */
+  "dark-blue": "/brand/scancrew-logo-dark-blue.svg",
+  black: "/brand/scancrew-logo-black.svg",
+  white: "/brand/scancrew-logo-white.svg",
+} as const;
 
 export default function Logo({
   tone = "light",
@@ -19,29 +26,16 @@ export default function Logo({
   tone?: "light" | "dark";
   className?: string;
 }) {
-  if (HAS_LOGO_FILE) {
-    if (tone === "dark") {
-      return <img src="/logo.svg" alt="ScanCrew" className={`h-8 w-auto ${className}`} />;
-    }
+  if (tone === "dark") {
     return (
-      <span className={`inline-flex ${className}`}>
-        <img src="/logo-light.svg" alt="ScanCrew" className="theme-dark-only h-8 w-auto" />
-        <img src="/logo.svg" alt="ScanCrew" className="theme-light-only h-8 w-auto" />
-      </span>
+      <img src={LOGO["coral-dark-blue"]} alt="ScanCrew" className={`h-8 w-auto ${className}`} />
     );
   }
 
   return (
-    <span className={`inline-flex items-center gap-2.5 ${className}`}>
-      <RegistrationMark className="h-[18px] w-[18px] shrink-0 text-coral" />
-      <span
-        style={{ fontWeight: 700 }}
-        className={`display-tight text-[1.05rem] tracking-[0.02em] ${
-          tone === "light" ? "text-frost" : "text-blueprint"
-        }`}
-      >
-        SCANCREW
-      </span>
+    <span className={`inline-flex ${className}`}>
+      <img src={LOGO["coral-white"]} alt="ScanCrew" className="theme-dark-only h-8 w-auto" />
+      <img src={LOGO["coral-dark-blue"]} alt="ScanCrew" className="theme-light-only h-8 w-auto" />
     </span>
   );
 }

@@ -19,8 +19,11 @@ import {
   dimensionLines,
   qcTicks,
   qcFlag,
-  envelopeLines,
-  envelopePanel,
+  sheetPanel,
+  planPoche,
+  planInk,
+  planDimensions,
+  sheetFrame,
 } from "./apartmentLayers";
 
 /*
@@ -87,8 +90,11 @@ const PALETTE = {
     dims:        { o: [0, 0, 1, 0.7, 0],           colors: ["#c9ecff", "#c9ecff", "#c9ecff", "#9fb6c9", "#c9ecff"] },
     qcTick:      { o: [0, 0, 0, 1, 0],             colors: ["#4fc3f7", "#4fc3f7", "#4fc3f7", "#5ce0a8", "#4fc3f7"] },
     qcFlag:      { o: [0, 0, 0, 1, 0],             colors: ["#ff5a4d", "#ff5a4d", "#ff5a4d", "#ff5a4d", "#ff5a4d"] },
-    envPanel:    { o: [0, 0, 0, 0, 0.9],           colors: ["#1a2836", "#1a2836", "#1a2836", "#1a2836", "#20364a"] },
-    envEdges:    { o: [0, 0, 0, 0, 1],             colors: ["#7fd4f5", "#7fd4f5", "#7fd4f5", "#7fd4f5", "#7fd4f5"] },
+    paper:       { o: [0, 0, 0, 0, 0.92],          colors: ["#12202e", "#12202e", "#12202e", "#12202e", "#12202e"] },
+    poche:       { o: [0, 0, 0, 0, 1],             colors: ["#7fd4f5", "#7fd4f5", "#7fd4f5", "#7fd4f5", "#7fd4f5"] },
+    planInk:     { o: [0, 0, 0, 0, 1],             colors: ["#c9ecff", "#c9ecff", "#c9ecff", "#c9ecff", "#c9ecff"] },
+    planDims:    { o: [0, 0, 0, 0, 0.85],          colors: ["#9fd8f2", "#9fd8f2", "#9fd8f2", "#9fd8f2", "#9fd8f2"] },
+    sheetFrame:  { o: [0, 0, 0, 0, 0.42],          colors: ["#2f7fb8", "#2f7fb8", "#2f7fb8", "#2f7fb8", "#2f7fb8"] },
   },
   light: {
     walls:       { o: [1, 0.05, 0.2, 0.16, 0],     colors: ["#c7d0d8", "#d5dde4", "#7fb0d0", "#7fb0d0", "#d5dde4"] },
@@ -103,8 +109,11 @@ const PALETTE = {
     dims:        { o: [0, 0, 1, 0.7, 0],           colors: ["#0b3b60", "#0b3b60", "#0b3b60", "#6b7680", "#0b3b60"] },
     qcTick:      { o: [0, 0, 0, 1, 0],             colors: ["#1273ad", "#1273ad", "#1273ad", "#12855c", "#1273ad"] },
     qcFlag:      { o: [0, 0, 0, 1, 0],             colors: ["#c22315", "#c22315", "#c22315", "#c22315", "#c22315"] },
-    envPanel:    { o: [0, 0, 0, 0, 0.95],          colors: ["#e8eef3", "#e8eef3", "#e8eef3", "#e8eef3", "#e8eef3"] },
-    envEdges:    { o: [0, 0, 0, 0, 1],             colors: ["#0b3b60", "#0b3b60", "#0b3b60", "#0b3b60", "#0b3b60"] },
+    paper:       { o: [0, 0, 0, 0, 1],             colors: ["#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff"] },
+    poche:       { o: [0, 0, 0, 0, 1],             colors: ["#0b3b60", "#0b3b60", "#0b3b60", "#0b3b60", "#0b3b60"] },
+    planInk:     { o: [0, 0, 0, 0, 1],             colors: ["#0b3b60", "#0b3b60", "#0b3b60", "#0b3b60", "#0b3b60"] },
+    planDims:    { o: [0, 0, 0, 0, 0.85],          colors: ["#1273ad", "#1273ad", "#1273ad", "#1273ad", "#1273ad"] },
+    sheetFrame:  { o: [0, 0, 0, 0, 0.5],           colors: ["#8fa5b8", "#8fa5b8", "#8fa5b8", "#8fa5b8", "#8fa5b8"] },
   },
 } as const;
 
@@ -213,8 +222,11 @@ function Apartment({
       dims: new THREE.LineBasicMaterial({ transparent: true }),
       qcTick: new THREE.LineBasicMaterial({ transparent: true }),
       qcFlag: new THREE.LineBasicMaterial({ transparent: true }),
-      envPanel: mat({ roughness: 0.95 }),
-      envEdges: new THREE.LineBasicMaterial({ transparent: true }),
+      paper: mat({ roughness: 0.98 }),
+      poche: mat({ roughness: 0.9 }),
+      planInk: new THREE.LineBasicMaterial({ transparent: true }),
+      planDims: new THREE.LineBasicMaterial({ transparent: true }),
+      sheetFrame: new THREE.LineBasicMaterial({ transparent: true }),
     };
 
     const objects = [
@@ -230,8 +242,11 @@ function Apartment({
       lines(dimensionLines(), materials.dims),
       lines(qcTicks(), materials.qcTick),
       lines(qcFlag(), materials.qcFlag),
-      instanced(envelopePanel(), materials.envPanel),
-      lines(envelopeLines(), materials.envEdges),
+      instanced(sheetPanel(), materials.paper),
+      instanced(planPoche(), materials.poche),
+      lines(planInk(), materials.planInk),
+      lines(planDimensions(), materials.planDims),
+      lines(sheetFrame(), materials.sheetFrame),
     ];
 
     return { materials, objects };
