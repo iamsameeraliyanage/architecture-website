@@ -68,9 +68,9 @@ export default function Nav({ locale, t }: { locale: Locale; t: Content["nav"] }
             : "border-transparent bg-transparent"
       }`}
     >
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-6 px-5 md:h-[72px] md:px-8">
+      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-2 px-3 min-[360px]:gap-3 min-[360px]:px-4 md:h-[72px] md:gap-6 md:px-8">
         <Link href={`/${locale}`} aria-label="ScanCrew — Home" className="shrink-0">
-          <Logo tone="light" />
+          <Logo tone="light" height={open ? "h-5 min-[360px]:h-6 lg:h-8" : "h-8"} />
         </Link>
 
         {/* Desktop */}
@@ -109,19 +109,19 @@ export default function Nav({ locale, t }: { locale: Locale; t: Content["nav"] }
         {/* Mobile: the CTA holds the header while the panel is shut; opening it
             swaps in language + client login, which stay reachable in the header
             rather than living inside the panel. */}
-        <div className="flex items-center gap-4 lg:hidden">
+        <div className="flex min-w-0 items-center gap-3 lg:hidden">
           {open ? (
             <motion.div
               initial={reduced ? false : { opacity: 0, y: -4 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
-              className="flex items-center gap-4"
+              className="flex min-w-0 items-center gap-2 min-[360px]:gap-3"
             >
-              <LanguageSwitcher locale={locale} label={t.langLabel} />
+              <LanguageSwitcher locale={locale} label={t.langLabel} className="shrink-0" />
               <Link
                 href="#"
                 onClick={() => setOpen(false)}
-                className="whitespace-nowrap text-xs text-mist transition-colors hover:text-frost"
+                className="truncate text-xs text-mist transition-colors hover:text-frost"
               >
                 {t.clientLogin}
               </Link>
@@ -140,7 +140,7 @@ export default function Nav({ locale, t }: { locale: Locale; t: Content["nav"] }
             aria-expanded={open}
             aria-controls="mobile-menu"
             aria-label={open ? t.menuClose : t.menuOpen}
-            className="-mr-2 flex h-11 w-11 items-center justify-center text-frost"
+            className="-mr-2 flex h-11 w-11 shrink-0 items-center justify-center text-frost"
           >
             <MenuToggleIcon open={open} />
           </button>

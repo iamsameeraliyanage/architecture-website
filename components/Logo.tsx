@@ -16,6 +16,7 @@ const LOGO = {
 
 export default function Logo({
   tone = "light",
+  height = "h-8",
   className = "",
 }: {
   /**
@@ -24,18 +25,20 @@ export default function Logo({
    * surfaces that stay light in both themes.
    */
   tone?: "light" | "dark";
+  /** Height utility for the lockup — the wordmark is ~5.7x as wide as it is tall. */
+  height?: string;
   className?: string;
 }) {
+  const img = `${height} w-auto`;
+
   if (tone === "dark") {
-    return (
-      <img src={LOGO["coral-dark-blue"]} alt="ScanCrew" className={`h-8 w-auto ${className}`} />
-    );
+    return <img src={LOGO["coral-dark-blue"]} alt="ScanCrew" className={`${img} ${className}`} />;
   }
 
   return (
     <span className={`inline-flex ${className}`}>
-      <img src={LOGO["coral-white"]} alt="ScanCrew" className="theme-dark-only h-8 w-auto" />
-      <img src={LOGO["coral-dark-blue"]} alt="ScanCrew" className="theme-light-only h-8 w-auto" />
+      <img src={LOGO["coral-white"]} alt="ScanCrew" className={`theme-dark-only ${img}`} />
+      <img src={LOGO["coral-dark-blue"]} alt="ScanCrew" className={`theme-light-only ${img}`} />
     </span>
   );
 }

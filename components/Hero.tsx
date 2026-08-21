@@ -8,10 +8,10 @@ import type { Locale } from "@/lib/i18n";
 
 export default function Hero({ locale, t }: { locale: Locale; t: Content["hero"] }) {
   return (
-    <section className="relative min-h-svh overflow-hidden bg-ground">
+    <section className="relative overflow-hidden bg-ground lg:min-h-svh">
       <HeroVisual />
 
-      <div className="relative z-10 mx-auto flex min-h-svh max-w-7xl flex-col px-5 pt-24 md:px-8 md:pt-28">
+      <div className="relative z-10 mx-auto flex max-w-7xl flex-col px-5 pt-24 md:px-8 md:pt-28 lg:min-h-svh">
         {/* HUD readouts — the spec layer, staged */}
         <div className="absolute right-5 top-24 hidden flex-col items-end gap-2 md:top-28 lg:flex xl:right-8">
           {[t.hud.tolerance, t.hud.formats, t.hud.frame].map((readout, i) => (
@@ -21,7 +21,7 @@ export default function Hero({ locale, t }: { locale: Locale; t: Content["hero"]
           ))}
         </div>
 
-        <div className="flex flex-1 flex-col justify-center pb-10">
+        <div className="flex flex-1 flex-col justify-center pb-12 lg:pb-10">
           <Reveal immediate delay={0.1}>
             <p className="mono-label text-cerulean">{t.eyebrow}</p>
           </Reveal>
@@ -68,10 +68,10 @@ export default function Hero({ locale, t }: { locale: Locale; t: Content["hero"]
 
         {/* the pipeline, legible as a sequence from the first frame */}
         <Reveal immediate delay={0.8}>
-          <ol className="grid grid-cols-5 border-t rule-dark pb-7 pt-4 md:pb-8">
+          <ol className="grid grid-cols-5 border-t rule-dark pb-10 pt-4 lg:pb-8">
             {t.stages.map((stage, i) => (
-              <li key={stage.code} className={`flex flex-col gap-1 pr-3 ${i > 0 ? "pl-3 md:pl-5" : ""}`}>
-                <span className="mono-label flex items-center gap-2 text-cerulean">
+              <li key={stage.code} className={`flex flex-col gap-1 pr-1 sm:pr-3 ${i > 0 ? "pl-1 sm:pl-3 md:pl-5" : ""}`}>
+                <span className="mono-label flex items-center gap-2 whitespace-nowrap text-cerulean">
                   {stage.code}
                   {i < t.stages.length - 1 && (
                     <span aria-hidden="true" className="hidden text-steel md:inline">
