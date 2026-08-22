@@ -167,6 +167,11 @@ main:focus-visible {
   inset: 0;
   opacity: 0;
   visibility: hidden;
+  /* center the copy inside the fixed-height stack so it aligns vertically
+     with the orbit model in the other column */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 [data-pin-enhanced="true"] .stage-panel[data-first="true"] {
   opacity: 1;

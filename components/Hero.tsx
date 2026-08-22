@@ -44,24 +44,13 @@ export default function Hero({ locale, t }: { locale: Locale; t: Content["hero"]
           </Reveal>
 
           <Reveal immediate delay={0.6}>
-            <div className="mt-9 flex flex-wrap items-center gap-6">
+            <div className="mt-9">
               <Magnetic>
-                <Link
-                  href={`/${locale}/contact`}
-                  className="btn-cta block bg-coral px-7 py-4 text-sm font-medium text-white"
-                >
+                {/* placeholder destination — swap "#" for the real link */}
+                <Link href="#" className="btn-cta block bg-coral px-7 py-4 text-sm font-medium text-white">
                   {t.ctaPrimary}
                 </Link>
               </Magnetic>
-              <Link
-                href={`/${locale}#process`}
-                className="group inline-flex items-center gap-2 text-sm text-mist transition-colors hover:text-frost"
-              >
-                {t.ctaSecondary}
-                <span aria-hidden="true" className="transition-transform group-hover:translate-y-0.5">
-                  ↓
-                </span>
-              </Link>
             </div>
           </Reveal>
         </div>

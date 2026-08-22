@@ -35,8 +35,7 @@ const en = {
     headlineB: "to Construction‑Ready BIM",
     subhead:
       "ScanCrew scans your building with its own Swiss team and equipment — and delivers the coordinated BIM model. Archicad, Revit, IFC.",
-    ctaPrimary: "Get a Scan-to-BIM Quote",
-    ctaSecondary: "See the process",
+    ctaPrimary: "Get started with us",
     scrollHint: "Scroll",
     hud: {
       tolerance: "TOL ±20 MM",
@@ -368,8 +367,7 @@ const de: Content = {
     headlineB: "zum baureifen BIM‑Modell",
     subhead:
       "ScanCrew erfasst Ihr Gebäude mit eigenem Schweizer Team und eigener Ausrüstung — und liefert das koordinierte BIM-Modell. Archicad, Revit, IFC.",
-    ctaPrimary: "Scan-to-BIM-Offerte anfordern",
-    ctaSecondary: "Prozess ansehen",
+    ctaPrimary: "Starten Sie mit uns",
     scrollHint: "Scrollen",
     hud: {
       tolerance: "TOL ±20 MM",
