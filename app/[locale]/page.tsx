@@ -26,7 +26,7 @@ export default async function Page({ params }: { params: Promise<{ locale: strin
         <Audiences t={t.audiences} />
         <Standards t={t.standards} />
         <Deliverables t={t.deliverables} />
-        <CaseStudies t={t.cases} />
+        <CaseStudies locale={locale} t={t.cases} />
         <Faq t={t.faq} />
         <CtaBand locale={locale} t={t.cta} />
       </main>

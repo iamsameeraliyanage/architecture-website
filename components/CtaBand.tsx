@@ -42,7 +42,7 @@ export default function CtaBand({
                 <Magnetic>
                   <Link
                     href={`/${locale}/contact`}
-                    className="block bg-coral px-7 py-4 text-sm font-medium text-white transition-colors hover:bg-coral-bright"
+                    className="btn-cta block bg-coral px-7 py-4 text-sm font-medium text-white"
                   >
                     {t.primary}
                   </Link>

@@ -23,6 +23,7 @@ node scripts/shoot.mjs [url] [prefix] [--mobile]   # screenshot sweep for visual
 | Page composition | `app/[locale]/page.tsx` (home) plus `pricing/`, `about/`, `contact/` — one component per section under `components/` |
 | Standalone page header | `components/ui/PageHero.tsx` — every page other than home must open with one; it supplies the dark ground the transparent nav sits on |
 | Closing call to action | `components/CtaBand.tsx` — `omit` drops the link pointing at the current page |
+| Scan-marker cursor | `components/ui/ScanCursor.tsx` + the `.scan-cursor` rules in `app/globals.css`; desktop fine-pointers only, steps aside over text fields |
 | Quote form + validation | `components/ContactForm.tsx` — react-hook-form, validates on blur; messages live in `lib/content.ts` (`contact.form.errors`, both locales) |
 | Hero 3D scene | `components/hero/PointCloudScene.tsx` + `buildingPoints.ts` (procedural geometry) |
 | Static hero fallback (no WebGL / reduced motion) | `components/hero/HeroFallback.tsx` |

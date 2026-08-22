@@ -5,6 +5,7 @@ import { content } from "@/lib/content";
 import { isLocale, locales, type Locale } from "@/lib/i18n";
 import LenisProvider from "@/components/motion/LenisProvider";
 import ScrollProgress from "@/components/ui/ScrollProgress";
+import ScanCursor from "@/components/ui/ScanCursor";
 import ThemeInit from "@/components/ThemeInit";
 import "../globals.css";
 
@@ -94,6 +95,7 @@ export default async function LocaleLayout({
         <ThemeInit />
         <LenisProvider />
         <ScrollProgress />
+        <ScanCursor />
         {children}
       </body>
     </html>

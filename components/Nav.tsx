@@ -122,7 +122,7 @@ export default function Nav({ locale, t }: { locale: Locale; t: Content["nav"] }
           <Magnetic strength={16}>
             <Link
               href={`/${locale}/contact`}
-              className="block bg-coral px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-coral-bright"
+              className="btn-cta block bg-coral px-4 py-2 text-sm font-medium text-white"
             >
               {t.cta}
             </Link>

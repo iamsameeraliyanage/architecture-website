@@ -20,7 +20,7 @@ export default function Standards({ t }: { t: Content["standards"] }) {
               {t.rows.map((row, i) => (
                 <div
                   key={row.label}
-                  className={`grid gap-1 px-5 py-4 md:grid-cols-12 md:gap-6 md:px-8 md:py-5 ${
+                  className={`grid gap-1 px-5 py-4 transition-colors duration-300 hover:bg-paper-dim/60 md:grid-cols-12 md:gap-6 md:px-8 md:py-5 ${
                     i > 0 ? "border-t rule-light" : ""
                   }`}
                 >

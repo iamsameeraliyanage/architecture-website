@@ -1,5 +1,6 @@
 import Reveal from "./ui/Reveal";
 import RegistrationMark from "./ui/RegistrationMark";
+import SpotlightCells from "./ui/SpotlightCells";
 import type { Content } from "@/lib/content";
 
 export default function Deliverables({ t }: { t: Content["deliverables"] }) {
@@ -21,18 +22,18 @@ export default function Deliverables({ t }: { t: Content["deliverables"] }) {
 
         {/* cells stay opaque so the hairline grid never shows through as pale
             slabs mid-reveal; the content rises inside each clipped cell */}
-        <ul className="grid gap-px border border-white/15 bg-white/15 sm:grid-cols-2 lg:grid-cols-3">
+        <SpotlightCells className="grid gap-px border border-white/15 bg-white/15 sm:grid-cols-2 lg:grid-cols-3">
           {t.items.map((item, i) => (
-            <li key={item.ext} className="overflow-hidden bg-blueprint-deep">
+            <li key={item.ext} className="spot-cell group overflow-hidden bg-blueprint-deep">
               <Reveal delay={i * 0.05} className="flex h-full flex-col justify-between gap-8 px-6 py-7">
-                <p className="font-mono text-xl font-semibold tracking-tight text-sky md:text-2xl">
+                <p className="font-mono text-xl font-semibold tracking-tight text-sky transition-colors duration-500 group-hover:text-white md:text-2xl">
                   {item.ext}
                 </p>
                 <p className="text-sm text-white/80">{item.format}</p>
               </Reveal>
             </li>
           ))}
-        </ul>
+        </SpotlightCells>
       </div>
     </section>
   );

@@ -1,0 +1,101 @@
+{
+  "$comment": "SAMPLE case studies — representative projects with plausible figures, generated to make scope and deliverables concrete. Replace each entry (and its image in public/cases/) with real client references as they publish. Keep the `sample` flag true until an entry holds real figures; the UI badges sample entries.",
+  "cases": [
+    {
+      "id": "case-01",
+      "code": "CASE-01",
+      "sample": true,
+      "image": "/cases/case-01.png",
+      "content": {
+        "en": {
+          "title": "Post-war housing block",
+          "summary": "Full scan of an occupied five-storey block ahead of an energy retrofit — captured section by section around residents, delivered as a Revit model the planners could section immediately.",
+          "imageAlt": "Point-cloud rendering of a five-storey residential block with a regular window grid",
+          "specs": {
+            "buildingType": "Residential block (1962)",
+            "location": "Zürich, ZH",
+            "area": "4,180 m²",
+            "lod": "LOD 300",
+            "delivery": "3 weeks"
+          }
+        },
+        "de": {
+          "title": "Wohnblock der Nachkriegszeit",
+          "summary": "Vollständiger Scan eines bewohnten fünfgeschossigen Blocks vor einer energetischen Sanierung — abschnittsweise um die Bewohnerschaft herum erfasst, geliefert als Revit-Modell, mit dem die Planer sofort schneiden konnten.",
+          "imageAlt": "Punktwolken-Darstellung eines fünfgeschossigen Wohnblocks mit regelmässigem Fensterraster",
+          "specs": {
+            "buildingType": "Wohnblock (Baujahr 1962)",
+            "location": "Zürich, ZH",
+            "area": "4'180 m²",
+            "lod": "LOD 300",
+            "delivery": "3 Wochen"
+          }
+        }
+      }
+    },
+    {
+      "id": "case-02",
+      "code": "CASE-02",
+      "sample": true,
+      "image": "/cases/case-02.png",
+      "content": {
+        "en": {
+          "title": "Logistics hall with office wing",
+          "summary": "Drone and terrestrial capture of a running logistics site — hall, office annex and yard in one coordinate frame, modelled at LOD 200 for a mezzanine feasibility study.",
+          "imageAlt": "Point-cloud rendering of a long industrial hall with clerestory windows and an attached office wing",
+          "specs": {
+            "buildingType": "Industrial hall + offices",
+            "location": "Pratteln, BL",
+            "area": "7,650 m²",
+            "lod": "LOD 200",
+            "delivery": "2 weeks"
+          }
+        },
+        "de": {
+          "title": "Logistikhalle mit Bürotrakt",
+          "summary": "Drohnen- und terrestrische Erfassung eines laufenden Logistikstandorts — Halle, Bürotrakt und Umschlagfläche in einem Koordinatenrahmen, modelliert in LOD 200 für eine Machbarkeitsstudie Zwischengeschoss.",
+          "imageAlt": "Punktwolken-Darstellung einer langen Industriehalle mit Lichtband und angebautem Bürotrakt",
+          "specs": {
+            "buildingType": "Industriehalle + Büro",
+            "location": "Pratteln, BL",
+            "area": "7'650 m²",
+            "lod": "LOD 200",
+            "delivery": "2 Wochen"
+          }
+        }
+      }
+    },
+    {
+      "id": "case-03",
+      "code": "CASE-03",
+      "sample": true,
+      "image": "/cases/case-03.png",
+      "content": {
+        "en": {
+          "title": "Listed townhouse, old town",
+          "summary": "High-detail survey of a protected townhouse with no usable drawings on record — pitched roof, uneven storeys and all, delivered at LOD 350 with 2D plans for the heritage authority.",
+          "imageAlt": "Point-cloud rendering of a narrow townhouse with a pitched roof and gable",
+          "specs": {
+            "buildingType": "Townhouse (listed, c. 1870)",
+            "location": "Bern, BE",
+            "area": "1,240 m²",
+            "lod": "LOD 350",
+            "delivery": "4 weeks"
+          }
+        },
+        "de": {
+          "title": "Denkmalgeschütztes Altstadthaus",
+          "summary": "Detailreiche Aufnahme eines geschützten Altstadthauses ohne verwertbare Planunterlagen — mit Satteldach und ungleichen Geschossen, geliefert in LOD 350 samt 2D-Plänen für die Denkmalpflege.",
+          "imageAlt": "Punktwolken-Darstellung eines schmalen Altstadthauses mit Satteldach und Giebel",
+          "specs": {
+            "buildingType": "Altstadthaus (geschützt, ca. 1870)",
+            "location": "Bern, BE",
+            "area": "1'240 m²",
+            "lod": "LOD 350",
+            "delivery": "4 Wochen"
+          }
+        }
+      }
+    }
+  ]
+}

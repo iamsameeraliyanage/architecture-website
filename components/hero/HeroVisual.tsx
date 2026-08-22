@@ -23,6 +23,8 @@ function webglAvailable(): boolean {
 
 export default function HeroVisual() {
   const wrapper = useRef<HTMLDivElement>(null);
+  const grid = useRef<HTMLDivElement>(null);
+  const stage = useRef<HTMLDivElement>(null);
   const reduced = useReducedMotion();
   const theme = useTheme();
   const [desktop, setDesktop] = useState(false);
@@ -53,11 +55,59 @@ export default function HeroVisual() {
     return () => observer.disconnect();
   }, [desktop]);
 
+  // pointer depth: the grid and the scan stage lean toward the cursor at
+  // different rates, layering with the point cloud's own internal tilt.
+  // Distances are single-digit px — depth, not a game. Desktop pointers only.
+  useEffect(() => {
+    if (!desktop || !active || reduced) return;
+    if (!window.matchMedia("(pointer: fine)").matches) return;
+    const gridEl = grid.current;
+    const stageEl = stage.current;
+    if (!gridEl || !stageEl) return;
+
+    let tx = 0;
+    let ty = 0;
+    let x = 0;
+    let y = 0;
+    let frame = 0;
+    let idle = true;
+
+    const onMove = (e: PointerEvent) => {
+      tx = e.clientX / window.innerWidth - 0.5;
+      ty = e.clientY / window.innerHeight - 0.5;
+      if (idle) {
+        idle = false;
+        frame = requestAnimationFrame(render);
+      }
+    };
+
+    const render = () => {
+      x += (tx - x) * 0.06;
+      y += (ty - y) * 0.06;
+      gridEl.style.transform = `translate3d(${x * 8}px, ${y * 6}px, 0)`;
+      stageEl.style.transform = `translate3d(${x * 16}px, ${y * 12}px, 0)`;
+      if (Math.abs(tx - x) + Math.abs(ty - y) < 0.001) {
+        idle = true; // settled — stop burning frames until the pointer moves
+        return;
+      }
+      frame = requestAnimationFrame(render);
+    };
+
+    window.addEventListener("pointermove", onMove, { passive: true });
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("pointermove", onMove);
+      gridEl.style.transform = "";
+      stageEl.style.transform = "";
+    };
+  }, [desktop, active, reduced]);
+
   return (
     <div ref={wrapper} className="absolute inset-0" aria-hidden="true">
-      {/* full-bleed coordinate grid */}
+      {/* full-bleed coordinate grid — overscanned so pointer drift never shows an edge */}
       <div
-        className="absolute inset-0 opacity-40"
+        ref={grid}
+        className="absolute -inset-3 opacity-40 will-change-transform"
         style={{
           backgroundImage:
             "linear-gradient(var(--color-line-dark) 1px, transparent 1px), linear-gradient(90deg, var(--color-line-dark) 1px, transparent 1px)",
@@ -68,7 +118,10 @@ export default function HeroVisual() {
       {/* the scan stage, aligned to the content container */}
       <div className="absolute inset-0 hidden lg:block">
         <div className="relative mx-auto h-full max-w-7xl px-5 md:px-8">
-          <div className="absolute bottom-0 left-5 right-5 top-0 md:left-8 md:right-8 lg:left-auto lg:w-[58%]">
+          <div
+            ref={stage}
+            className="absolute bottom-0 left-5 right-5 top-0 will-change-transform md:left-8 md:right-8 lg:left-auto lg:w-[58%]"
+          >
             <HeroFallback dimmed={ready} />
             {desktop && webgl && (
               <div
