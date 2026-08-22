@@ -62,13 +62,24 @@ export default function Pipeline({ t }: { t: Content["pipeline"] }) {
   const fill = useRef<HTMLDivElement>(null);
   const progress = useRef(STATIC_PROGRESS);
   const theme = useTheme();
+  const [desktop, setDesktop] = useState(false);
   const [webgl, setWebgl] = useState(false);
   const [ready, setReady] = useState(false);
   const [orbitState, setOrbitState] = useState<string>(orbitLabel(STATIC_PROGRESS));
 
+  // the orbit column only exists from lg up — don't load three.js or open a
+  // WebGL context inside the display:none container on smaller screens
   useEffect(() => {
-    setWebgl(webglAvailable());
+    const media = window.matchMedia("(min-width: 1024px)");
+    const sync = () => setDesktop(media.matches);
+    sync();
+    media.addEventListener("change", sync);
+    return () => media.removeEventListener("change", sync);
   }, []);
+
+  useEffect(() => {
+    if (desktop) setWebgl(webglAvailable());
+  }, [desktop]);
 
   // the scene renders on demand; a theme flip needs an explicit repaint
   useEffect(() => {
@@ -206,7 +217,7 @@ export default function Pipeline({ t }: { t: Content["pipeline"] }) {
               className="hidden lg:col-span-5 lg:col-start-8 lg:block"
             >
               <div className="relative aspect-[4/3]">
-                {webgl && (
+                {desktop && webgl && (
                   <div
                     className={`absolute inset-0 transition-opacity duration-1000 ${
                       ready ? "opacity-100" : "opacity-0"

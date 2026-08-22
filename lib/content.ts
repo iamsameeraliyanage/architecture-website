@@ -21,6 +21,7 @@ const en = {
     contact: "Contact",
     clientLogin: "Client Login",
     cta: "Get a Quote",
+    skipToContent: "Skip to content",
     menuOpen: "Open menu",
     menuClose: "Close menu",
     langLabel: "Language",
@@ -30,7 +31,8 @@ const en = {
   hero: {
     eyebrow: "Swiss Scan-to-BIM · Capture and model, one team",
     headlineA: "From 3D Scan",
-    headlineB: "to Construction-Ready BIM",
+    // non-breaking hyphen: a mid-word wrap here breaks SplitText's line masks
+    headlineB: "to Construction‑Ready BIM",
     subhead:
       "ScanCrew scans your building with its own Swiss team and equipment — and delivers the coordinated BIM model. Archicad, Revit, IFC.",
     ctaPrimary: "Get a Scan-to-BIM Quote",
@@ -354,6 +356,7 @@ const de: Content = {
     contact: "Kontakt",
     clientLogin: "Kunden-Login",
     cta: "Offerte anfordern",
+    skipToContent: "Zum Inhalt springen",
     menuOpen: "Menü öffnen",
     menuClose: "Menü schliessen",
     langLabel: "Sprache",
@@ -362,8 +365,8 @@ const de: Content = {
   },
   hero: {
     eyebrow: "Scan-to-BIM aus der Schweiz · Erfassung und Modell aus einer Hand",
-    headlineA: "Vom 3D-Scan",
-    headlineB: "zum baureifen BIM-Modell",
+    headlineA: "Vom 3D‑Scan",
+    headlineB: "zum baureifen BIM‑Modell",
     subhead:
       "ScanCrew erfasst Ihr Gebäude mit eigenem Schweizer Team und eigener Ausrüstung — und liefert das koordinierte BIM-Modell. Archicad, Revit, IFC.",
     ctaPrimary: "Scan-to-BIM-Offerte anfordern",

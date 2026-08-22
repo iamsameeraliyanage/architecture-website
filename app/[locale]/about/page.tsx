@@ -42,7 +42,7 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
   return (
     <>
       <Nav locale={locale} t={t.nav} />
-      <main>
+      <main id="main" tabIndex={-1}>
         <PageHero kicker={t.about.kicker} title={t.about.title} intro={t.about.lead} />
         <About t={t.about} />
         <Team t={t.team} />

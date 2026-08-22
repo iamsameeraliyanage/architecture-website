@@ -36,13 +36,30 @@ export default function Nav({ locale, t }: { locale: Locale; t: Content["nav"] }
     return () => document.removeEventListener("keydown", onKey);
   }, [open]);
 
-  // Lock body scroll while the mobile menu is open
+  // Lock body scroll while the mobile menu is open, and make the covered page
+  // inert so tabbing can't wander into content hidden behind the panel
   useEffect(() => {
     document.documentElement.style.overflow = open ? "hidden" : "";
+    const covered = document.querySelectorAll("main, footer");
+    covered.forEach((el) =>
+      open ? el.setAttribute("inert", "") : el.removeAttribute("inert"),
+    );
     return () => {
       document.documentElement.style.overflow = "";
+      covered.forEach((el) => el.removeAttribute("inert"));
     };
   }, [open]);
+
+  // If the viewport grows past lg while the panel is open, the panel display
+  // disappears but the scroll lock wouldn't — close it instead
+  useEffect(() => {
+    const media = window.matchMedia("(min-width: 1024px)");
+    const onChange = () => {
+      if (media.matches) setOpen(false);
+    };
+    media.addEventListener("change", onChange);
+    return () => media.removeEventListener("change", onChange);
+  }, []);
 
   // Services and Process live on the home page itself; the footer still links
   // to them, so the nav carries only the standalone pages.
@@ -68,6 +85,12 @@ export default function Nav({ locale, t }: { locale: Locale; t: Content["nav"] }
             : "border-transparent bg-transparent"
       }`}
     >
+      <a
+        href="#main"
+        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[60] focus:bg-coral focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-white"
+      >
+        {t.skipToContent}
+      </a>
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-2 px-3 min-[360px]:gap-3 min-[360px]:px-4 md:h-[72px] md:gap-6 md:px-8">
         <Link href={`/${locale}`} aria-label="ScanCrew — Home" className="shrink-0">
           <Logo tone="light" height={open ? "h-5 min-[360px]:h-6 lg:h-8" : "h-8"} />
@@ -155,7 +178,10 @@ export default function Nav({ locale, t }: { locale: Locale; t: Content["nav"] }
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, transition: { duration: 0.18 } }}
             transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
-            /* full height, so the page never shows through a half-open sheet */
+            /* full height, so the page never shows through a half-open sheet;
+               data-lenis-prevent lets the panel itself scroll when it overflows
+               (short landscape viewports) instead of Lenis eating the wheel */
+            data-lenis-prevent
             className="fixed inset-x-0 bottom-0 top-16 z-40 flex flex-col justify-between overflow-y-auto border-t border-line-dark bg-ground/97 backdrop-blur-xl md:top-[72px] lg:hidden"
           >
             {/* links take the free space and centre in it, so three items do not

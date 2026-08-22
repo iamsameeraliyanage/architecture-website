@@ -20,7 +20,7 @@ export default async function Page({ params }: { params: Promise<{ locale: strin
   return (
     <>
       <Nav locale={locale} t={t.nav} />
-      <main>
+      <main id="main" tabIndex={-1}>
         <Hero locale={locale} t={t.hero} />
         <Pipeline t={t.pipeline} />
         <Audiences t={t.audiences} />

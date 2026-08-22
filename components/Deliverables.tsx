@@ -19,16 +19,18 @@ export default function Deliverables({ t }: { t: Content["deliverables"] }) {
           </header>
         </Reveal>
 
+        {/* cells stay opaque so the hairline grid never shows through as pale
+            slabs mid-reveal; the content rises inside each clipped cell */}
         <ul className="grid gap-px border border-white/15 bg-white/15 sm:grid-cols-2 lg:grid-cols-3">
           {t.items.map((item, i) => (
-            <Reveal as="li" key={item.ext} delay={i * 0.05} className="bg-blueprint-deep">
-              <div className="flex h-full flex-col justify-between gap-8 px-6 py-7">
+            <li key={item.ext} className="overflow-hidden bg-blueprint-deep">
+              <Reveal delay={i * 0.05} className="flex h-full flex-col justify-between gap-8 px-6 py-7">
                 <p className="font-mono text-xl font-semibold tracking-tight text-sky md:text-2xl">
                   {item.ext}
                 </p>
                 <p className="text-sm text-white/80">{item.format}</p>
-              </div>
-            </Reveal>
+              </Reveal>
+            </li>
           ))}
         </ul>
       </div>

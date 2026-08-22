@@ -39,7 +39,7 @@ export default async function ContactPage({ params }: { params: Promise<{ locale
   return (
     <>
       <Nav locale={locale} t={t.nav} />
-      <main>
+      <main id="main" tabIndex={-1}>
         <PageHero kicker={t.contact.kicker} title={t.contact.title} intro={t.contact.body} />
         <Contact t={t.contact} />
       </main>

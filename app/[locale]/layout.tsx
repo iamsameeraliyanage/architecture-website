@@ -86,6 +86,10 @@ export default async function LocaleLayout({
       className={`${grotesk.variable} ${inter.variable} ${plexMono.variable}`}
     >
       <body>
+        {/* without JS the GSAP reveals never run — show the text they hide */}
+        <noscript>
+          <style>{`.split-pending { visibility: visible; }`}</style>
+        </noscript>
         {/* set the stored theme before first paint to avoid a flash */}
         <ThemeInit />
         <LenisProvider />

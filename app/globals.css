@@ -67,7 +67,8 @@
   --font-mono: var(--font-plex-mono), "IBM Plex Mono", "SFMono-Regular", Menlo, monospace;
 
   /* type scale */
-  --text-display-xl: clamp(2.5rem, 5.2vw, 4.6rem);
+  /* min sized so "to Construction‑Ready" holds one line on a 390px phone */
+  --text-display-xl: clamp(2.125rem, 5.2vw, 4.6rem);
   --text-display-lg: clamp(2rem, 4.2vw, 3.5rem);
   --text-display-md: clamp(1.5rem, 2.6vw, 2.25rem);
 
@@ -129,6 +130,17 @@ body {
 }
 :root:not([data-theme="light"]) .theme-light-only {
   display: none;
+}
+
+/* SplitReveal keeps text hidden until GSAP masks it; a <noscript> style in
+   the layout re-shows it, so headings never vanish without JavaScript */
+.split-pending {
+  visibility: hidden;
+}
+
+/* skip-link target: focus lands programmatically, no ring needed */
+main:focus-visible {
+  outline: none;
 }
 
 /* Survey-document hairline rules */

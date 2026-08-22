@@ -40,7 +40,7 @@ export default async function PricingPage({ params }: { params: Promise<{ locale
   return (
     <>
       <Nav locale={locale} t={t.nav} />
-      <main>
+      <main id="main" tabIndex={-1}>
         <PageHero kicker={t.pricing.kicker} title={t.pricing.title} intro={t.pricing.intro} />
         <Pricing t={t.pricing} />
         <CtaBand locale={locale} t={t.cta} omit="pricing" />

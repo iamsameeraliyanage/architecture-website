@@ -79,13 +79,9 @@ export default function SplitReveal({
   }, [delay, immediate]);
 
   return (
-    // hidden until GSAP takes over — mirrors how the rest of the page reveals
-    <Tag
-      ref={ref as never}
-      id={id}
-      className={className}
-      style={{ visibility: "hidden" }}
-    >
+    // hidden until GSAP takes over — mirrors how the rest of the page reveals;
+    // the class (not an inline style) lets a <noscript> rule re-show the text
+    <Tag ref={ref as never} id={id} className={`split-pending ${className}`}>
       {children}
     </Tag>
   );
