@@ -292,6 +292,33 @@ const en = {
       "ScanCrew is a Swiss scan-to-BIM practice. We put our own crew and our own scanners on site, process the point cloud ourselves, and model the building in Revit or Archicad — so nobody in the chain has to explain someone else's data.",
       "That structure exists for one reason: an as-built model is only worth what its worst handoff allows. Keeping capture, processing, modelling and quality control under one roof is how we can put a tolerance figure and a rate card in public and stand behind both.",
     ],
+    approachKicker: "How we work",
+    approachTitle: "Accurate geometry is the minimum, not the achievement.",
+    approachBlocks: [
+      {
+        title: "Quality approach",
+        body: "An attractive 3D model is not the deliverable. Professional BIM needs accurate geometry, a structure that survives import, correct classifications, and information matched to what the model is actually for. Every project runs against defined quality standards and project-specific LOG and LOI requirements — and through three named reviews before anything is released.",
+      },
+      {
+        title: "One team, no handoffs",
+        body: "Capture, point-cloud processing, modelling and quality control sit with the same people. An as-built model is only worth what its weakest handoff allows, and removing the handoffs is what lets us publish a tolerance figure and a rate card in the open and stand behind both.",
+      },
+      {
+        title: "Digitising the existing stock",
+        body: "Most of the buildings Switzerland will use in 2050 are already standing, and almost none of them are documented as data. Turning that stock into reliable digital models is the part of construction digitisation we work on — one building at a time, at a stated tolerance.",
+      },
+    ],
+    chainLabel: "Workflow",
+    chain: ["3D Laser Scanning", "Point Cloud Processing", "Archicad · Revit", "IFC / openBIM"],
+    swissLabel: "Swiss project requirements",
+    swiss: [
+      "SIA 416 area definitions",
+      "Project-specific LOG & LOI",
+      "Archicad- and Revit-based modelling",
+      "IFC / openBIM deliverables",
+      "CH1903+ / LV95 georeferencing",
+      "German and English project language",
+    ],
     factsLabel: "Company",
     facts: [
       { label: "Based in", value: "Switzerland — projects nationwide" },
@@ -301,12 +328,41 @@ const en = {
       { label: "Partnership", value: "Innofab GmbH" },
     ],
   },
+  scanToBim: {
+    kicker: "Scan to BIM",
+    title: "Scan to BIM — turning an existing building into a digital asset.",
+    body: [
+      "Most existing buildings are documented by a plan set that stopped being true years ago. Walls moved, openings closed, services were rerouted — and each change left a note in a file rather than a correction on a drawing. In renovation and refurbishment work, that gap between the drawing and the building is where design errors, site rework and unbudgeted cost come from.",
+      "Scan to BIM closes it by measurement. We capture the building with 3D laser scanning, register the scans into a single point cloud, and model that cloud into a structured BIM model — so the geometry your project plans against is the geometry that is actually there.",
+      "The result is not a one-off deliverable. A checked model of the existing building carries forward: design today, coordination next quarter, area statements and facility data for as long as the building stands.",
+    ],
+    applicationsLabel: "Ideal applications",
+    applications: [
+      "Building renovations",
+      "Refurbishment projects",
+      "Buildings without accurate drawings",
+      "Architectural planning",
+      "Engineering design",
+      "Facility documentation",
+      "Building digitisation",
+      "BIM-based project delivery",
+    ],
+    link: "See how the chain runs",
+  },
   cta: {
     kicker: "Next step",
     title: "Tell us about the building.",
     body: "Area, target LOD and a rough timeline are enough for a scoped quote with rates, deliverables and dates.",
     primary: "Get a quote",
     secondary: "See the rate card",
+  },
+  notFound: {
+    metaTitle: "Page not found — ScanCrew",
+    kicker: "Error 404",
+    title: "This page is not in the survey.",
+    body: "The address you followed does not match anything on this site. It may have moved, or the link may have been mistyped. The services below are the fastest way back in.",
+    primary: "Back to home",
+    secondary: "See all services",
   },
   pages: {
     pricing: {
@@ -624,6 +680,33 @@ const de: Content = {
       "ScanCrew ist ein Schweizer Scan-to-BIM-Büro. Wir sind mit eigener Crew und eigenen Scannern vor Ort, verarbeiten die Punktwolke selbst und modellieren das Gebäude in Revit oder Archicad — so muss niemand in der Kette die Daten eines anderen erklären.",
       "Diese Struktur hat einen Grund: Ein Bestandsmodell ist nur so gut wie seine schwächste Übergabe. Weil Erfassung, Verarbeitung, Modellierung und Qualitätssicherung bei uns unter einem Dach liegen, können wir Toleranz und Preise öffentlich nennen und für beides geradestehen.",
     ],
+    approachKicker: "Arbeitsweise",
+    approachTitle: "Massgenaue Geometrie ist die Grundbedingung, nicht das Ergebnis.",
+    approachBlocks: [
+      {
+        title: "Qualitätsverständnis",
+        body: "Ein hübsches 3D-Modell ist nicht das Lieferergebnis. Professionelles BIM verlangt massgenaue Geometrie, eine Struktur, die den Import übersteht, korrekte Klassifizierungen und Informationen, die zum Verwendungszweck passen. Jedes Projekt läuft gegen definierte Qualitätsstandards und projektspezifische LOG- und LOI-Vorgaben — und durch drei benannte Prüfungen, bevor etwas freigegeben wird.",
+      },
+      {
+        title: "Ein Team, keine Übergaben",
+        body: "Erfassung, Punktwolken-Verarbeitung, Modellierung und Qualitätssicherung liegen bei denselben Personen. Ein Bestandsmodell ist nur so gut wie seine schwächste Übergabe — genau deshalb können wir Toleranz und Preise öffentlich nennen und für beides geradestehen.",
+      },
+      {
+        title: "Digitalisierung im Bestand",
+        body: "Die meisten Gebäude, welche die Schweiz 2050 nutzen wird, stehen bereits — und kaum eines davon ist als Datensatz dokumentiert. Diesen Bestand in verlässliche digitale Modelle zu überführen, ist unser Beitrag zur Digitalisierung der Baubranche: Gebäude für Gebäude, mit ausgewiesener Toleranz.",
+      },
+    ],
+    chainLabel: "Prozesskette",
+    chain: ["3D Laserscanning", "Punktwolken-Verarbeitung", "Archicad · Revit", "IFC / openBIM"],
+    swissLabel: "Schweizer Projektanforderungen",
+    swiss: [
+      "Flächendefinitionen nach SIA 416",
+      "Projektspezifische LOG & LOI",
+      "Modellierung in Archicad und Revit",
+      "IFC- / openBIM-Lieferungen",
+      "Georeferenzierung CH1903+ / LV95",
+      "Projektsprache Deutsch und Englisch",
+    ],
     factsLabel: "Unternehmen",
     facts: [
       { label: "Standort", value: "Schweiz — Projekte schweizweit" },
@@ -633,12 +716,41 @@ const de: Content = {
       { label: "Partnerschaft", value: "Innofab GmbH" },
     ],
   },
+  scanToBim: {
+    kicker: "Scan to BIM",
+    title: "Scan to BIM — aus dem Bestandsgebäude wird ein digitales Abbild.",
+    body: [
+      "Die meisten Bestandsgebäude sind durch einen Plansatz dokumentiert, der seit Jahren nicht mehr stimmt. Wände wurden versetzt, Öffnungen geschlossen, Leitungen umgelegt — und jede Änderung hinterliess eine Aktennotiz statt einer Planänderung. Bei Umbau und Sanierung entstehen genau in dieser Lücke zwischen Plan und Bauwerk die Planungsfehler, die Nacharbeit auf der Baustelle und die nicht budgetierten Kosten.",
+      "Scan to BIM schliesst sie durch Messung. Wir erfassen das Gebäude mit 3D Laserscanning, registrieren die Scans zu einer Punktwolke und modellieren daraus ein strukturiertes BIM-Modell — damit die Geometrie, auf der Ihr Projekt plant, jene ist, die tatsächlich vorhanden ist.",
+      "Das Ergebnis ist keine einmalige Lieferung. Ein geprüftes Bestandsmodell trägt weiter: heute die Planung, im nächsten Quartal die Koordination, danach Flächenausweise und Bewirtschaftungsdaten — solange das Gebäude steht.",
+    ],
+    applicationsLabel: "Typische Anwendungen",
+    applications: [
+      "Gebäudesanierung",
+      "Umbau und Umnutzung",
+      "Gebäude ohne verlässliche Pläne",
+      "Architekturplanung",
+      "Ingenieurplanung",
+      "Gebäudedokumentation",
+      "Digitalisierung im Bestand",
+      "BIM-basierte Projektabwicklung",
+    ],
+    link: "So läuft die Prozesskette",
+  },
   cta: {
     kicker: "Nächster Schritt",
     title: "Erzählen Sie uns vom Gebäude.",
     body: "Fläche, Ziel-LOD und ein grober Zeitrahmen genügen für eine Offerte mit Preisen, Lieferumfang und Terminen.",
     primary: "Offerte anfordern",
     secondary: "Zur Preisliste",
+  },
+  notFound: {
+    metaTitle: "Seite nicht gefunden — ScanCrew",
+    kicker: "Fehler 404",
+    title: "Diese Seite ist nicht erfasst.",
+    body: "Die aufgerufene Adresse passt zu keinem Inhalt auf dieser Website. Möglicherweise wurde die Seite verschoben oder der Link falsch geschrieben. Über die Leistungen unten finden Sie am schnellsten zurück.",
+    primary: "Zur Startseite",
+    secondary: "Alle Leistungen",
   },
   pages: {
     pricing: {

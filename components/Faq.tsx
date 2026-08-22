@@ -4,17 +4,37 @@ import { useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import SectionHeader from "./ui/SectionHeader";
 import Reveal from "./ui/Reveal";
-import type { Content } from "@/lib/content";
 
-export default function Faq({ t }: { t: Content["faq"] }) {
+/*
+  Accordion FAQ. Structurally typed rather than bound to `Content["faq"]`, so
+  the per-service FAQs in lib/services.ts render through the same component —
+  which matters because each one is also emitted as FAQPage structured data and
+  the two must stay in step.
+*/
+export type FaqContent = {
+  kicker: string;
+  title: string;
+  items: ReadonlyArray<{ q: string; a: string }>;
+};
+
+export default function Faq({
+  t,
+  dim = false,
+  id = "faq-title",
+}: {
+  t: FaqContent;
+  /** step down to the dim paper surface when the section above is also light */
+  dim?: boolean;
+  id?: string;
+}) {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
   const reduced = useReducedMotion();
 
   return (
-    <section className="on-paper bg-paper" aria-labelledby="faq-title">
+    <section className={`on-paper ${dim ? "bg-paper-dim" : "bg-paper"}`} aria-labelledby={id}>
       <div className="mx-auto max-w-7xl px-5 py-20 md:px-8 md:py-28">
         <Reveal>
-          <SectionHeader id="faq-title" kicker={t.kicker} title={t.title} tone="light" />
+          <SectionHeader id={id} kicker={t.kicker} title={t.title} tone="light" />
         </Reveal>
 
         <Reveal delay={0.08}>

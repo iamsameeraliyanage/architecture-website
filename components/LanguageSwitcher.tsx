@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useId, useRef, useState } from "react";
 import { locales, type Locale } from "@/lib/i18n";
+import { translatePath } from "@/lib/routes";
 
 /* Endonyms — a language is always named in its own language, so these stay
    out of the translated content files. */
@@ -27,7 +28,6 @@ export default function LanguageSwitcher({
   className?: string;
 }) {
   const pathname = usePathname() ?? `/${locale}`;
-  const rest = pathname.replace(/^\/(en|de)/, "") || "";
 
   const onDark = tone === "dark-ground";
   const active = onDark ? "text-frost" : "text-ink";
@@ -44,7 +44,7 @@ export default function LanguageSwitcher({
               </span>
             )}
             <Link
-              href={`/${l}${rest}`}
+              href={translatePath(pathname, l)}
               hrefLang={l}
               aria-current={l === locale ? "page" : undefined}
               className={`transition-colors ${l === locale ? active : idle}`}
@@ -61,7 +61,7 @@ export default function LanguageSwitcher({
     <LanguageMenu
       locale={locale}
       label={label}
-      rest={rest}
+      pathname={pathname}
       onDark={onDark}
       active={active}
       idle={idle}
@@ -73,7 +73,7 @@ export default function LanguageSwitcher({
 function LanguageMenu({
   locale,
   label,
-  rest,
+  pathname,
   onDark,
   active,
   idle,
@@ -81,7 +81,7 @@ function LanguageMenu({
 }: {
   locale: Locale;
   label: string;
-  rest: string;
+  pathname: string;
   onDark: boolean;
   active: string;
   idle: string;
@@ -181,7 +181,7 @@ function LanguageMenu({
               <li key={l} role="none">
                 <Link
                   role="menuitem"
-                  href={`/${l}${rest}`}
+                  href={translatePath(pathname, l)}
                   hrefLang={l}
                   aria-current={current ? "true" : undefined}
                   onClick={() => setOpen(false)}

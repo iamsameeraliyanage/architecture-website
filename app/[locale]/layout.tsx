@@ -3,6 +3,7 @@ import { Instrument_Sans, Inter, IBM_Plex_Mono } from "next/font/google";
 import { notFound } from "next/navigation";
 import { content } from "@/lib/content";
 import { isLocale, locales, type Locale } from "@/lib/i18n";
+import { pageAlternates, pagePath, SITE_URL } from "@/lib/routes";
 import LenisProvider from "@/components/motion/LenisProvider";
 import ScrollProgress from "@/components/ui/ScrollProgress";
 import ScanCursor from "@/components/ui/ScanCursor";
@@ -28,9 +29,6 @@ const plexMono = IBM_Plex_Mono({
   display: "swap",
 });
 
-// Placeholder domain — swap for the production domain at launch.
-const SITE_URL = "https://scancrew.example";
-
 export const dynamicParams = false;
 
 export function generateStaticParams() {
@@ -50,16 +48,13 @@ export async function generateMetadata({
     metadataBase: new URL(SITE_URL),
     title: t.title,
     description: t.description,
-    alternates: {
-      canonical: `/${locale}`,
-      languages: { en: "/en", de: "/de" },
-    },
+    alternates: { canonical: pagePath(locale, "home"), languages: pageAlternates("home") },
     openGraph: {
       type: "website",
       siteName: "ScanCrew",
       title: t.title,
       description: t.description,
-      url: `/${locale}`,
+      url: pagePath(locale, "home"),
       locale: locale === "de" ? "de_CH" : "en_US",
     },
     twitter: {

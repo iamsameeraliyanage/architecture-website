@@ -1,6 +1,8 @@
 import Nav from "@/components/Nav";
 import Hero from "@/components/Hero";
+import ScanToBim from "@/components/ScanToBim";
 import Pipeline from "@/components/Pipeline";
+import ServicesGrid from "@/components/ServicesGrid";
 import Audiences from "@/components/Audiences";
 import Standards from "@/components/Standards";
 import Deliverables from "@/components/Deliverables";
@@ -8,21 +10,45 @@ import CaseStudies from "@/components/CaseStudies";
 import Faq from "@/components/Faq";
 import CtaBand from "@/components/CtaBand";
 import Footer from "@/components/Footer";
+import JsonLd from "@/components/ui/JsonLd";
 import { content } from "@/lib/content";
 import { isLocale } from "@/lib/i18n";
+import { pagePath } from "@/lib/routes";
+import {
+  faqSchema,
+  graph,
+  organizationSchema,
+  serviceListSchema,
+  webPageSchema,
+  websiteSchema,
+} from "@/lib/schema";
 import { notFound } from "next/navigation";
 
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   if (!isLocale(locale)) notFound();
   const t = content[locale];
+  const path = pagePath(locale, "home");
 
   return (
     <>
+      <JsonLd
+        data={graph([
+          organizationSchema(locale),
+          websiteSchema(locale),
+          webPageSchema(locale, path, t.meta.title, t.meta.description),
+          serviceListSchema(locale),
+          faqSchema(t.faq.items),
+        ])}
+      />
       <Nav locale={locale} t={t.nav} />
       <main id="main" tabIndex={-1}>
         <Hero locale={locale} t={t.hero} />
+        {/* the primary keyword's own section, stated as a problem before it is
+            stated as a service — and the first light ground after the hero */}
+        <ScanToBim locale={locale} t={t.scanToBim} />
         <Pipeline t={t.pipeline} />
+        <ServicesGrid locale={locale} tone="light" />
         <Audiences t={t.audiences} />
         <Standards t={t.standards} />
         <Deliverables t={t.deliverables} />
