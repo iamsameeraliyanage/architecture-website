@@ -32,9 +32,9 @@ const en = {
     eyebrow: "Swiss Scan-to-BIM · Capture and model, one team",
     headlineA: "From 3D Scan",
     // non-breaking hyphen: a mid-word wrap here breaks SplitText's line masks
-    headlineB: "to Construction‑Ready BIM",
+    headlineB: "to Accurate BIM Models",
     subhead:
-      "ScanCrew scans your building with its own Swiss team and equipment — and delivers the coordinated BIM model. Archicad, Revit, IFC.",
+      "Digital building surveys, point clouds, and BIM models for design, renovation, and building documentation. Scancrew captures existing buildings using advanced 3D laser scanning technology and transforms the collected data into structured, design-ready BIM models.",
     ctaPrimary: "Get started with us",
     scrollHint: "Scroll",
     hud: {
@@ -60,13 +60,23 @@ const en = {
         code: "Step 1",
         name: "Reality Capture",
         body: "Our own Swiss crew on site with terrestrial laser scanners and drones. Georeferenced, full coverage, and planned around the daily routine of an occupied building.",
-        specs: ["Terrestrial LiDAR", "Drone survey", "CH1903+ / LV95", "Occupied buildings"],
+        specs: [
+          "Terrestrial LiDAR",
+          "Drone survey",
+          "CH1903+ / LV95",
+          "Occupied buildings",
+        ],
       },
       {
         code: "Step 2",
         name: "Point Cloud",
         body: "Scans are registered and validated, noise is cleaned, and the coordinate system is fixed. What leaves this stage is a dataset you can measure against.",
-        specs: ["Registration", "Validation", "Noise cleaning", "E57 · RCP · RCS"],
+        specs: [
+          "Registration",
+          "Validation",
+          "Noise cleaning",
+          "E57 · RCP · RCS",
+        ],
       },
       {
         code: "Step 3",
@@ -78,7 +88,11 @@ const en = {
         code: "Step 4",
         name: "QA/QC",
         body: "Three reviews before release: the modeller verifies geometry against the scan, a Senior BIM Modeller runs the technical review, and the Team Lead performs final validation.",
-        specs: ["Modeller self-check", "Senior technical review", "Team Lead validation"],
+        specs: [
+          "Modeller self-check",
+          "Senior technical review",
+          "Team Lead validation",
+        ],
       },
       {
         code: "Step 5",
@@ -119,11 +133,20 @@ const en = {
     title: "Specification, not claims.",
     sheetLabel: "DATASHEET / SC-STD-01",
     rows: [
-      { label: "Accuracy tolerance", value: "±20 mm unless otherwise specified" },
+      {
+        label: "Accuracy tolerance",
+        value: "±20 mm unless otherwise specified",
+      },
       { label: "Standards", value: "openBIM · IFC compliant" },
       { label: "Level of development", value: "LOD 200 / 300 / 350" },
-      { label: "Capture", value: "Terrestrial laser scanning · drone survey — Swiss-based team" },
-      { label: "Processing", value: "Leica Cyclone · Autodesk ReCap — E57, RCP, RCS" },
+      {
+        label: "Capture",
+        value: "Terrestrial laser scanning · drone survey — Swiss-based team",
+      },
+      {
+        label: "Processing",
+        value: "Leica Cyclone · Autodesk ReCap — E57, RCP, RCS",
+      },
       { label: "Authoring", value: "Autodesk Revit · Archicad — IFC export" },
     ],
   },
@@ -138,23 +161,27 @@ const en = {
         lod: "LOD 200",
         name: "Basic geometry",
         rate: "$1.50 – 2.00",
-        forLine: "Volumes, walls, floors — feasibility studies and early design.",
+        forLine:
+          "Volumes, walls, floors — feasibility studies and early design.",
       },
       {
         lod: "LOD 300",
         name: "Detailed architectural model",
         rate: "$3.00 – 4.00",
-        forLine: "Full architectural detail — planning applications and permits.",
+        forLine:
+          "Full architectural detail — planning applications and permits.",
       },
       {
         lod: "LOD 350",
         name: "Detailed coordination model",
         rate: "$4.00 – 6.00",
-        forLine: "Coordination-grade with structural interfaces — execution planning.",
+        forLine:
+          "Coordination-grade with structural interfaces — execution planning.",
       },
     ],
     formulaLabel: "Pricing formula",
-    formula: "Project price = building area (m²) × base rate × complexity factor",
+    formula:
+      "Project price = building area (m²) × base rate × complexity factor",
     note: "Indicative modelling rates. Capture is quoted per site — geometry, access and location drive the scanning effort.",
   },
   deliverables: {
@@ -245,7 +272,11 @@ const en = {
       email: "Email",
       company: "Company",
       projectType: "Project type",
-      projectTypes: ["Full scan-to-BIM", "Modelling from existing point cloud", "Not sure yet"],
+      projectTypes: [
+        "Full scan-to-BIM",
+        "Modelling from existing point cloud",
+        "Not sure yet",
+      ],
       area: "Approx. building area (m²)",
       lod: "Target LOD",
       lodOptions: ["LOD 200", "LOD 300", "LOD 350", "Not sure yet"],
@@ -259,10 +290,13 @@ const en = {
         nameShort: "Please enter your full name.",
         emailRequired: "We need an email address to send the quote to.",
         emailInvalid: "That does not look like a valid email address.",
-        areaInvalid: "Enter the area as a number in m² — leave it blank if you are unsure.",
+        areaInvalid:
+          "Enter the area as a number in m² — leave it blank if you are unsure.",
         areaRange: "Enter an area between 1 and 1,000,000 m².",
-        messageRequired: "A sentence about the building helps us scope the quote.",
-        messageShort: "Please add a little more detail — at least 10 characters.",
+        messageRequired:
+          "A sentence about the building helps us scope the quote.",
+        messageShort:
+          "Please add a little more detail — at least 10 characters.",
         summary: "Check the highlighted fields and try again.",
       },
       sent: {
@@ -309,7 +343,12 @@ const en = {
       },
     ],
     chainLabel: "Workflow",
-    chain: ["3D Laser Scanning", "Point Cloud Processing", "Archicad · Revit", "IFC / openBIM"],
+    chain: [
+      "3D Laser Scanning",
+      "Point Cloud Processing",
+      "Archicad · Revit",
+      "IFC / openBIM",
+    ],
     swissLabel: "Swiss project requirements",
     swiss: [
       "SIA 416 area definitions",
@@ -322,7 +361,10 @@ const en = {
     factsLabel: "Company",
     facts: [
       { label: "Based in", value: "Switzerland — projects nationwide" },
-      { label: "Discipline", value: "Reality capture · point-cloud processing · BIM production" },
+      {
+        label: "Discipline",
+        value: "Reality capture · point-cloud processing · BIM production",
+      },
       { label: "Coordinate frame", value: "CH1903+ / LV95" },
       { label: "Working languages", value: "German · English" },
       { label: "Partnership", value: "Innofab GmbH" },
@@ -418,7 +460,8 @@ const de: Content = {
     themeDark: "Zum dunklen Modus wechseln",
   },
   hero: {
-    eyebrow: "Scan-to-BIM aus der Schweiz · Erfassung und Modell aus einer Hand",
+    eyebrow:
+      "Scan-to-BIM aus der Schweiz · Erfassung und Modell aus einer Hand",
     headlineA: "Vom 3D‑Scan",
     headlineB: "zum baureifen BIM‑Modell",
     subhead:
@@ -448,25 +491,44 @@ const de: Content = {
         code: "Schritt 1",
         name: "Gebäudeerfassung",
         body: "Unser eigenes Schweizer Team vor Ort, mit terrestrischen Laserscannern und Drohnen. Georeferenziert, vollständige Abdeckung — und so geplant, dass der Betrieb im Gebäude weiterläuft.",
-        specs: ["Terrestrisches LiDAR", "Drohnenaufnahme", "CH1903+ / LV95", "Genutzte Gebäude"],
+        specs: [
+          "Terrestrisches LiDAR",
+          "Drohnenaufnahme",
+          "CH1903+ / LV95",
+          "Genutzte Gebäude",
+        ],
       },
       {
         code: "Schritt 2",
         name: "Punktwolke",
         body: "Die Scans werden registriert und validiert, Rauschen wird bereinigt, das Koordinatensystem fixiert. Was diese Stufe verlässt, ist ein Datensatz, an dem Sie messen können.",
-        specs: ["Registrierung", "Validierung", "Rauschbereinigung", "E57 · RCP · RCS"],
+        specs: [
+          "Registrierung",
+          "Validierung",
+          "Rauschbereinigung",
+          "E57 · RCP · RCS",
+        ],
       },
       {
         code: "Schritt 3",
         name: "BIM-Produktion",
         body: "Architektur- und Tragwerkselemente werden in Revit oder Archicad direkt an der Punktwolke modelliert, im vereinbarten LOD — nicht von Exporten abgepaust.",
-        specs: ["Revit", "Archicad", "LOD 200 · 300 · 350", "An der Punktwolke ausgerichtet"],
+        specs: [
+          "Revit",
+          "Archicad",
+          "LOD 200 · 300 · 350",
+          "An der Punktwolke ausgerichtet",
+        ],
       },
       {
         code: "Schritt 4",
         name: "Qualitätssicherung",
         body: "Drei Prüfungen vor der Freigabe: Der Modellierer verifiziert die Geometrie am Scan, ein Senior BIM Modeller führt die technische Prüfung durch, der Team Lead validiert final.",
-        specs: ["Eigenprüfung Modellierer", "Technische Prüfung Senior", "Validierung Team Lead"],
+        specs: [
+          "Eigenprüfung Modellierer",
+          "Technische Prüfung Senior",
+          "Validierung Team Lead",
+        ],
       },
       {
         code: "Schritt 5",
@@ -507,12 +569,25 @@ const de: Content = {
     title: "Spezifikation statt Behauptung.",
     sheetLabel: "DATENBLATT / SC-STD-01",
     rows: [
-      { label: "Genauigkeitstoleranz", value: "±20 mm, sofern nicht anders vereinbart" },
+      {
+        label: "Genauigkeitstoleranz",
+        value: "±20 mm, sofern nicht anders vereinbart",
+      },
       { label: "Standards", value: "openBIM · IFC-konform" },
       { label: "Level of Development", value: "LOD 200 / 300 / 350" },
-      { label: "Erfassung", value: "Terrestrisches Laserscanning · Drohnenaufnahme — Team in der Schweiz" },
-      { label: "Verarbeitung", value: "Leica Cyclone · Autodesk ReCap — E57, RCP, RCS" },
-      { label: "Modellierung", value: "Autodesk Revit · Archicad — IFC-Export" },
+      {
+        label: "Erfassung",
+        value:
+          "Terrestrisches Laserscanning · Drohnenaufnahme — Team in der Schweiz",
+      },
+      {
+        label: "Verarbeitung",
+        value: "Leica Cyclone · Autodesk ReCap — E57, RCP, RCS",
+      },
+      {
+        label: "Modellierung",
+        value: "Autodesk Revit · Archicad — IFC-Export",
+      },
     ],
   },
   pricing: {
@@ -526,23 +601,27 @@ const de: Content = {
         lod: "LOD 200",
         name: "Basisgeometrie",
         rate: "$1.50 – 2.00",
-        forLine: "Volumen, Wände, Decken — Machbarkeitsstudien und frühe Planung.",
+        forLine:
+          "Volumen, Wände, Decken — Machbarkeitsstudien und frühe Planung.",
       },
       {
         lod: "LOD 300",
         name: "Detailliertes Architekturmodell",
         rate: "$3.00 – 4.00",
-        forLine: "Volle architektonische Detaillierung — Planung und Baueingabe.",
+        forLine:
+          "Volle architektonische Detaillierung — Planung und Baueingabe.",
       },
       {
         lod: "LOD 350",
         name: "Detailliertes Koordinationsmodell",
         rate: "$4.00 – 6.00",
-        forLine: "Koordinationsqualität mit Tragwerksschnittstellen — Ausführungsplanung.",
+        forLine:
+          "Koordinationsqualität mit Tragwerksschnittstellen — Ausführungsplanung.",
       },
     ],
     formulaLabel: "Preisformel",
-    formula: "Projektpreis = Gebäudefläche (m²) × Basispreis × Komplexitätsfaktor",
+    formula:
+      "Projektpreis = Gebäudefläche (m²) × Basispreis × Komplexitätsfaktor",
     note: "Richtpreise für die Modellierung. Die Erfassung wird pro Objekt offeriert — Geometrie, Zugänglichkeit und Lage bestimmen den Scanaufwand.",
   },
   deliverables: {
@@ -633,7 +712,11 @@ const de: Content = {
       email: "E-Mail",
       company: "Firma",
       projectType: "Projektart",
-      projectTypes: ["Komplettes Scan-to-BIM", "Modellierung aus bestehender Punktwolke", "Noch unklar"],
+      projectTypes: [
+        "Komplettes Scan-to-BIM",
+        "Modellierung aus bestehender Punktwolke",
+        "Noch unklar",
+      ],
       area: "Ungefähre Gebäudefläche (m²)",
       lod: "Ziel-LOD",
       lodOptions: ["LOD 200", "LOD 300", "LOD 350", "Noch unklar"],
@@ -647,11 +730,13 @@ const de: Content = {
         nameShort: "Bitte geben Sie Ihren vollständigen Namen an.",
         emailRequired: "Wir brauchen eine E-Mail-Adresse für die Offerte.",
         emailInvalid: "Das sieht nicht nach einer gültigen E-Mail-Adresse aus.",
-        areaInvalid: "Bitte die Fläche als Zahl in m² angeben — oder das Feld leer lassen.",
+        areaInvalid:
+          "Bitte die Fläche als Zahl in m² angeben — oder das Feld leer lassen.",
         areaRange: "Bitte eine Fläche zwischen 1 und 1'000'000 m² angeben.",
         messageRequired: "Ein Satz zum Gebäude hilft uns bei der Offerte.",
         messageShort: "Bitte etwas mehr Detail — mindestens 10 Zeichen.",
-        summary: "Bitte prüfen Sie die markierten Felder und senden Sie erneut.",
+        summary:
+          "Bitte prüfen Sie die markierten Felder und senden Sie erneut.",
       },
       sent: {
         title: "Ihr E-Mail-Programm sollte sich geöffnet haben.",
@@ -681,7 +766,8 @@ const de: Content = {
       "Diese Struktur hat einen Grund: Ein Bestandsmodell ist nur so gut wie seine schwächste Übergabe. Weil Erfassung, Verarbeitung, Modellierung und Qualitätssicherung bei uns unter einem Dach liegen, können wir Toleranz und Preise öffentlich nennen und für beides geradestehen.",
     ],
     approachKicker: "Arbeitsweise",
-    approachTitle: "Massgenaue Geometrie ist die Grundbedingung, nicht das Ergebnis.",
+    approachTitle:
+      "Massgenaue Geometrie ist die Grundbedingung, nicht das Ergebnis.",
     approachBlocks: [
       {
         title: "Qualitätsverständnis",
@@ -697,7 +783,12 @@ const de: Content = {
       },
     ],
     chainLabel: "Prozesskette",
-    chain: ["3D Laserscanning", "Punktwolken-Verarbeitung", "Archicad · Revit", "IFC / openBIM"],
+    chain: [
+      "3D Laserscanning",
+      "Punktwolken-Verarbeitung",
+      "Archicad · Revit",
+      "IFC / openBIM",
+    ],
     swissLabel: "Schweizer Projektanforderungen",
     swiss: [
       "Flächendefinitionen nach SIA 416",
@@ -710,7 +801,10 @@ const de: Content = {
     factsLabel: "Unternehmen",
     facts: [
       { label: "Standort", value: "Schweiz — Projekte schweizweit" },
-      { label: "Disziplin", value: "Reality Capture · Punktwolken-Verarbeitung · BIM-Produktion" },
+      {
+        label: "Disziplin",
+        value: "Reality Capture · Punktwolken-Verarbeitung · BIM-Produktion",
+      },
       { label: "Bezugsrahmen", value: "CH1903+ / LV95" },
       { label: "Arbeitssprachen", value: "Deutsch · Englisch" },
       { label: "Partnerschaft", value: "Innofab GmbH" },
