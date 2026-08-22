@@ -29,7 +29,8 @@ const ARM = 0.46;
 const FLY_HEIGHT = 5.5;
 /** Half the drone's flight line — just past each gable, never off over nothing. */
 const FLY_SPAN = PLAN.W / 2 + 0.8;
-const PARK = { x: 0, y: 6.1 };
+/** Park above the scan's start point, so each loop launches from where it ended. */
+const PARK = { x: -FLY_SPAN, y: 6.1 };
 /** Top of the floor slab — where rays that clear the walls land. */
 const FLOOR_Y = PLAN.SLAB;
 
@@ -197,8 +198,8 @@ export default function ScanDrone({
 
     if (s.active) {
       const targetX = THREE.MathUtils.lerp(-FLY_SPAN, FLY_SPAN, THREE.MathUtils.clamp(s.p, 0, 1));
-      // a new pass starts far from where we parked — jump rather than streak across
-      if (!wasActive.current) g.position.set(targetX, FLY_HEIGHT + bob, 0);
+      // safety for tab-resume desyncs: snap x only — y eases down from park
+      if (!wasActive.current) g.position.x = targetX;
       const prevX = g.position.x;
       g.position.x += (targetX - prevX) * Math.min(1, delta * 9);
       g.position.y += (FLY_HEIGHT + bob - g.position.y) * Math.min(1, delta * 4);
@@ -206,7 +207,7 @@ export default function ScanDrone({
       const vx = g.position.x - prevX;
       g.rotation.z += (THREE.MathUtils.clamp(-vx * 1.6, -0.28, 0.28) - g.rotation.z) * 0.1;
     } else {
-      g.position.x += (PARK.x - g.position.x) * Math.min(1, delta * 0.9);
+      g.position.x += (PARK.x - g.position.x) * Math.min(1, delta * 1.6);
       g.position.y += (PARK.y + bob - g.position.y) * Math.min(1, delta * 1.6);
       g.rotation.z += (0 - g.rotation.z) * 0.06;
     }

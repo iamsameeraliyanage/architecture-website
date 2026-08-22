@@ -5,11 +5,15 @@ import { Canvas, useFrame, useThree, invalidate } from "@react-three/fiber";
 import * as THREE from "three";
 import { generatePoints, buildingEdges } from "./buildingPoints";
 import ScanDrone, { type ScanState } from "./ScanDrone";
+import SolidApartment from "./SolidApartment";
 
 /*
-  The page's single Three.js moment: scattered scan points resolve into a
-  building as a scan front passes through them, then a beam keeps sweeping.
-  One draw call for the cloud, one for the resolved wireframe.
+  The page's single Three.js moment, as a ~20s loop that tells the actual
+  Scan-to-BIM story: the solid apartment sits whole → the drone sweeps across
+  and surfaces dissolve into point cloud right behind its beam → the cloud
+  holds → the drone flies home → the front sweeps back and the building
+  re-materialises. One shared uReveal uniform drives both the point shader and
+  the solid dissolve, so the two worlds always agree on where the front is.
 */
 
 const VERT = /* glsl */ `
@@ -65,10 +69,14 @@ const FRAG = /* glsl */ `
   }
 `;
 
-const REVEAL_START = -9;
-const REVEAL_SPEED = 7.2; // world units / second for the first pass
-const REVEAL_END = 10;
-const BEAM_PERIOD = 9; // seconds per beam cycle after the first pass
+/* the loop, in seconds per phase — sums to TOTAL */
+const DUR = { solid: 2.5, scan: 8, cloud: 4, ret: 2.5, restore: 2.5 } as const;
+const TOTAL = DUR.solid + DUR.scan + DUR.cloud + DUR.ret + DUR.restore;
+/* front x extents in apartment-local space: X_SOLID leaves every point
+   unresolved (min aTarget.x − stagger ≈ −8.4); X_CLOUD resolves the farthest
+   ground point (x ≈ 9.5 + 1.1 stagger + 1.8 band) and clears every solid face */
+const X_SOLID = -9;
+const X_CLOUD = 13;
 
 /* per-theme scene palette: on dark ground the scan glows; on light it reads
    like blueprint ink on paper, with the beam as the darkest element */
@@ -99,6 +107,12 @@ function Cloud({
   const group = useRef<THREE.Group>(null);
   // written here each frame, read by the drone so its flight matches the beam
   const scan = useRef<ScanState>({ p: 0, active: false });
+  // loopT wraps and drives the phase machine; animT never wraps and drives
+  // jitter/drift, so nothing hitches at the loop seam. Both accumulate delta:
+  // the r3f clock keeps running while the demand-mode canvas is paused
+  // offscreen, so elapsedTime would jump phases on scroll-back.
+  const loopT = useRef(0);
+  const animT = useRef(0);
   const { camera, pointer } = useThree();
 
   const { geometry, material, lineGeometry, lineMaterial } = useMemo(() => {
@@ -117,7 +131,7 @@ function Cloud({
       depthWrite: false,
       blending: THREE.AdditiveBlending,
       uniforms: {
-        uReveal: { value: REVEAL_START },
+        uReveal: { value: X_SOLID },
         uBeam: { value: -999 },
         uTime: { value: 0 },
         uPixelRatio: { value: 1 },
@@ -179,40 +193,60 @@ function Cloud({
     }
   }, [animated, material, lineMaterial]);
 
-  useFrame((state) => {
+  useFrame((state, delta) => {
     material.uniforms.uPixelRatio.value = state.gl.getPixelRatio();
     if (!animated) return;
 
-    const t = state.clock.elapsedTime;
-    material.uniforms.uTime.value = t;
+    // clamp so a paused-offscreen resume can't jump phases
+    const dt = Math.min(delta, 0.05);
+    animT.current += dt;
+    loopT.current = (loopT.current + dt) % TOTAL;
+    const t = loopT.current;
+    material.uniforms.uTime.value = animT.current;
 
-    // first pass: the scan front resolves the building left → right
-    const firstPassDuration = (REVEAL_END - REVEAL_START) / REVEAL_SPEED;
-    const reveal = REVEAL_START + Math.min(t, firstPassDuration) * REVEAL_SPEED;
-    material.uniforms.uReveal.value = t < firstPassDuration ? reveal : 999;
+    let reveal = X_SOLID;
+    let beam = -999;
+    let lineO = 0;
 
-    // beam: rides the front during the first pass, then loops with a rest phase
-    if (t < firstPassDuration) {
-      material.uniforms.uBeam.value = reveal;
+    if (t < DUR.solid) {
+      // SOLID HOLD — the building sits whole, drone parked at the start
+      scan.current.active = false;
+      scan.current.p = 0;
+    } else if (t < DUR.solid + DUR.scan) {
+      // SCAN — the front tracks the drone; solids dissolve, points resolve
+      const p = (t - DUR.solid) / DUR.scan;
+      reveal = THREE.MathUtils.lerp(X_SOLID, X_CLOUD, p);
+      beam = reveal;
+      scan.current.active = true;
+      scan.current.p = p;
+      lineO = THREE.MathUtils.smoothstep(p, 0.85, 1) * 0.35;
+    } else if (t < DUR.solid + DUR.scan + DUR.cloud) {
+      // CLOUD HOLD — today's resolved look; drone hovers at the far end
+      reveal = X_CLOUD;
+      scan.current.active = true;
+      scan.current.p = 1;
+      lineO = 0.35;
+    } else if (t < TOTAL - DUR.restore) {
+      // RETURN — drone flies home, lasers fade (ScanDrone handles both)
+      reveal = X_CLOUD;
+      scan.current.active = false;
+      lineO = 0.35;
     } else {
-      const cycle = ((t - firstPassDuration) % BEAM_PERIOD) / BEAM_PERIOD;
-      material.uniforms.uBeam.value =
-        cycle < 0.62 ? REVEAL_START + (cycle / 0.62) * (REVEAL_END - REVEAL_START) : -999;
+      // RESTORE — the front sweeps back; the building re-materialises
+      const p = (t - (TOTAL - DUR.restore)) / DUR.restore;
+      const e = p * p * (3 - 2 * p);
+      reveal = THREE.MathUtils.lerp(X_CLOUD, X_SOLID, e);
+      scan.current.active = false;
+      lineO = 0.35 * (1 - e);
     }
 
-    const beamX = material.uniforms.uBeam.value as number;
-    scan.current.active = beamX > -900;
-    if (scan.current.active) {
-      scan.current.p = (beamX - REVEAL_START) / (REVEAL_END - REVEAL_START);
-    }
-
-    // wireframe fades in as the first pass completes
-    const lineIn = THREE.MathUtils.clamp((t - firstPassDuration + 0.6) / 1.6, 0, 1);
-    lineMaterial.opacity = lineIn * 0.35;
+    material.uniforms.uReveal.value = reveal;
+    material.uniforms.uBeam.value = beam;
+    lineMaterial.opacity = lineO;
 
     // slow authored drift + gentle pointer parallax
     if (group.current) {
-      const targetY = -0.3 + Math.sin(t * 0.05) * 0.06 + pointer.x * 0.05;
+      const targetY = -0.3 + Math.sin(animT.current * 0.05) * 0.06 + pointer.x * 0.05;
       const targetX = pointer.y * 0.02;
       group.current.rotation.y += (targetY - group.current.rotation.y) * 0.04;
       group.current.rotation.x += (targetX - group.current.rotation.x) * 0.04;
@@ -221,6 +255,16 @@ function Cloud({
 
   return (
     <group ref={group} position={[0.3, -1.0, 0]} scale={0.56}>
+      {/* lights touch only the solid apartment — points, lines and the drone
+          are all shader/basic materials that ignore them */}
+      <ambientLight intensity={theme === "light" ? 1.5 : 0.95} />
+      <directionalLight position={[9, 16, 7]} intensity={theme === "light" ? 1.5 : 1.9} />
+      <directionalLight position={[-11, 7, -6]} intensity={0.5} color="#7fd4f5" />
+      <SolidApartment
+        reveal={material.uniforms.uReveal as { value: number }}
+        animated={animated}
+        theme={theme}
+      />
       <points ref={points} geometry={geometry} material={material} frustumCulled={false} />
       <lineSegments ref={lines} geometry={lineGeometry} material={lineMaterial} />
       <ScanDrone
