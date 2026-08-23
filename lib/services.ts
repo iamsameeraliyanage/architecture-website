@@ -65,7 +65,6 @@ export type Service = {
   /** stable key — the slug changes per locale, this does not */
   key: ServiceKey;
   slug: string;
-  code: string;
   navLabel: string;
   /** grid card */
   cardTitle: string;
@@ -134,7 +133,6 @@ const en: ServicesContent = {
     scanning: {
       key: "scanning",
       slug: "3d-laser-scanning",
-      code: "SC-01",
       navLabel: "3D Laser Scanning",
       cardTitle: "3D Laser Scanning",
       cardSummary:
@@ -143,7 +141,7 @@ const en: ServicesContent = {
       metaTitle: "3D Laser Scanning Services in Switzerland | ScanCrew",
       metaDescription:
         "Professional 3D laser scanning of existing buildings: registered point clouds at ±20 mm, E57 · RCP · RCS, drone survey and 360° panoramas, georeferenced to CH1903+ / LV95.",
-      kicker: "Service SC-01",
+      kicker: "Service",
       h1: "3D Laser Scanning for Existing Buildings",
       intro:
         "We capture existing buildings with terrestrial laser scanners and drones and hand back a registered, georeferenced point cloud — the measurable foundation for BIM modelling, as-built drawings and building documentation.",
@@ -292,7 +290,6 @@ const en: ServicesContent = {
     bim: {
       key: "bim",
       slug: "bim-modeling",
-      code: "SC-02",
       navLabel: "BIM Modelling",
       cardTitle: "BIM Modelling",
       cardSummary:
@@ -301,7 +298,7 @@ const en: ServicesContent = {
       metaTitle: "BIM Modelling from Point Clouds — Revit & Archicad | ScanCrew",
       metaDescription:
         "Scan-to-BIM modelling: point clouds turned into structured BIM models in Revit and Archicad, modelled to project LOG and LOI, quality-checked and delivered as IFC.",
-      kicker: "Service SC-02",
+      kicker: "Service",
       h1: "BIM Modelling from Point Clouds",
       intro:
         "We turn 3D scan data into a structured BIM model for architecture, renovation, coordination and building documentation — modelled directly on the point cloud, at the level of geometry and information your project actually needs.",
@@ -455,7 +452,6 @@ const en: ServicesContent = {
     survey: {
       key: "survey",
       slug: "building-survey",
-      code: "SC-03",
       navLabel: "Building Survey",
       cardTitle: "Building Survey",
       cardSummary:
@@ -464,7 +460,7 @@ const en: ServicesContent = {
       metaTitle: "Digital Building Survey of Existing Buildings | ScanCrew",
       metaDescription:
         "Digital building survey and as-built recording of existing buildings: laser-scanned geometry, levels, openings and areas as a reliable basis for renovation, permits and documentation.",
-      kicker: "Service SC-03",
+      kicker: "Service",
       h1: "Digital Building Survey",
       intro:
         "Outdated plans are the most expensive document on a renovation project. A digital building survey replaces them with measured, current geometry — captured in days, and usable by every discipline that follows.",
@@ -613,7 +609,6 @@ const en: ServicesContent = {
     drawings: {
       key: "drawings",
       slug: "as-built-drawings",
-      code: "SC-04",
       navLabel: "As-Built Drawings",
       cardTitle: "As-Built Drawings & Floor Plans",
       cardSummary:
@@ -622,7 +617,7 @@ const en: ServicesContent = {
       metaTitle: "As-Built Drawings & Floor Plans from Laser Scans | ScanCrew",
       metaDescription:
         "Accurate as-built drawings of existing buildings: floor plans, sections, elevations and area calculations derived from laser-scanned data. Delivered as PDF and DWG.",
-      kicker: "Service SC-04",
+      kicker: "Service",
       h1: "As-Built Drawings & Floor Plans",
       intro:
         "Need current floor plans of a building nobody has drawn correctly in thirty years? We capture it and produce the drawings from measurement — floor plans, sections, elevations and area calculations, as PDF and DWG.",
@@ -799,7 +794,6 @@ const de: ServicesContent = {
     scanning: {
       key: "scanning",
       slug: "3d-laserscanning",
-      code: "SC-01",
       navLabel: "3D Laserscanning",
       cardTitle: "3D Laserscanning",
       cardSummary:
@@ -808,7 +802,7 @@ const de: ServicesContent = {
       metaTitle: "3D Laserscanning Schweiz — Gebäude scannen | ScanCrew",
       metaDescription:
         "Professionelles 3D Laserscanning von Bestandsgebäuden: registrierte Punktwolke mit ±20 mm, E57 · RCP · RCS, Drohnenvermessung und 360°-Panoramen, georeferenziert in CH1903+ / LV95.",
-      kicker: "Leistung SC-01",
+      kicker: "Leistung",
       h1: "3D Laserscanning für Bestandsgebäude",
       intro:
         "Wir erfassen Ihr Gebäude mit terrestrischen Laserscannern und Drohnen und liefern eine registrierte, georeferenzierte Punktwolke — die messbare Grundlage für BIM-Modellierung, Bestandspläne und Gebäudedokumentation.",
@@ -957,7 +951,6 @@ const de: ServicesContent = {
     bim: {
       key: "bim",
       slug: "bim-modellierung",
-      code: "SC-02",
       navLabel: "BIM Modellierung",
       cardTitle: "BIM Modellierung",
       cardSummary:
@@ -966,7 +959,7 @@ const de: ServicesContent = {
       metaTitle: "BIM Modellierung aus der Punktwolke — Revit & Archicad | ScanCrew",
       metaDescription:
         "Scan-to-BIM Modellierung: aus Punktwolken entstehen strukturierte BIM-Modelle in Revit und Archicad, modelliert nach LOG und LOI, qualitätsgeprüft und als IFC geliefert.",
-      kicker: "Leistung SC-02",
+      kicker: "Leistung",
       h1: "BIM Modellierung aus der Punktwolke",
       intro:
         "Wir machen aus 3D-Scandaten ein strukturiertes BIM-Modell für Architektur, Umbau, Koordination und Gebäudedokumentation — direkt an der Punktwolke modelliert, im Detaillierungsgrad, den Ihr Projekt tatsächlich braucht.",
@@ -1120,7 +1113,6 @@ const de: ServicesContent = {
     survey: {
       key: "survey",
       slug: "gebaeudeaufnahme",
-      code: "SC-03",
       navLabel: "Gebäudeaufnahme",
       cardTitle: "Gebäudeaufnahme",
       cardSummary:
@@ -1129,7 +1121,7 @@ const de: ServicesContent = {
       metaTitle: "Gebäudeaufnahme & Bauaufnahme im Bestand | ScanCrew",
       metaDescription:
         "Digitale Gebäudeaufnahme und Bestandsaufnahme von Gebäuden: lasergescannte Geometrie, Höhen, Öffnungen und Flächen als verlässliche Basis für Umbau, Baueingabe und Dokumentation.",
-      kicker: "Leistung SC-03",
+      kicker: "Leistung",
       h1: "Digitale Gebäudeaufnahme und Bauaufnahme",
       intro:
         "Veraltete Pläne sind das teuerste Dokument im Umbauprojekt. Eine digitale Gebäudeaufnahme ersetzt sie durch gemessene, aktuelle Geometrie — in Tagen erfasst und von jeder nachfolgenden Disziplin nutzbar.",
@@ -1278,7 +1270,6 @@ const de: ServicesContent = {
     drawings: {
       key: "drawings",
       slug: "bestandsplaene-grundrisse",
-      code: "SC-04",
       navLabel: "Bestandspläne",
       cardTitle: "Bestandspläne & Grundrisse",
       cardSummary:
@@ -1287,7 +1278,7 @@ const de: ServicesContent = {
       metaTitle: "Bestandspläne & Grundriss erstellen lassen — aus dem Laserscan | ScanCrew",
       metaDescription:
         "Grundriss erstellen lassen: massgenaue Bestandspläne, Schnitte, Ansichten und Flächenberechnungen aus lasergescannten Gebäudedaten. Lieferung als PDF und DWG.",
-      kicker: "Leistung SC-04",
+      kicker: "Leistung",
       h1: "Bestandspläne und Grundrisse aus dem Gebäudeaufmass",
       intro:
         "Sie möchten für ein Gebäude, das seit dreissig Jahren niemand korrekt gezeichnet hat, einen Grundriss erstellen lassen? Wir erfassen es und zeichnen aus der Messung — Grundrisse, Schnitte, Ansichten und Flächenberechnungen, als PDF und DWG.",

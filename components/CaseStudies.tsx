@@ -42,7 +42,9 @@ export default function CaseStudies({ locale, t }: { locale: Locale; t: Content[
                     />
                   </Parallax>
                   {entry.sample && (
-                    <p className="mono-label absolute right-3 top-3 border rule-dark bg-ground/80 px-2 py-1 text-mist backdrop-blur-sm">
+                    <p /* /95 not /80: over a near-black plate the light-theme chip was only
+                         4:1 behind its label; on the dark plate the two are indistinguishable */
+                      className="mono-label absolute right-3 top-3 border rule-dark bg-ground/95 px-2 py-1 text-mist backdrop-blur-sm">
                       {t.sampleTag}
                     </p>
                   )}

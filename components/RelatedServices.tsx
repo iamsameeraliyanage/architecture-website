@@ -40,9 +40,6 @@ export default function RelatedServices({
                 href={servicePath(locale, service.key)}
                 className="group flex flex-col gap-2 border-b rule-dark py-6 transition-colors duration-500 hover:bg-raised/60 md:flex-row md:items-baseline md:gap-8 md:px-2"
               >
-                <span className="mono-label w-16 shrink-0 text-steel transition-colors duration-500 group-hover:text-coral">
-                  {service.code}
-                </span>
                 <span className="display-tight flex-1 text-2xl text-frost transition-colors duration-500 group-hover:text-cerulean-soft md:text-3xl">
                   {service.cardTitle}
                 </span>

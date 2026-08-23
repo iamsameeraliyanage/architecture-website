@@ -12,7 +12,7 @@
 */
 
 :root {
-  /* dark theme (default) */
+  /* dark theme (default) — unchanged */
   --t-ground: #05090f;
   --t-raised: #0a121d;
   --t-frost: #eaf1f7;
@@ -22,18 +22,55 @@
   --t-cerulean-soft: #7fd4f5;
   --t-coral-bright: #ff5a4d;
   --t-steel: #979797;
+  --t-paper: #f7f9fb;
+  --t-paper-dim: #edf1f5;
+  --t-blueprint-deep: #082c49;
 }
 
+/*
+  Light theme.
+
+  The page's structure is band alternation — ground / paper / blueprint —
+  and in dark mode those bands are 90 L* apart, so the rhythm carries the
+  whole layout. A light theme that simply lifts the ground to near-white
+  collapses that rhythm: ground, paper and raised all land within 2 L* of
+  each other and the page reads as one 11,000px sheet with no sections.
+
+  So light mode keeps the same three-surface system, compressed but still
+  ordered, and inverts the elevation direction (cards rise toward white
+  instead of toward a raised dark):
+
+    ground     #e6ecf2   L* 93   cool field — the analogue of the dark ground
+    paper-dim  #f1f5f9   L* 96   alternate document surface
+    paper      #fbfcfe   L* 99   document surface
+    raised     #ffffff   L* 100  cards, inputs, menu rows
+
+  Text/line tokens are re-picked against #e6ecf2 rather than against white,
+  which is what pushed steel and cerulean under 4.5:1 before.
+*/
 :root[data-theme="light"] {
-  --t-ground: #fbfcfd;
-  --t-raised: #f1f5f8;
-  --t-frost: #0d1722;
-  --t-mist: #4a5c6e;
-  --t-line-dark: #d5dde4;
-  --t-cerulean: #0077b3;
-  --t-cerulean-soft: #0d6a9c;
-  --t-coral-bright: #c22315;
-  --t-steel: #6b7680;
+  --t-ground: #e6ecf2;
+  --t-raised: #ffffff;
+  --t-frost: #0b1621;
+  --t-mist: #42566a; /* 6.4:1 on ground */
+  --t-line-dark: #c2d0dd; /* hairline that survives a tinted ground */
+  --t-cerulean: #046290; /* 5.6:1 — carries the 11px mono accents */
+  --t-cerulean-soft: #0a6ea6; /* display highlight + active nav */
+  --t-coral-bright: #b31d10; /* 6.8:1 behind the white CTA label */
+  --t-steel: #5a6673; /* 4.9:1 on ground, 5.7:1 on paper */
+  --t-paper: #fbfcfe;
+  --t-paper-dim: #f1f5f9;
+  --t-blueprint-deep: #0b3b60; /* brand navy, not near-black, against a light page */
+}
+
+/*
+  Paper sections are light in BOTH themes, so any theme-flipping token used
+  inside one has to resolve to its light value or it renders against the
+  wrong ground. steel is the one that leaks (the "read more" and caption
+  labels), and at #979797 on #f7f9fb it was 2.6:1 in dark mode.
+*/
+.on-paper {
+  --t-steel: #5a6673;
 }
 
 @theme inline {
@@ -47,14 +84,14 @@
   --color-cerulean-soft: var(--t-cerulean-soft);
   --color-coral-bright: var(--t-coral-bright);
   --color-steel: var(--t-steel);
+  --color-paper: var(--t-paper);
+  --color-paper-dim: var(--t-paper-dim);
+  --color-blueprint-deep: var(--t-blueprint-deep);
 }
 
 @theme {
   /* static, both themes */
-  --color-paper: #f7f9fb; /* light sections */
-  --color-paper-dim: #edf1f5; /* alternate light surface */
   --color-blueprint: #0b3b60; /* brand dark blue */
-  --color-blueprint-deep: #082c49;
   --color-coral: #d52b1e; /* brand deep coral — CTAs + registration marks only */
   --color-sky: #7fd4f5; /* fixed light accent for the always-dark blueprint band */
   --color-ink: #0d1722; /* text on paper */
@@ -96,6 +133,18 @@ body {
 ::selection {
   background: var(--color-cerulean);
   color: var(--color-ground);
+}
+
+/*
+  Form controls need a 3:1 boundary against their surroundings (WCAG 1.4.11).
+  The structural hairline is deliberately faint and can't carry that on the
+  light ground, so inputs get a dedicated stronger edge there. Dark mode is
+  untouched — its white-on-near-black fill already separates the field.
+*/
+:root[data-theme="light"] input.rule-dark,
+:root[data-theme="light"] select.rule-dark,
+:root[data-theme="light"] textarea.rule-dark {
+  border-color: #8595a6;
 }
 
 /* Visible keyboard focus everywhere; flips with theme */

@@ -107,22 +107,27 @@ const en = {
     title: "Built for the people who have to trust it.",
     blocks: [
       {
+        icon: "architects",
         who: "Architects",
         need: "You need as-built plans that match the building before renovation design starts — not drawings from 1987 with pencilled corrections. We deliver geometry you can plan against.",
       },
       {
+        icon: "bim",
         who: "BIM managers",
         need: "You need a model that imports clean: correct element classification, sensible structure, nothing to rebuild. Our QA chain exists so your cleanup stage doesn't.",
       },
       {
+        icon: "surveyors",
         who: "Surveyors",
         need: "You capture, we model — or the reverse. Send point clouds in E57, RCP or RCS and get back structured models at stated tolerance, under your project's coordinate frame.",
       },
       {
+        icon: "construction",
         who: "Construction companies",
         need: "You need reliable existing conditions before pricing and sequencing work in an existing structure. ±20 mm as-builts take the guesswork out of the tender.",
       },
       {
+        icon: "property",
         who: "Property owners",
         need: "A building you own should be documented as it stands: a durable digital record for renovation, leasing and facility management — independent of any single project.",
       },
@@ -543,22 +548,27 @@ const de: Content = {
     title: "Gebaut für alle, die sich darauf verlassen müssen.",
     blocks: [
       {
+        icon: "architects",
         who: "Architekturbüros",
         need: "Sie brauchen Bestandspläne, die dem Gebäude entsprechen, bevor die Umbauplanung beginnt — keine Pläne von 1987 mit handschriftlichen Korrekturen. Wir liefern Geometrie, auf der Sie planen können.",
       },
       {
+        icon: "bim",
         who: "BIM-Manager",
         need: "Sie brauchen ein Modell, das sauber importiert: korrekte Klassifizierung, saubere Struktur, nichts zum Nacharbeiten. Unsere QS-Kette existiert, damit Ihre Bereinigungsphase entfällt.",
       },
       {
+        icon: "surveyors",
         who: "Vermessungsbüros",
         need: "Sie erfassen, wir modellieren — oder umgekehrt. Senden Sie Punktwolken als E57, RCP oder RCS und erhalten Sie strukturierte Modelle mit ausgewiesener Toleranz, im Koordinatenrahmen Ihres Projekts.",
       },
       {
+        icon: "construction",
         who: "Bauunternehmen",
         need: "Sie brauchen verlässliche Bestandsdaten, bevor Sie Arbeiten im Bestand kalkulieren und takten. Bestandsmodelle mit ±20 mm nehmen das Risiko aus der Offerte.",
       },
       {
+        icon: "property",
         who: "Eigentümerschaften",
         need: "Ein Gebäude, das Ihnen gehört, sollte so dokumentiert sein, wie es steht: ein dauerhafter digitaler Nachweis für Umbau, Vermietung und Bewirtschaftung — unabhängig vom einzelnen Projekt.",
       },

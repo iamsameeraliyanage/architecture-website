@@ -96,24 +96,26 @@ const PALETTE = {
     planDims:    { o: [0, 0, 0, 0, 0.85],          colors: ["#9fd8f2", "#9fd8f2", "#9fd8f2", "#9fd8f2", "#9fd8f2"] },
     sheetFrame:  { o: [0, 0, 0, 0, 0.42],          colors: ["#2f7fb8", "#2f7fb8", "#2f7fb8", "#2f7fb8", "#2f7fb8"] },
   },
+  /* solids and ghosts re-picked against the tinted light ground (#e6ecf2) —
+     the previous set was tuned for a near-white page and now reads as fog */
   light: {
-    walls:       { o: [1, 0.05, 0.2, 0.16, 0],     colors: ["#c7d0d8", "#d5dde4", "#7fb0d0", "#7fb0d0", "#d5dde4"] },
-    furniture:   { o: [1, 0.04, 0.08, 0.06, 0],    colors: ["#b8ab99", "#d5dde4", "#8fb8d4", "#8fb8d4", "#d5dde4"] },
-    glazing:     { o: [0.3, 0.03, 0.14, 0.1, 0],   colors: ["#cfeaf8", "#a9d8ef", "#a9d8ef", "#a9d8ef", "#a9d8ef"] },
-    structure:   { o: [0, 0.05, 0.48, 0.42, 0],    colors: ["#9aa8b4", "#c3d3de", "#0077b3", "#0077b3", "#d5dde4"] },
-    floor:       { o: [1, 0.06, 0.28, 0.22, 0],    colors: ["#c2b6a5", "#c3d3de", "#8ab4d2", "#8ab4d2", "#d5dde4"] },
-    ceiling:     { o: [0, 0, 0.1, 0.08, 0],        colors: ["#b6c2cd", "#c3d3de", "#8ab4d2", "#8ab4d2", "#d5dde4"] },
-    wallEdges:   { o: [0.12, 0.14, 1, 0.92, 0],    colors: ["#0b3b60", "#1273ad", "#0b3b60", "#0b3b60", "#0b3b60"] },
-    structEdges: { o: [0, 0.06, 0.4, 0.36, 0],     colors: ["#0077b3", "#1273ad", "#0b3b60", "#0b3b60", "#0b3b60"] },
-    cloud:       { o: [0.16, 1, 0.1, 0.06, 0],     colors: ["#1273ad", "#1273ad", "#0b3b60", "#0b3b60", "#1273ad"] },
-    dims:        { o: [0, 0, 1, 0.7, 0],           colors: ["#0b3b60", "#0b3b60", "#0b3b60", "#6b7680", "#0b3b60"] },
-    qcTick:      { o: [0, 0, 0, 1, 0],             colors: ["#1273ad", "#1273ad", "#1273ad", "#12855c", "#1273ad"] },
-    qcFlag:      { o: [0, 0, 0, 1, 0],             colors: ["#c22315", "#c22315", "#c22315", "#c22315", "#c22315"] },
+    walls:       { o: [1, 0.05, 0.2, 0.16, 0],     colors: ["#93a3b3", "#c9d5e0", "#5b93bb", "#5b93bb", "#c9d5e0"] },
+    furniture:   { o: [1, 0.04, 0.08, 0.06, 0],    colors: ["#9c8f7c", "#c9d5e0", "#6ea3c4", "#6ea3c4", "#c9d5e0"] },
+    glazing:     { o: [0.3, 0.03, 0.14, 0.1, 0],   colors: ["#a9cfe4", "#8fc4e2", "#8fc4e2", "#8fc4e2", "#8fc4e2"] },
+    structure:   { o: [0, 0.05, 0.48, 0.42, 0],    colors: ["#7e8d9a", "#b3c4d2", "#046290", "#046290", "#c9d5e0"] },
+    floor:       { o: [1, 0.06, 0.28, 0.22, 0],    colors: ["#8f8474", "#b3c4d2", "#6a9cc0", "#6a9cc0", "#c9d5e0"] },
+    ceiling:     { o: [0, 0, 0.1, 0.08, 0],        colors: ["#7f8d9b", "#b3c4d2", "#6a9cc0", "#6a9cc0", "#c9d5e0"] },
+    wallEdges:   { o: [0.12, 0.14, 1, 0.92, 0],    colors: ["#0b3b60", "#0d6ea8", "#0b3b60", "#0b3b60", "#0b3b60"] },
+    structEdges: { o: [0, 0.06, 0.4, 0.36, 0],     colors: ["#046290", "#0d6ea8", "#0b3b60", "#0b3b60", "#0b3b60"] },
+    cloud:       { o: [0.16, 1, 0.1, 0.06, 0],     colors: ["#0d6ea8", "#0d6ea8", "#0b3b60", "#0b3b60", "#0d6ea8"] },
+    dims:        { o: [0, 0, 1, 0.7, 0],           colors: ["#0b3b60", "#0b3b60", "#0b3b60", "#5a6673", "#0b3b60"] },
+    qcTick:      { o: [0, 0, 0, 1, 0],             colors: ["#0d6ea8", "#0d6ea8", "#0d6ea8", "#0f7551", "#0d6ea8"] },
+    qcFlag:      { o: [0, 0, 0, 1, 0],             colors: ["#b31d10", "#b31d10", "#b31d10", "#b31d10", "#b31d10"] },
     paper:       { o: [0, 0, 0, 0, 1],             colors: ["#ffffff", "#ffffff", "#ffffff", "#ffffff", "#ffffff"] },
     poche:       { o: [0, 0, 0, 0, 1],             colors: ["#0b3b60", "#0b3b60", "#0b3b60", "#0b3b60", "#0b3b60"] },
     planInk:     { o: [0, 0, 0, 0, 1],             colors: ["#0b3b60", "#0b3b60", "#0b3b60", "#0b3b60", "#0b3b60"] },
-    planDims:    { o: [0, 0, 0, 0, 0.85],          colors: ["#1273ad", "#1273ad", "#1273ad", "#1273ad", "#1273ad"] },
-    sheetFrame:  { o: [0, 0, 0, 0, 0.5],           colors: ["#8fa5b8", "#8fa5b8", "#8fa5b8", "#8fa5b8", "#8fa5b8"] },
+    planDims:    { o: [0, 0, 0, 0, 0.85],          colors: ["#0d6ea8", "#0d6ea8", "#0d6ea8", "#0d6ea8", "#0d6ea8"] },
+    sheetFrame:  { o: [0, 0, 0, 0, 0.5],           colors: ["#7e8d9a", "#7e8d9a", "#7e8d9a", "#7e8d9a", "#7e8d9a"] },
   },
 } as const;
 
@@ -289,8 +291,8 @@ function Apartment({
 
   return (
     <>
-      <ambientLight intensity={theme === "light" ? 1.5 : 0.95} />
-      <directionalLight position={[9, 16, 7]} intensity={theme === "light" ? 1.5 : 1.9} />
+      <ambientLight intensity={0.95} />
+      <directionalLight position={[9, 16, 7]} intensity={theme === "light" ? 1.05 : 1.9} />
       <directionalLight position={[-11, 7, -6]} intensity={0.5} color="#7fd4f5" />
       <group>
         {built.objects.map((o, i) => (

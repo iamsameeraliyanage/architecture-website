@@ -37,11 +37,11 @@ const SOLID_PALETTE = {
     ceiling: "#5d6b7a",
   },
   light: {
-    walls: "#c7d0d8",
-    furniture: "#b8ab99",
-    glazing: "#cfeaf8",
-    floor: "#c2b6a5",
-    ceiling: "#b6c2cd",
+    walls: "#93a3b3",
+    furniture: "#9c8f7c",
+    glazing: "#a9cfe4",
+    floor: "#8f8474",
+    ceiling: "#7f8d9b",
   },
 } as const;
 

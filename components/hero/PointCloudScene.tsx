@@ -85,9 +85,11 @@ const SCENE_COLORS = {
     dim: "#1d3345", resolved: "#4fc3f7", beam: "#c9ecff", wire: "#2a6ea3",
     drone: "#9fb6c9", droneAccent: "#ff5a4d",
   },
+  /* re-picked against the tinted light ground (#e6ecf2): every element has to
+     sit DARKER than the paper, or the scan reads as a white-on-white ghost */
   light: {
-    dim: "#c3d3de", resolved: "#1273ad", beam: "#0b3b60", wire: "#9cb9cd",
-    drone: "#41637d", droneAccent: "#c22315",
+    dim: "#a4b8c8", resolved: "#0d6ea8", beam: "#0b3b60", wire: "#7e9db6",
+    drone: "#3a5c76", droneAccent: "#b31d10",
   },
 } as const;
 
@@ -257,8 +259,10 @@ function Cloud({
     <group ref={group} position={[0.3, -1.0, 0]} scale={0.56}>
       {/* lights touch only the solid apartment — points, lines and the drone
           are all shader/basic materials that ignore them */}
-      <ambientLight intensity={theme === "light" ? 1.5 : 0.95} />
-      <directionalLight position={[9, 16, 7]} intensity={theme === "light" ? 1.5 : 1.9} />
+      {/* light mode used to run hot (1.5/1.5), which blew the solid to near-white
+          against the paper ground — dial it back so the building keeps its form */}
+      <ambientLight intensity={theme === "light" ? 0.95 : 0.95} />
+      <directionalLight position={[9, 16, 7]} intensity={theme === "light" ? 1.05 : 1.9} />
       <directionalLight position={[-11, 7, -6]} intensity={0.5} color="#7fd4f5" />
       <SolidApartment
         reveal={material.uniforms.uReveal as { value: number }}

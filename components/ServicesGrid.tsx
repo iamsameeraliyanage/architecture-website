@@ -55,32 +55,30 @@ export default function ServicesGrid({
           {items.map((service, i) => (
             <Reveal as="li" key={service.key} delay={i * 0.07} className="h-full">
               <article
-                className={`group relative flex h-full flex-col border transition-colors duration-500 ${
+                className={`datum group relative flex h-full flex-col border transition-colors duration-500 ${
                   dark
                     ? "rule-dark hover:border-steel/60"
                     : "rule-light bg-white hover:border-ink-soft/40"
                 }`}
               >
-                <div
-                  className={`flex items-center justify-between border-b px-5 py-3 ${
-                    dark ? "rule-dark" : "rule-light"
-                  }`}
-                >
-                  <p
-                    className={`mono-label transition-colors duration-500 ${
-                      dark
-                        ? "text-frost group-hover:text-cerulean"
-                        : "text-ink group-hover:text-blueprint"
-                    }`}
-                  >
-                    {service.code}
-                  </p>
-                  <RegistrationMark className="h-3 w-3 text-coral transition-transform duration-700 ease-authored group-hover:rotate-45 motion-reduce:transition-none motion-reduce:group-hover:rotate-0" />
-                </div>
+                <div className="flex flex-1 flex-col px-5 pb-6 pt-5">
+                  {/* plate row: the registration mark sits directly above the
+                      title with the card's position in the chain opposite it,
+                      so the survey structure reads without an empty header bar */}
+                  <div className="flex items-center justify-between">
+                    <RegistrationMark className="h-[15px] w-[15px] text-coral transition-transform duration-700 ease-authored group-hover:rotate-45 motion-reduce:transition-none motion-reduce:group-hover:rotate-0" />
+                    <span className={`mono-label ${dark ? "text-steel" : "text-ink-soft/70"}`}>
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                  </div>
 
-                <div className="flex flex-1 flex-col px-5 pb-5 pt-6">
-                  <h3 className={`display-tight text-xl ${dark ? "text-frost" : "text-ink"}`}>
-                    <Link href={servicePath(locale, service.key)} className="before:absolute before:inset-0">
+                  <h3 className={`display-tight mt-5 text-xl ${dark ? "text-frost" : "text-ink"}`}>
+                    <Link
+                      href={servicePath(locale, service.key)}
+                      className={`transition-colors duration-500 before:absolute before:inset-0 ${
+                        dark ? "group-hover:text-cerulean-soft" : "group-hover:text-blueprint"
+                      }`}
+                    >
                       {service.cardTitle}
                     </Link>
                   </h3>
@@ -92,10 +90,10 @@ export default function ServicesGrid({
                     {service.cardSummary}
                   </p>
 
-                  {/* mt-auto pins the spec chips and the read-more row to the
-                      bottom of every card, so they line up across the row even
-                      though the summaries and titles run to different lengths */}
-                  <ul className="mt-auto flex flex-wrap gap-x-3 gap-y-1.5 pt-6">
+                  {/* mt-auto pins the spec chips to the bottom of the body, so
+                      they line up across the row even though the summaries and
+                      titles run to different lengths */}
+                  <ul className="mt-auto flex flex-wrap gap-1.5 pt-7">
                     {service.cardSpecs.map((spec) => (
                       <li
                         key={spec}
@@ -107,22 +105,24 @@ export default function ServicesGrid({
                       </li>
                     ))}
                   </ul>
+                </div>
 
-                  <p
-                    className={`mono-label mt-6 flex items-center gap-2 transition-colors duration-500 ${
-                      dark
-                        ? "text-steel group-hover:text-cerulean-soft"
-                        : "text-steel group-hover:text-blueprint"
-                    }`}
+                {/* plate foot — the read-more row carries the card's bottom
+                    rule, so every card ends on the same line */}
+                <div
+                  className={`flex items-center justify-between border-t px-5 py-3.5 transition-colors duration-500 ${
+                    dark
+                      ? "rule-dark text-steel group-hover:text-cerulean-soft"
+                      : "rule-light text-steel group-hover:text-blueprint"
+                  }`}
+                >
+                  <span className="mono-label">{t.labels.readMore}</span>
+                  <span
+                    aria-hidden="true"
+                    className="transition-transform duration-500 ease-authored group-hover:translate-x-1"
                   >
-                    {t.labels.readMore}
-                    <span
-                      aria-hidden="true"
-                      className="transition-transform duration-500 ease-authored group-hover:translate-x-1"
-                    >
-                      →
-                    </span>
-                  </p>
+                    →
+                  </span>
                 </div>
               </article>
             </Reveal>

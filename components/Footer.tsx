@@ -1,6 +1,5 @@
 import Link from "next/link";
 import Logo from "./Logo";
-import LanguageSwitcher from "./LanguageSwitcher";
 import { pagePath, servicePath } from "@/lib/routes";
 import { getServices, serviceList } from "@/lib/services";
 import type { Content } from "@/lib/content";
@@ -28,7 +27,7 @@ export default function Footer({ locale, t }: { locale: Locale; t: Content }) {
     <footer className="border-t border-line-dark bg-ground">
       <div className="mx-auto max-w-7xl px-5 py-14 md:px-8 md:py-20">
         <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-12">
-          <div className="sm:col-span-2 lg:col-span-3">
+          <div className="sm:col-span-2 lg:col-span-5">
             <Logo tone="light" />
             <p className="mono-label mt-4 text-mist">{t.footer.tagline}</p>
           </div>
@@ -56,11 +55,6 @@ export default function Footer({ locale, t }: { locale: Locale; t: Content }) {
                   </Link>
                 </li>
               ))}
-              <li>
-                <Link href="#" className="text-sm text-mist transition-colors hover:text-frost">
-                  {t.nav.clientLogin}
-                </Link>
-              </li>
             </ul>
           </div>
 
@@ -77,10 +71,6 @@ export default function Footer({ locale, t }: { locale: Locale; t: Content }) {
             </ul>
           </div>
 
-          <div className="lg:col-span-2">
-            <p className="mono-label mb-4 text-steel">{t.nav.langLabel}</p>
-            <LanguageSwitcher locale={locale} label={t.nav.langLabel} variant="inline" />
-          </div>
         </div>
 
         <div className="mt-14 flex flex-col gap-2 border-t border-line-dark pt-6 md:flex-row md:items-center md:justify-between">
