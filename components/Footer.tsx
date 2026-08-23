@@ -10,8 +10,8 @@ export default function Footer({ locale, t }: { locale: Locale; t: Content }) {
   const year = new Date().getFullYear();
   const s = getServices(locale);
 
-  // The footer is the site's flat link surface: every service page is reachable
-  // from every page here, with its own name as the anchor text.
+  // On desktop the footer is the site's flat link surface: every service page
+  // is reachable from every page here, with its own name as the anchor text.
   const serviceLinks = serviceList(locale).map((service) => ({
     label: service.navLabel,
     href: servicePath(locale, service.key),
@@ -29,13 +29,9 @@ export default function Footer({ locale, t }: { locale: Locale; t: Content }) {
       <SectionDots />
       <div className="shell band">
         {/*
-          Two columns of links on a phone, not one.
-
-          Twelve links stacked one per row ran the footer to 857px — a screen
-          of scroll past the end of the page — and each was a 17px-tall target
-          in a 10px gap, which is under every touch guideline there is. Paired
-          up and given a 44px row, the same twelve links are shorter AND
-          reliably tappable, because the height they needed was there anyway.
+          Below 1024px the footer is the mark and the copyright line, nothing
+          else. Phone and tablet reach every page from the nav; twelve repeated
+          links only added a screen of scroll past the end of the page.
         */}
         <div className="grid gap-x-6 gap-y-10 sm:grid-cols-2 md:gap-12 lg:grid-cols-12">
           <div className="sm:col-span-2 lg:col-span-5">
@@ -43,7 +39,7 @@ export default function Footer({ locale, t }: { locale: Locale; t: Content }) {
             <p className="mono-label mt-4 text-mist">{t.footer.tagline}</p>
           </div>
 
-          <div className="lg:col-span-3">
+          <div className="hidden lg:col-span-3 lg:block">
             <p className="mono-label mb-2 text-steel md:mb-3">{s.hub.navLabel}</p>
             <ul>
               {serviceLinks.map((link) => (
@@ -59,9 +55,7 @@ export default function Footer({ locale, t }: { locale: Locale; t: Content }) {
             </ul>
           </div>
 
-          {/* nav and legal share a row on a phone: four short items and two,
-              side by side, instead of six full-width rows one after another */}
-          <div className="grid grid-cols-2 gap-x-6 sm:col-span-2 sm:grid-cols-2 lg:contents">
+          <div className="hidden lg:contents">
             <div className="lg:col-span-2">
               <p className="mono-label mb-2 text-steel md:mb-3">{t.footer.nav}</p>
               <ul>

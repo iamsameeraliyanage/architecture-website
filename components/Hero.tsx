@@ -22,10 +22,12 @@ export default function Hero({ locale, t }: { locale: Locale; t: Content["hero"]
     <section className="relative min-h-svh overflow-hidden bg-ground">
       <HeroVisual />
 
-      {/* pt clears the fixed header: exactly its height below lg, where the
-          stage sits directly under it, and the old generous gap from lg where
-          the copy does */}
-      <div className="relative z-10 mx-auto flex min-h-svh max-w-7xl flex-col px-[max(var(--gutter),env(safe-area-inset-left))] pt-16 md:pt-[72px] lg:pt-28">
+      {/* pt clears the fixed header — and then some. Below lg the scan stage
+          is the first thing under it, and set to exactly the header's height
+          (64/72px) the drawing began immediately where the header ended; the
+          extra 16/24px is the gap that lets it read as a framed object rather
+          than as something tucked under the bar. */}
+      <div className="relative z-10 mx-auto flex min-h-svh max-w-7xl flex-col px-[max(var(--gutter),env(safe-area-inset-left))] pt-20 md:pt-24 lg:pt-28">
         {/* HUD readouts — the spec layer, staged */}
         <div className="absolute right-8 top-24 hidden flex-col items-end gap-2 md:top-28 lg:flex">
           {[t.hud.tolerance, t.hud.formats, t.hud.frame].map((readout, i) => (

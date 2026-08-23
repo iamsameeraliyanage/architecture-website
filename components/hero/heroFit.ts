@@ -40,8 +40,16 @@ export const COS_P = Math.cos(PITCH);
 /** The height the camera aims at — mid-wall, so the model sits in the frame. */
 export const LOOK_Y = 1.5;
 
-/** Share of each axis the widest/tallest moment of the turn may occupy. */
-const FILL = 0.97;
+/**
+ * Share of each axis the widest/tallest moment of the turn may occupy.
+ *
+ * This is the only size control: the band's own box is set by STAGE_ASPECT and
+ * does not move with it, so lowering FILL shrinks the apartment inside a
+ * canvas that stays exactly as wide. At 0.97 the drawing very nearly touched
+ * the top of the band, which sits directly under the fixed header — 0.86
+ * gives it room to sit in.
+ */
+const FILL = 0.86;
 
 /**
  * Ink the geometry does not account for, in CSS pixels per side.
