@@ -8,6 +8,7 @@ import SplitReveal from "./ui/SplitReveal";
 import Magnetic from "./ui/Magnetic";
 import { content } from "@/lib/content";
 import { pagePath } from "@/lib/routes";
+import SectionDots from "./ui/SectionDots";
 import type { Locale } from "@/lib/i18n";
 
 /*
@@ -28,7 +29,8 @@ export default function NotFoundBody({ locale }: { locale: Locale }) {
     <>
       <Nav locale={locale} t={t.nav} />
       <main id="main" tabIndex={-1}>
-        <section className="dot-field-dark bg-ground" aria-labelledby="nf-title">
+        <section className="relative isolate bg-ground" aria-labelledby="nf-title">
+          <SectionDots />
           <div className="mx-auto max-w-7xl px-5 pb-24 pt-32 md:px-8 md:pb-32 md:pt-40">
             <Reveal immediate>
               <div className="flex items-center gap-3 border-b rule-dark pb-3 text-mist">

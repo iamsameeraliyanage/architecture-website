@@ -4,6 +4,7 @@ import RegistrationMark from "../ui/RegistrationMark";
 import SpotlightCells from "../ui/SpotlightCells";
 import ProcessChain from "../ProcessChain";
 import ServiceFaq from "./ServiceFaq";
+import SectionDots from "../ui/SectionDots";
 import type { Section } from "@/lib/services";
 
 /*
@@ -82,7 +83,11 @@ function ProseSection({
   dim: boolean;
 }) {
   return (
-    <section className={`on-paper ${dim ? "bg-paper-dim" : "bg-paper"}`} aria-labelledby={id}>
+    <section
+      className={`relative isolate on-paper ${dim ? "bg-paper-dim" : "bg-paper"}`}
+      aria-labelledby={id}
+    >
+      <SectionDots />
       <div className="mx-auto max-w-7xl px-5 py-20 md:px-8 md:py-28">
         <Reveal>
           <SectionHeader id={id} kicker={section.kicker} title={section.title} tone="light" />
@@ -140,7 +145,8 @@ function DeliverablesSection({
   id: string;
 }) {
   return (
-    <section className="bg-blueprint-deep" aria-labelledby={id}>
+    <section className="relative isolate on-blueprint bg-blueprint-deep" aria-labelledby={id}>
+      <SectionDots />
       <div className="mx-auto max-w-7xl px-5 py-20 md:px-8 md:py-28">
         {/* stays brand dark blue in both themes — colors here are static */}
         <Reveal>
@@ -182,7 +188,8 @@ function UseCasesSection({
   id: string;
 }) {
   return (
-    <section className="bg-ground" aria-labelledby={id}>
+    <section className="relative isolate bg-ground" aria-labelledby={id}>
+      <SectionDots />
       <div className="mx-auto max-w-7xl px-5 py-20 md:px-8 md:py-28">
         <Reveal>
           <SectionHeader
@@ -221,7 +228,11 @@ function SpecSection({
   dim: boolean;
 }) {
   return (
-    <section className={`on-paper ${dim ? "bg-paper-dim" : "bg-paper"}`} aria-labelledby={id}>
+    <section
+      className={`relative isolate on-paper ${dim ? "bg-paper-dim" : "bg-paper"}`}
+      aria-labelledby={id}
+    >
+      <SectionDots />
       <div className="mx-auto max-w-7xl px-5 py-20 md:px-8 md:py-28">
         <Reveal>
           <SectionHeader id={id} kicker={section.kicker} title={section.title} tone="light" />

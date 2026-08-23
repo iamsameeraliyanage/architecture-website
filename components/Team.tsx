@@ -1,10 +1,12 @@
 import SectionHeader from "./ui/SectionHeader";
 import Reveal from "./ui/Reveal";
+import SectionDots from "./ui/SectionDots";
 import type { Content } from "@/lib/content";
 
 export default function Team({ t }: { t: Content["team"] }) {
   return (
-    <section className="on-paper bg-paper-dim" aria-labelledby="team-title">
+    <section className="relative isolate on-paper bg-paper-dim" aria-labelledby="team-title">
+      <SectionDots />
       <div className="mx-auto max-w-7xl px-5 py-20 md:px-8 md:py-28">
         <Reveal>
           <SectionHeader id="team-title" kicker={t.kicker} title={t.title} intro={t.note} tone="light" />

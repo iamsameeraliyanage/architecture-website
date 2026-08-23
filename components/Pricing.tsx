@@ -1,9 +1,15 @@
 import Reveal from "./ui/Reveal";
+import SectionDots from "./ui/SectionDots";
 import type { Content } from "@/lib/content";
 
 export default function Pricing({ t }: { t: Content["pricing"] }) {
   return (
-    <section id="pricing" className="on-paper scroll-mt-20 bg-paper-dim" aria-label={t.title}>
+    <section
+      id="pricing"
+      className="relative isolate on-paper scroll-mt-20 bg-paper-dim"
+      aria-label={t.title}
+    >
+      <SectionDots />
       <div className="mx-auto max-w-7xl px-5 py-20 md:px-8 md:py-28">
         <Reveal>
           <div className="grid border rule-light bg-white md:grid-cols-3">

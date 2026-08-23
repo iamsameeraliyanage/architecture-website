@@ -2,7 +2,7 @@ import Nav from "@/components/Nav";
 import Hero from "@/components/Hero";
 import ScanToBim from "@/components/ScanToBim";
 import Pipeline from "@/components/Pipeline";
-import ServicesGrid from "@/components/ServicesGrid";
+import ServicesTrack from "@/components/ServicesTrack";
 import Audiences from "@/components/Audiences";
 import Standards from "@/components/Standards";
 import Deliverables from "@/components/Deliverables";
@@ -48,7 +48,7 @@ export default async function Page({ params }: { params: Promise<{ locale: strin
             stated as a service — and the first light ground after the hero */}
         <ScanToBim locale={locale} t={t.scanToBim} />
         <Pipeline t={t.pipeline} />
-        <ServicesGrid locale={locale} tone="light" />
+        <ServicesTrack locale={locale} />
         <Audiences t={t.audiences} />
         <Standards t={t.standards} />
         <Deliverables t={t.deliverables} />

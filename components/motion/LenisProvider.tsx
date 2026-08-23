@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import Lenis from "lenis";
 import { gsap, ScrollTrigger, registerGsap } from "@/lib/motion";
+import { setLenis } from "@/lib/lenis";
 
 /*
   Global smooth scrolling (ERA-style: Lenis driven by the GSAP ticker so
@@ -21,6 +22,7 @@ export default function LenisProvider() {
       anchors: { offset: -72 }, // keep anchor targets clear of the fixed nav
     });
 
+    setLenis(lenis);
     lenis.on("scroll", ScrollTrigger.update);
     const tick = (time: number) => lenis.raf(time * 1000);
     gsap.ticker.add(tick);
@@ -30,6 +32,7 @@ export default function LenisProvider() {
     document.documentElement.style.scrollBehavior = "auto";
 
     return () => {
+      setLenis(null);
       gsap.ticker.remove(tick);
       lenis.destroy();
       document.documentElement.style.scrollBehavior = "";

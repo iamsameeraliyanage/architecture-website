@@ -4,6 +4,7 @@ import { useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import SectionHeader from "./ui/SectionHeader";
 import Reveal from "./ui/Reveal";
+import SectionDots from "./ui/SectionDots";
 
 /*
   Accordion FAQ. Structurally typed rather than bound to `Content["faq"]`, so
@@ -31,7 +32,11 @@ export default function Faq({
   const reduced = useReducedMotion();
 
   return (
-    <section className={`on-paper ${dim ? "bg-paper-dim" : "bg-paper"}`} aria-labelledby={id}>
+    <section
+      className={`relative isolate on-paper ${dim ? "bg-paper-dim" : "bg-paper"}`}
+      aria-labelledby={id}
+    >
+      <SectionDots />
       <div className="mx-auto max-w-7xl px-5 py-20 md:px-8 md:py-28">
         <Reveal>
           <SectionHeader id={id} kicker={t.kicker} title={t.title} tone="light" />

@@ -2,6 +2,7 @@ import Breadcrumbs from "./Breadcrumbs";
 import RegistrationMark from "./RegistrationMark";
 import Reveal from "./Reveal";
 import SplitReveal from "./SplitReveal";
+import SectionDots from "./SectionDots";
 
 /*
   Header band for the standalone pages (pricing, about, contact).
@@ -25,7 +26,8 @@ export default function PageHero({
   id?: string;
 }) {
   return (
-    <section className="dot-field-dark bg-ground" aria-labelledby={id}>
+    <section className="relative isolate bg-ground" aria-labelledby={id}>
+      <SectionDots />
       <div className="mx-auto max-w-7xl px-5 pb-14 pt-32 md:px-8 md:pb-20 md:pt-40">
         {crumbs && crumbsLabel ? (
           <Reveal immediate>

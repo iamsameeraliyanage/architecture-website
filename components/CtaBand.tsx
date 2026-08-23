@@ -3,6 +3,7 @@ import RegistrationMark from "./ui/RegistrationMark";
 import Reveal from "./ui/Reveal";
 import SplitReveal from "./ui/SplitReveal";
 import Magnetic from "./ui/Magnetic";
+import SectionDots from "./ui/SectionDots";
 import type { Content } from "@/lib/content";
 import type { Locale } from "@/lib/i18n";
 
@@ -20,7 +21,8 @@ export default function CtaBand({
   omit?: "contact" | "pricing";
 }) {
   return (
-    <section className="border-t rule-dark bg-ground" aria-labelledby="cta-title">
+    <section className="relative isolate border-t rule-dark bg-ground" aria-labelledby="cta-title">
+      <SectionDots />
       <div className="mx-auto grid max-w-7xl gap-10 px-5 py-20 md:grid-cols-12 md:px-8 md:py-24">
         <div className="md:col-span-7">
           <Reveal>

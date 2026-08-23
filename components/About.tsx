@@ -1,9 +1,11 @@
 import Reveal from "./ui/Reveal";
+import SectionDots from "./ui/SectionDots";
 import type { Content } from "@/lib/content";
 
 export default function About({ t }: { t: Content["about"] }) {
   return (
-    <section className="on-paper bg-paper" aria-label={t.title}>
+    <section className="relative isolate on-paper bg-paper" aria-label={t.title}>
+      <SectionDots />
       <div className="mx-auto max-w-7xl px-5 py-20 md:px-8 md:py-28">
         <div className="grid gap-12 md:grid-cols-12 md:gap-10">
           <div className="md:col-span-6">

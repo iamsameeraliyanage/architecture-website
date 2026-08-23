@@ -64,6 +64,71 @@
 }
 
 /*
+  Constellation dot field (components/ui/SectionDots.tsx).
+
+  The canvas has no palette of its own — it reads these off its host element,
+  which is why one component serves every band. There are two registers:
+
+    DARK   luminous specks on darkness — the point-cloud reading, cerulean
+           under the cursor. Used on the dark ground and on blueprint.
+    LIGHT  ink on paper — a plotted survey grid, slightly denser and smaller
+           because a light ground eats contrast. Used on paper and on the
+           light-theme ground.
+
+  Surface, not theme, decides: paper is light in BOTH themes and blueprint is
+  dark in BOTH, so only the ground register flips with [data-theme].
+  Components are always "r, g, b" — the canvas composes the alpha itself.
+*/
+:root {
+  --dots-dark-ink: 143, 165, 184; /* mist */
+  --dots-dark-accent: 0, 174, 239; /* cerulean */
+  --dots-dark-base: 0.22;
+  --dots-dark-peak: 0.5;
+  --dots-dark-link: 0.12;
+  --dots-dark-radius: 0.9;
+
+  --dots-light-ink: 90, 109, 128; /* steel, dark-theme value */
+  --dots-light-accent: 4, 98, 144; /* cerulean, light-theme value */
+  --dots-light-base: 0.26;
+  --dots-light-peak: 0.4;
+  --dots-light-link: 0.17;
+  --dots-light-radius: 0.8;
+
+  /* the ground register — dark by default */
+  --dots-ink: var(--dots-dark-ink);
+  --dots-accent: var(--dots-dark-accent);
+  --dots-base: var(--dots-dark-base);
+  --dots-peak: var(--dots-dark-peak);
+  --dots-link: var(--dots-dark-link);
+  --dots-radius: var(--dots-dark-radius);
+}
+
+/* the light-theme ground (#e6ecf2) needs the ink register */
+:root[data-theme="light"],
+.on-paper {
+  --dots-ink: var(--dots-light-ink);
+  --dots-accent: var(--dots-light-accent);
+  --dots-base: var(--dots-light-base);
+  --dots-peak: var(--dots-light-peak);
+  --dots-link: var(--dots-light-link);
+  --dots-radius: var(--dots-light-radius);
+}
+
+/*
+  Blueprint stays navy in both themes, so it keeps the dark register even
+  when the rest of the page has flipped to light — and it needs a touch more
+  alpha than the near-black ground to read against #0b3b60.
+*/
+.on-blueprint {
+  --dots-ink: var(--dots-dark-ink);
+  --dots-accent: var(--dots-dark-accent);
+  --dots-base: 0.26;
+  --dots-peak: var(--dots-dark-peak);
+  --dots-link: 0.14;
+  --dots-radius: var(--dots-dark-radius);
+}
+
+/*
   Paper sections are light in BOTH themes, so any theme-flipping token used
   inside one has to resolve to its light value or it renders against the
   wrong ground. steel is the one that leaks (the "read more" and caption
@@ -210,6 +275,10 @@ main:focus-visible {
   background-size: 14px 14px;
 }
 
+.track-plate {
+  display: none;
+}
+
 /* Pipeline progressive enhancement: stacked list until GSAP takes over */
 [data-pin-enhanced="true"] .stage-panel {
   position: absolute;
@@ -235,6 +304,86 @@ main:focus-visible {
 [data-pin-enhanced="true"] .pipeline-pin {
   padding-top: 6.5rem;
   padding-bottom: 3rem;
+}
+
+/*
+  Services chain progressive enhancement (components/services/ServicesTrackPin).
+
+  Everything below is inert until GSAP sets data-track-enhanced on the pinned
+  root: without it the section is the same four-up card grid ServicesGrid
+  renders, which is what mobile, short viewports, reduced motion and no-JS all
+  keep. The attribute selector outranks the Tailwind utilities on the same
+  elements, so the flip needs no class juggling in React.
+*/
+[data-track-enhanced="true"] .services-viewport {
+  max-width: none;
+  padding-inline: 0;
+  /* clip, not hidden: hidden on one axis forces the other to auto and would
+     make this element the scroll container for SectionDots' sticky canvas */
+  overflow-x: clip;
+  overflow-y: visible;
+}
+[data-track-enhanced="true"] .services-track {
+  display: flex;
+  flex-wrap: nowrap;
+  width: max-content;
+  gap: 1.5rem;
+  /* the row enters and leaves on the page's own margins — set from the header
+     at runtime so it tracks the container, not a duplicated max-width sum */
+  padding-inline: var(--track-gutter, 1.25rem);
+  will-change: transform;
+}
+[data-track-enhanced="true"] .services-track > .track-card {
+  flex: none;
+  /* narrow enough that the next plate always peeks — the peek is the only
+     affordance saying the row moves sideways */
+  width: clamp(18rem, 27vw, 25rem);
+  height: min(46vh, 25rem);
+}
+[data-track-enhanced="true"] .track-plate {
+  display: block;
+  will-change: transform;
+}
+/* the attribute sits on this element, so it is not a descendant selector */
+.services-pin[data-track-enhanced="true"] {
+  /* the pinned frame owns the whole viewport for the length of the pan —
+     anything short of that lets the next band edge in under the plates while
+     the row is still moving, which reads as the section having ended */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* clear the fixed nav — the kicker rule is the first thing the eye lands on
+     and it is the first thing a top-pinned frame slides under */
+  padding-top: 7rem;
+  padding-bottom: 1rem;
+}
+/* as flex items these size to their own content, and the track's content is
+   wider than the screen — without this the viewport grows to the full track
+   width and there is no overflow left to pan */
+.services-pin[data-track-enhanced="true"] > * {
+  width: 100%;
+  min-width: 0;
+}
+/*
+  The head has to share one viewport with a full plate and the rail, and
+  stacked it costs ~250px of that budget. Pinned, it goes two-up instead:
+  the kicker rule spans, the title takes the left column and the intro sits
+  beside it — which is also the right shape over a full-bleed row.
+*/
+.services-pin[data-track-enhanced="true"] header {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  column-gap: 3rem;
+  align-items: end;
+  margin-bottom: 2.25rem;
+}
+.services-pin[data-track-enhanced="true"] header > :first-child {
+  grid-column: 1 / -1;
+}
+.services-pin[data-track-enhanced="true"] header > p {
+  margin-top: 0;
+  padding-bottom: 0.35rem;
 }
 
 /*

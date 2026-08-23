@@ -2,6 +2,7 @@ import Link from "next/link";
 import SectionHeader from "./ui/SectionHeader";
 import Reveal from "./ui/Reveal";
 import { pagePath } from "@/lib/routes";
+import SectionDots from "./ui/SectionDots";
 import type { Content } from "@/lib/content";
 import type { Locale } from "@/lib/i18n";
 
@@ -15,7 +16,8 @@ import type { Locale } from "@/lib/i18n";
 */
 export default function ScanToBim({ locale, t }: { locale: Locale; t: Content["scanToBim"] }) {
   return (
-    <section className="on-paper bg-paper" aria-labelledby="scan-to-bim-title">
+    <section className="relative isolate on-paper bg-paper" aria-labelledby="scan-to-bim-title">
+      <SectionDots />
       <div className="mx-auto max-w-7xl px-5 py-20 md:px-8 md:py-28">
         <Reveal>
           <SectionHeader id="scan-to-bim-title" kicker={t.kicker} title={t.title} tone="light" />

@@ -1,6 +1,7 @@
 import SectionHeader from "./ui/SectionHeader";
 import Reveal from "./ui/Reveal";
 import RegistrationMark from "./ui/RegistrationMark";
+import SectionDots from "./ui/SectionDots";
 import type { Content } from "@/lib/content";
 
 /*
@@ -15,7 +16,8 @@ import type { Content } from "@/lib/content";
 */
 export default function Approach({ t }: { t: Content["about"] }) {
   return (
-    <section className="bg-ground" aria-labelledby="approach-title">
+    <section className="relative isolate bg-ground" aria-labelledby="approach-title">
+      <SectionDots />
       <div className="mx-auto max-w-7xl px-5 py-20 md:px-8 md:py-28">
         <Reveal>
           <SectionHeader

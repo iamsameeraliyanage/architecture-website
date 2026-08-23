@@ -1,5 +1,6 @@
 import Reveal from "./ui/Reveal";
 import ContactForm from "./ContactForm";
+import SectionDots from "./ui/SectionDots";
 import type { Content } from "@/lib/content";
 
 export default function Contact({ t }: { t: Content["contact"] }) {
@@ -11,7 +12,8 @@ export default function Contact({ t }: { t: Content["contact"] }) {
   ];
 
   return (
-    <section id="contact" className="scroll-mt-20 bg-ground" aria-label={t.title}>
+    <section id="contact" className="relative isolate scroll-mt-20 bg-ground" aria-label={t.title}>
+      <SectionDots />
       <div className="mx-auto max-w-7xl px-5 py-20 md:px-8 md:py-28">
         <div className="grid gap-14 lg:grid-cols-12 lg:gap-10">
           <div className="lg:col-span-5">

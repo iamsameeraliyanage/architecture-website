@@ -2,6 +2,7 @@ import Link from "next/link";
 import Logo from "./Logo";
 import { pagePath, servicePath } from "@/lib/routes";
 import { getServices, serviceList } from "@/lib/services";
+import SectionDots from "./ui/SectionDots";
 import type { Content } from "@/lib/content";
 import type { Locale } from "@/lib/i18n";
 
@@ -24,7 +25,8 @@ export default function Footer({ locale, t }: { locale: Locale; t: Content }) {
   ];
 
   return (
-    <footer className="border-t border-line-dark bg-ground">
+    <footer className="relative isolate border-t border-line-dark bg-ground">
+      <SectionDots />
       <div className="mx-auto max-w-7xl px-5 py-14 md:px-8 md:py-20">
         <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-12">
           <div className="sm:col-span-2 lg:col-span-5">

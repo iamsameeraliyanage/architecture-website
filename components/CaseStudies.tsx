@@ -4,6 +4,7 @@ import Reveal from "./ui/Reveal";
 import RegistrationMark from "./ui/RegistrationMark";
 import Parallax from "./ui/Parallax";
 import { getCaseStudies } from "@/lib/case-studies";
+import SectionDots from "./ui/SectionDots";
 import type { Content } from "@/lib/content";
 import type { Locale } from "@/lib/i18n";
 
@@ -12,7 +13,8 @@ export default function CaseStudies({ locale, t }: { locale: Locale; t: Content[
   const specKeys = ["buildingType", "location", "area", "lod", "delivery"] as const;
 
   return (
-    <section className="bg-ground" aria-labelledby="cases-title">
+    <section className="relative isolate bg-ground" aria-labelledby="cases-title">
+      <SectionDots />
       <div className="mx-auto max-w-7xl px-5 py-20 md:px-8 md:py-28">
         <Reveal>
           <SectionHeader id="cases-title" kicker={t.kicker} title={t.title} intro={t.note} tone="dark" />

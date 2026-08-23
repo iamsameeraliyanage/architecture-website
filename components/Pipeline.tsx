@@ -7,6 +7,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { invalidate } from "@react-three/fiber";
 import SectionHeader from "./ui/SectionHeader";
 import { useTheme } from "./ThemeSwitcher";
+import SectionDots from "./ui/SectionDots";
 import type { Content } from "@/lib/content";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -155,7 +156,13 @@ export default function Pipeline({ t }: { t: Content["pipeline"] }) {
   }, [t.stages.length]);
 
   return (
-    <section id="process" ref={section} className="scroll-mt-20 bg-ground" aria-labelledby="pipeline-title">
+    <section
+      id="process"
+      ref={section}
+      className="relative isolate scroll-mt-20 bg-ground"
+      aria-labelledby="pipeline-title"
+    >
+      <SectionDots />
       <div className="mx-auto max-w-7xl px-5 pt-20 md:px-8 md:pt-28">
         <SectionHeader id="pipeline-title" kicker={t.kicker} title={t.title} intro={t.intro} tone="dark" />
       </div>

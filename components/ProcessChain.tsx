@@ -5,6 +5,7 @@ import { gsap, registerGsap } from "@/lib/motion";
 import SectionHeader from "./ui/SectionHeader";
 import Reveal from "./ui/Reveal";
 import RegistrationMark from "./ui/RegistrationMark";
+import SectionDots from "./ui/SectionDots";
 
 /*
   The step sequence on the service pages — a survey traverse rather than a
@@ -77,7 +78,8 @@ export default function ProcessChain({
   }, [steps.length]);
 
   return (
-    <section className="bg-ground" aria-labelledby={id}>
+    <section className="relative isolate bg-ground" aria-labelledby={id}>
+      <SectionDots />
       <div className="mx-auto max-w-7xl px-5 py-20 md:px-8 md:py-28">
         <Reveal>
           <SectionHeader id={id} kicker={kicker} title={title} intro={intro} tone="dark" />

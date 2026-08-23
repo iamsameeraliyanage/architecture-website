@@ -3,6 +3,7 @@ import SectionHeader from "./ui/SectionHeader";
 import Reveal from "./ui/Reveal";
 import { pagePath, servicePath } from "@/lib/routes";
 import { getServices, serviceList, type ServiceKey } from "@/lib/services";
+import SectionDots from "./ui/SectionDots";
 import type { Locale } from "@/lib/i18n";
 
 /*
@@ -22,7 +23,8 @@ export default function RelatedServices({
   const others = serviceList(locale).filter((service) => service.key !== current);
 
   return (
-    <section className="border-t rule-dark bg-ground" aria-labelledby="related-title">
+    <section className="relative isolate border-t rule-dark bg-ground" aria-labelledby="related-title">
+      <SectionDots />
       <div className="mx-auto max-w-7xl px-5 py-20 md:px-8 md:py-24">
         <Reveal>
           <SectionHeader

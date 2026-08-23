@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { useReducedMotion } from "framer-motion";
 import HeroFallback from "./HeroFallback";
 import { useTheme } from "../ThemeSwitcher";
+import SectionDots from "../ui/SectionDots";
 
 const PointCloudScene = dynamic(() => import("./PointCloudScene"), { ssr: false });
 
@@ -114,6 +115,13 @@ export default function HeroVisual() {
           backgroundSize: "72px 72px",
         }}
       />
+
+      {/* faint constellation dots over the grid — texture only: the field sits
+          at low alpha and only lifts toward cerulean inside a small cursor
+          radius, so the point cloud stays the hero's subject. z=0 rather than
+          the default -1: this wrapper is already the hero's background layer,
+          and the scan stage below is a later sibling, so it still covers. */}
+      <SectionDots z={0} />
 
       {/* the scan stage, aligned to the content container */}
       <div className="absolute inset-0 hidden lg:block">
