@@ -41,32 +41,68 @@ export default function SplitReveal({
 
     let split: SplitText | null = null;
     let cancelled = false;
+    /* The entrance plays once per mount, not once per split — see below. */
+    let played = false;
 
     const fontsReady: Promise<unknown> = document.fonts?.ready ?? Promise.resolve();
 
     fontsReady.then(() => {
       if (cancelled) return;
       try {
-        split = new SplitText(el, {
+        /*
+          autoSplit, because a split is a snapshot and the layout is not.
+
+          SplitText measures the wrapped lines and rebuilds them as block
+          elements, copying the element's computed styles — text-align
+          included — inline onto each one. Both of those go stale the moment
+          the box changes width: the line breaks are the ones the old width
+          produced, and the alignment is the one the old breakpoint asked for.
+
+          On this site the second is visible. The hero copy is centred below lg
+          and ranged left from lg, so a viewport that crosses 1024px after load
+          leaves the H1's lines stamped `text-align: center` while the heading
+          around them has flipped to left — the headline sits centred in a
+          left-aligned column. It is not a hypothetical: an iPad is 834px in
+          portrait and 1194px in landscape, so simply rotating one does it.
+
+          autoSplit re-splits on a width change (and on late font loads), and
+          onSplit rebuilds against the new geometry.
+        */
+        split = SplitText.create(el, {
           type: "lines",
           linesClass: "split-line",
           mask: "lines",
-        });
-        show();
-        gsap.fromTo(
-          split.lines,
-          { yPercent: 110 },
-          {
-            yPercent: 0,
-            duration: durL,
-            delay,
-            stagger: lineStagger,
-            ease: "authored",
-            ...(immediate
-              ? {}
-              : { scrollTrigger: { trigger: el, start: "top 88%", once: true } }),
+          autoSplit: true,
+          onSplit: (self) => {
+            show();
+            /*
+              Only the first split animates. A re-split is a consequence of the
+              reader resizing or rotating, not of them arriving, and replaying
+              the entrance there would make the headline fly in again every
+              time an iPad turns. Later splits are set straight to the resolved
+              state. Returning the tween lets GSAP revert it before re-splitting.
+            */
+            if (played) {
+              gsap.set(self.lines, { yPercent: 0 });
+              return undefined;
+            }
+            played = true;
+            return gsap.fromTo(
+              self.lines,
+              { yPercent: 110 },
+              {
+                yPercent: 0,
+                duration: durL,
+                delay,
+                stagger: lineStagger,
+                ease: "authored",
+                ...(immediate
+                  ? {}
+                  : { scrollTrigger: { trigger: el, start: "top 88%", once: true } }),
+              },
+            );
           },
-        );
+        });
       } catch {
         show();
       }
