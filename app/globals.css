@@ -201,6 +201,17 @@ body {
 }
 
 /*
+  Cards sitting on a ground band. In dark mode the near-black ground already
+  reads as the plate, so the card stays transparent and the hairline does the
+  work. On the light ground the same treatment reads as an empty outline, so
+  the card takes the raised (white) surface and lifts off the field the way
+  the cards in the paper sections do.
+*/
+:root[data-theme="light"] .card-on-ground {
+  background-color: var(--t-raised);
+}
+
+/*
   Form controls need a 3:1 boundary against their surroundings (WCAG 1.4.11).
   The structural hairline is deliberately faint and can't carry that on the
   light ground, so inputs get a dedicated stronger edge there. Dark mode is

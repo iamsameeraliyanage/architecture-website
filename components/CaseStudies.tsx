@@ -23,7 +23,7 @@ export default function CaseStudies({ locale, t }: { locale: Locale; t: Content[
         <ul className="grid gap-6 md:grid-cols-3">
           {cases.map((entry, i) => (
             <Reveal as="li" key={entry.id} delay={i * 0.08}>
-              <article className="group flex h-full flex-col border rule-dark transition-colors duration-500 hover:border-steel/60">
+              <article className="card-on-ground group flex h-full flex-col border rule-dark transition-colors duration-500 hover:border-steel/60">
                 <div className="flex items-center justify-between border-b rule-dark px-5 py-3">
                   <p className="mono-label text-frost transition-colors duration-500 group-hover:text-cerulean">
                     {entry.code}
