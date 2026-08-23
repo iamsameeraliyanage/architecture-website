@@ -25,7 +25,7 @@ export default function RelatedServices({
   return (
     <section className="relative isolate border-t rule-dark bg-ground" aria-labelledby="related-title">
       <SectionDots />
-      <div className="mx-auto max-w-7xl px-5 py-20 md:px-8 md:py-24">
+      <div className="shell band">
         <Reveal>
           <SectionHeader
             id="related-title"
@@ -62,7 +62,7 @@ export default function RelatedServices({
         <Reveal delay={0.2}>
           <Link
             href={pagePath(locale, "services")}
-            className="mono-label group mt-8 inline-flex items-center gap-2 text-mist transition-colors hover:text-frost"
+            className="mono-label group mt-5 inline-flex min-h-11 items-center gap-2 text-mist transition-colors hover:text-frost"
           >
             {t.labels.allServices}
             <span aria-hidden="true" className="transition-transform group-hover:translate-x-0.5">

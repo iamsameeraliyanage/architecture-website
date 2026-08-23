@@ -6,7 +6,7 @@ export default function About({ t }: { t: Content["about"] }) {
   return (
     <section className="relative isolate on-paper bg-paper" aria-label={t.title}>
       <SectionDots />
-      <div className="mx-auto max-w-7xl px-5 py-20 md:px-8 md:py-28">
+      <div className="shell band">
         <div className="grid gap-12 md:grid-cols-12 md:gap-10">
           <div className="md:col-span-6">
             <Reveal delay={0.1}>

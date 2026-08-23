@@ -10,7 +10,7 @@ export default function Pricing({ t }: { t: Content["pricing"] }) {
       aria-label={t.title}
     >
       <SectionDots />
-      <div className="mx-auto max-w-7xl px-5 py-20 md:px-8 md:py-28">
+      <div className="shell band">
         <Reveal>
           <div className="grid border rule-light bg-white md:grid-cols-3">
             {t.tiers.map((tier, i) => (

@@ -7,7 +7,7 @@ export default function Standards({ t }: { t: Content["standards"] }) {
   return (
     <section className="relative isolate on-paper bg-paper" aria-labelledby="standards-title">
       <SectionDots />
-      <div className="mx-auto max-w-7xl px-5 py-20 md:px-8 md:py-28">
+      <div className="shell band">
         <Reveal>
           <SectionHeader id="standards-title" kicker={t.kicker} title={t.title} tone="light" />
         </Reveal>

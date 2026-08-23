@@ -123,9 +123,13 @@ export default function HeroVisual() {
           and the scan stage below is a later sibling, so it still covers. */}
       <SectionDots z={0} />
 
+      {/* Below lg the scan stage is a band of the hero's own layout rather
+          than part of this background wash — see components/hero/MobileHeroStage,
+          rendered in the flow by components/Hero. */}
+
       {/* the scan stage, aligned to the content container */}
       <div className="absolute inset-0 hidden lg:block">
-        <div className="relative mx-auto h-full max-w-7xl px-5 md:px-8">
+        <div className="relative shell h-full">
           <div
             ref={stage}
             className="absolute bottom-0 left-5 right-5 top-0 will-change-transform md:left-8 md:right-8 lg:left-auto lg:w-[58%]"
@@ -150,8 +154,16 @@ export default function HeroVisual() {
         </div>
       </div>
 
-      {/* legibility gradients above everything */}
-      <div className="pointer-events-none absolute inset-0 bg-linear-to-r from-ground via-ground/55 to-transparent" />
+      {/*
+        Legibility gradient, desktop only.
+
+        It darkens the left of the frame so the copy column reads over the
+        cloud, which on a wide screen sits beside it. Below lg the copy is no
+        longer over the drawing at all — the stage has its own band above it —
+        so there is nothing to protect, and the same wipe would only be a
+        veil over the top half of the apartment.
+      */}
+      <div className="pointer-events-none absolute inset-0 hidden bg-linear-to-r from-ground via-ground/55 to-transparent lg:block" />
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-linear-to-t from-ground to-transparent" />
     </div>
   );

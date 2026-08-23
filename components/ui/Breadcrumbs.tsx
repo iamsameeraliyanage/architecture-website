@@ -31,7 +31,9 @@ export default function Breadcrumbs({
               ) : (
                 <Link
                   href={crumb.href}
-                  className="mono-label text-mist transition-colors hover:text-cerulean-soft"
+                  /* -my-2 py-2 grows the hit area to 40px without moving the
+                     crumb off the baseline it shares with the separator */
+                  className="mono-label -my-3 inline-flex items-center py-3 text-mist transition-colors hover:text-cerulean-soft"
                 >
                   {crumb.label}
                 </Link>

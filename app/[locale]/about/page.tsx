@@ -9,6 +9,7 @@ import Team from "@/components/Team";
 import Partner from "@/components/Partner";
 import CtaBand from "@/components/CtaBand";
 import Footer from "@/components/Footer";
+import MobileQuoteBar from "@/components/ui/MobileQuoteBar";
 import JsonLd from "@/components/ui/JsonLd";
 import { content } from "@/lib/content";
 import { isLocale } from "@/lib/i18n";
@@ -83,6 +84,12 @@ export default async function AboutPage({ params }: { params: Promise<{ locale: 
         <CtaBand locale={locale} t={t.cta} />
       </main>
       <Footer locale={locale} t={t} />
+      <MobileQuoteBar
+        quoteHref={pagePath(locale, "contact")}
+        quoteLabel={t.nav.cta}
+        phone={t.contact.details.phone}
+        phoneLabel={t.contact.details.callLabel}
+      />
     </>
   );
 }

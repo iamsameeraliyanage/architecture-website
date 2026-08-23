@@ -80,7 +80,7 @@ export default function ProcessChain({
   return (
     <section className="relative isolate bg-ground" aria-labelledby={id}>
       <SectionDots />
-      <div className="mx-auto max-w-7xl px-5 py-20 md:px-8 md:py-28">
+      <div className="shell band">
         <Reveal>
           <SectionHeader id={id} kicker={kicker} title={title} intro={intro} tone="dark" />
         </Reveal>
@@ -105,11 +105,29 @@ export default function ProcessChain({
           >
             {steps.map((step, i) => (
               <Reveal as="li" key={step.code} delay={i * 0.08}>
-                <div className="group flex h-full flex-col">
-                  <div className="flex items-center gap-3 border-t rule-dark pt-4 lg:border-t-0 lg:pt-0">
+                {/*
+                  Below lg the traverse turns through 90 degrees.
+
+                  The horizontal rule that joins the stations is `hidden
+                  lg:block` — five columns cannot survive a phone — so stacked,
+                  the steps lost the one thing that made them a sequence and
+                  became a list of unrelated headings under hairlines. The
+                  connector below is the same line running down the left
+                  instead of across the top, matching the pipeline on the home
+                  page. From lg it is hidden again and the scrubbed horizontal
+                  line takes over.
+                */}
+                <div className="group relative flex h-full flex-col pl-9 lg:pl-0">
+                  {i < steps.length - 1 && (
+                    <span
+                      aria-hidden="true"
+                      className="absolute bottom-[-2.5rem] left-[7px] top-4 w-px bg-line-dark lg:hidden"
+                    />
+                  )}
+                  <div className="flex items-center gap-3 lg:border-t-0 lg:pt-0">
                     <span
                       data-chain-tick
-                      className="relative -mt-px flex h-[15px] w-[15px] shrink-0 items-center justify-center bg-ground"
+                      className="absolute left-0 top-0 flex h-[15px] w-[15px] shrink-0 items-center justify-center bg-ground lg:relative lg:-mt-px"
                     >
                       <RegistrationMark className="h-[15px] w-[15px] text-coral" />
                     </span>
@@ -118,7 +136,9 @@ export default function ProcessChain({
                         striking through its own station name */}
                     <span className="mono-label bg-ground pr-3 text-steel">{step.code}</span>
                   </div>
-                  <h3 className="display-tight mt-5 text-xl text-frost md:text-2xl">{step.name}</h3>
+                  <h3 className="display-tight mt-4 text-xl text-frost md:text-2xl lg:mt-5">
+                    {step.name}
+                  </h3>
                   <p className="mt-3 text-[0.95rem] leading-relaxed text-mist">{step.body}</p>
                 </div>
               </Reveal>

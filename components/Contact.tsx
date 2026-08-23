@@ -14,7 +14,7 @@ export default function Contact({ t }: { t: Content["contact"] }) {
   return (
     <section id="contact" className="relative isolate scroll-mt-20 bg-ground" aria-label={t.title}>
       <SectionDots />
-      <div className="mx-auto max-w-7xl px-5 py-20 md:px-8 md:py-28">
+      <div className="shell band">
         <div className="grid gap-14 lg:grid-cols-12 lg:gap-10">
           <div className="lg:col-span-5">
             <Reveal>
@@ -26,13 +26,18 @@ export default function Contact({ t }: { t: Content["contact"] }) {
                       <dt className="mono-label w-16 shrink-0 text-steel">{row.label}</dt>
                       <dd className="font-mono text-sm text-frost">
                         {row.href ? (
-                          <a href={row.href} className="transition-colors hover:text-cerulean-soft">
+                          <a
+                            href={row.href}
+                            /* the phone number and the address are the two
+                               things a visitor on a phone actually taps */
+                            className="-my-2 inline-flex min-h-11 items-center py-2 transition-colors hover:text-cerulean-soft"
+                          >
                             {row.value}
                           </a>
                         ) : (
                           row.value
                         )}
-                        <span className="ml-2 border rule-dark px-1.5 py-0.5 text-[0.6rem] uppercase tracking-widest text-steel">
+                        <span className="ml-2 border rule-dark px-1.5 py-0.5 text-[0.6875rem] uppercase tracking-widest text-steel">
                           {row.note}
                         </span>
                       </dd>

@@ -177,8 +177,124 @@
   --ease-authored: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+/*
+  ---------------------------------------------------------------- mobile shell
+
+  Two measurements the whole layout hangs off, expressed once.
+
+  --gutter is the page margin. It is a max() against the safe-area insets
+  because the layout runs edge to edge under `viewport-fit: cover` (set in the
+  route layout): on a notched phone held in landscape the inset is ~44px, and
+  without the max() the first character of every line sits under the notch.
+  The insets are 0 on everything else, so the literal is what normally wins.
+
+  --band is the vertical rhythm between sections. It was a flat 80px on every
+  screen below md, which on a 320px phone is a quarter of the viewport spent on
+  nothing between one heading and the last paragraph. Scaled to the viewport it
+  gives a 568px-wide phone the same proportion a laptop gets.
+*/
+:root {
+  --gutter: 1.25rem;
+  --gutter-nav: 0.75rem;
+  --band: clamp(3.25rem, 9vw, 5rem);
+}
+
+@media (min-width: 360px) {
+  :root {
+    --gutter-nav: 1rem;
+  }
+}
+
+@media (min-width: 768px) {
+  :root {
+    --gutter: 2rem;
+    --gutter-nav: 2rem;
+    --band: clamp(5rem, 7vw, 7rem);
+  }
+}
+
+/* the centred content column — replaces `mx-auto max-w-7xl px-5 md:px-8` */
+@utility shell {
+  margin-inline: auto;
+  max-width: 80rem;
+  padding-inline: max(var(--gutter), env(safe-area-inset-left))
+    max(var(--gutter), env(safe-area-inset-right));
+}
+
+/* the same column on the header's tighter gutter */
+@utility nav-shell {
+  margin-inline: auto;
+  max-width: 80rem;
+  padding-inline: max(var(--gutter-nav), env(safe-area-inset-left))
+    max(var(--gutter-nav), env(safe-area-inset-right));
+}
+
+/* the section's own vertical rhythm — replaces `py-20 md:py-28` */
+@utility band {
+  padding-block: var(--band);
+}
+@utility band-t {
+  padding-block-start: var(--band);
+}
+@utility band-b {
+  padding-block-end: var(--band);
+}
+
+/*
+  Touch-target floor. WCAG 2.5.8 asks for 24x24 CSS px; the platform guidance
+  both Apple and Google publish is 44/48. Text links in a list (the footer, the
+  legal row, the contact details) are ~17px tall on their own, so they get the
+  difference back as padding without the label moving — the row grows around
+  the text rather than the text growing.
+*/
+@utility tap {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+
+/*
+  Snap rails. A visible scrollbar under a row of cards reads as a browser
+  chrome accident rather than an affordance — the peeking next card is the
+  affordance. The row is still a scroll container, so keyboard and screen
+  readers reach it exactly as before.
+
+  overscroll-behavior-inline: contain stops a horizontal swipe that runs out of
+  rail from becoming the browser's back gesture, which is the single most
+  common way a mobile carousel loses its reader.
+*/
+@utility no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  overscroll-behavior-inline: contain;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/*
+  A phone held sideways is a wide viewport and a very short one, and the type
+  scale only knows about width: at 844x390 the H1 resolves to 44px and the
+  headline alone is most of the screen. Cap the display sizes when there is no
+  vertical room for them, so landscape gets a readable hero rather than a
+  poster crop. Width-based sizing is untouched everywhere else.
+*/
+@media (orientation: landscape) and (height <= 30rem) {
+  :root {
+    --text-display-xl: clamp(1.75rem, 3vw, 2.5rem);
+    --text-display-lg: clamp(1.625rem, 2.6vw, 2.125rem);
+    --text-display-md: clamp(1.25rem, 1.8vw, 1.5rem);
+    --band: clamp(2.5rem, 5vw, 3.5rem);
+  }
+}
+
 html {
   scroll-behavior: smooth;
+  /* an in-page anchor otherwise lands under the fixed header */
+  scroll-padding-top: 5.5rem;
+  /* belt and braces against a single wide child scrolling the whole document
+     sideways — clip, not hidden, so position:sticky keeps working */
+  overflow-x: clip;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -193,6 +309,35 @@ body {
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  overflow-x: clip;
+}
+
+/*
+  iOS Safari zooms the page whenever a focused control's text is under 16px,
+  and then leaves it zoomed — the single most common mobile form defect. The
+  fields are set in 14px by design, so the 16px floor is applied only where it
+  changes behaviour: touch-primary pointers.
+*/
+@media (pointer: coarse) {
+  input,
+  select,
+  textarea {
+    font-size: 16px;
+  }
+}
+
+/*
+  Headline wrapping. `balance` evens the last line of a short heading, which is
+  what stops a 3-line mobile H1 ending on one orphaned word; `pretty` does the
+  cheaper widow fix on running text. Both are ignored where unsupported.
+*/
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+p {
+  text-wrap: pretty;
 }
 
 ::selection {
@@ -241,12 +386,26 @@ body {
   line-height: 1.02;
 }
 
+/*
+  The station label. 11px uppercase mono at 0.14em is a drawing annotation —
+  correct on a 27" display held at arm's length, and the smallest thing on the
+  page on a phone held at 30cm, where it carries the kicker of every single
+  section. Below md it steps up to 12px and gives back a little of the tracking
+  so the extra size doesn't cost a line break on the long kickers.
+*/
 .mono-label {
   font-family: var(--font-mono);
-  font-size: 0.6875rem;
-  letter-spacing: 0.14em;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   font-weight: 500;
+}
+
+@media (min-width: 768px) {
+  .mono-label {
+    font-size: 0.6875rem;
+    letter-spacing: 0.14em;
+  }
 }
 
 /* Theme-dependent asset swap (e.g. logo variants) */
@@ -261,6 +420,16 @@ body {
    the layout re-shows it, so headings never vanish without JavaScript */
 .split-pending {
   visibility: hidden;
+}
+
+/*
+  The mobile menu owns the screen while it is open. The quote bar is a fixed
+  sibling at the same stacking level that renders later in the document, so
+  paint order alone would put its CTA on top of the panel; Nav publishes
+  data-menu-open on <html> and the bar stands down.
+*/
+html[data-menu-open] .mobile-quote-bar {
+  display: none;
 }
 
 /* skip-link target: focus lands programmatically, no ring needed */
@@ -301,6 +470,17 @@ main:focus-visible {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  /* the stacked list indents past its traverse rail; pinned there is no rail */
+  padding: 0;
+}
+/*
+  The traverse — the station markers and the line joining them — is what makes
+  the stacked list read as one chain. Pinned, the stages are a crossfading
+  deck in a fixed frame and there is no vertical run for a line to follow, so
+  the rail goes and the progress rail above takes over the same job.
+*/
+[data-pin-enhanced="true"] .stage-rail {
+  display: none;
 }
 [data-pin-enhanced="true"] .stage-panel[data-first="true"] {
   opacity: 1;
@@ -315,6 +495,36 @@ main:focus-visible {
 [data-pin-enhanced="true"] .pipeline-pin {
   padding-top: 6.5rem;
   padding-bottom: 3rem;
+}
+
+/*
+  Services chain, phone register (components/services/ServicesTrackPin).
+
+  Below sm the plates are a snap rail. The card is deliberately narrower than
+  the screen: the sliver of the next plate at the right edge is the only thing
+  that says the row moves, exactly as in the pinned desktop pan, and it is what
+  stops the section reading as a single card with three hidden behind it.
+
+  scroll-padding-inline lines the snapped card up with the page gutter rather
+  than with the scrollport's border edge — without it every card parks itself
+  20px too far left and the rail looks misaligned with the heading above it.
+*/
+@media (width < 40rem) {
+  .services-viewport {
+    scroll-padding-inline: var(--gutter);
+  }
+  .services-track > .track-card {
+    flex: none;
+    width: min(76vw, 19rem);
+    scroll-snap-align: start;
+  }
+  /* the last plate has to be able to reach the left gutter, or the rail stops
+     with it still half off-screen and the card can never be read in full */
+  .services-track::after {
+    content: "";
+    flex: none;
+    inline-size: max(0px, calc(100vw - min(76vw, 19rem) - var(--gutter) * 2));
+  }
 }
 
 /*

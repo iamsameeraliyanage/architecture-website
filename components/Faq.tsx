@@ -37,7 +37,7 @@ export default function Faq({
       aria-labelledby={id}
     >
       <SectionDots />
-      <div className="mx-auto max-w-7xl px-5 py-20 md:px-8 md:py-28">
+      <div className="shell band">
         <Reveal>
           <SectionHeader id={id} kicker={t.kicker} title={t.title} tone="light" />
         </Reveal>
@@ -55,7 +55,7 @@ export default function Faq({
                       aria-expanded={open}
                       aria-controls={`faq-panel-${i}`}
                       id={`faq-button-${i}`}
-                      className="flex w-full items-baseline gap-5 py-5 text-left"
+                      className="flex w-full items-baseline gap-3 py-5 text-left sm:gap-5"
                     >
                       <span className="mono-label shrink-0 text-coral">
                         Q{String(i + 1).padStart(2, "0")}
@@ -83,7 +83,10 @@ export default function Faq({
                         transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
                         className="overflow-hidden"
                       >
-                        <p className="pb-6 pl-[3.4rem] pr-10 text-[0.95rem] leading-relaxed text-ink-soft">
+                        {/* the indent aligns the answer under the question, but 3.4rem + 2.5rem
+                             of it is 94px of a 350px column — on a phone the answer keeps
+                             the alignment and gives back the right-hand inset */}
+                        <p className="pb-6 pl-11 pr-0 text-[0.95rem] leading-relaxed text-ink-soft sm:pl-[3.4rem] sm:pr-10">
                           {item.a}
                         </p>
                       </motion.div>

@@ -28,7 +28,7 @@ export default function PageHero({
   return (
     <section className="relative isolate bg-ground" aria-labelledby={id}>
       <SectionDots />
-      <div className="mx-auto max-w-7xl px-5 pb-14 pt-32 md:px-8 md:pb-20 md:pt-40">
+      <div className="shell pb-[var(--band)] pt-[calc(4rem+var(--band))] md:pt-[calc(4.5rem+var(--band))]">
         {crumbs && crumbsLabel ? (
           <Reveal immediate>
             <Breadcrumbs crumbs={crumbs} label={crumbsLabel} className="mb-8" />

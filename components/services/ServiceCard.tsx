@@ -33,7 +33,7 @@ export default function ServiceCard({
 
   return (
     <article
-      className={`datum group relative flex h-full flex-col overflow-hidden border transition-colors duration-500 ${
+      className={`datum group relative isolate flex h-full flex-col overflow-hidden border transition-colors duration-500 ${
         dark
           ? "rule-dark hover:border-steel/60"
           : "rule-light bg-white hover:border-ink-soft/40"
@@ -45,13 +45,17 @@ export default function ServiceCard({
       {variant === "track" && (
         <span
           aria-hidden="true"
-          className="track-plate display-tight pointer-events-none absolute -bottom-6 -right-2 select-none text-[9rem] leading-none text-ink/[0.045]"
+          className="track-plate display-tight pointer-events-none absolute -bottom-6 -right-2 -z-10 select-none text-[9rem] leading-none text-ink/[0.045]"
         >
           {ordinal}
         </span>
       )}
 
-      <div className="relative flex flex-1 flex-col px-5 pb-6 pt-5">
+      {/* deliberately NOT positioned: the title link overlays the card with
+          before:inset-0, which resolves against the nearest positioned
+          ancestor. While this wrapper was `relative` the overlay stopped at the
+          bottom of the body and the plate foot was dead to the touch. */}
+      <div className="flex flex-1 flex-col px-5 pb-6 pt-5">
         {/* plate row: the registration mark sits directly above the title with
             the card's position in the chain opposite it, so the survey
             structure reads without an empty header bar */}
@@ -96,10 +100,17 @@ export default function ServiceCard({
         </ul>
       </div>
 
-      {/* plate foot — the read-more row carries the card's bottom rule, so
-          every card ends on the same line */}
+      {/*
+        Plate foot — the read-more row carries the card's bottom rule, so every
+        card ends on the same line.
+
+        pointer-events-none because this row is `relative` and therefore paints
+        above the title link's inset overlay: without it, the one strip of the
+        plate that says "read more" was the one strip that did not follow the
+        link. Nothing in here is interactive, so the taps belong to the card.
+      */}
       <div
-        className={`relative flex items-center justify-between border-t px-5 py-3.5 transition-colors duration-500 ${
+        className={`pointer-events-none relative flex items-center justify-between border-t px-5 py-3.5 transition-colors duration-500 ${
           dark
             ? "rule-dark text-steel group-hover:text-cerulean-soft"
             : "rule-light text-steel group-hover:text-blueprint"

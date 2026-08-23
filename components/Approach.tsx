@@ -18,7 +18,7 @@ export default function Approach({ t }: { t: Content["about"] }) {
   return (
     <section className="relative isolate bg-ground" aria-labelledby="approach-title">
       <SectionDots />
-      <div className="mx-auto max-w-7xl px-5 py-20 md:px-8 md:py-28">
+      <div className="shell band">
         <Reveal>
           <SectionHeader
             id="approach-title"

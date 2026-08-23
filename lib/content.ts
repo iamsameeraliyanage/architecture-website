@@ -318,6 +318,9 @@ const en = {
       phoneLabel: "Phone",
       phone: "+41 00 000 00 00",
       phoneNote: "placeholder",
+      /* verb, not noun: the label on the mobile action bar, where the row is
+         a button that dials rather than a field that states a number */
+      callLabel: "Call",
       addressLabel: "Office",
       address: "Musterstrasse 0, 8000 Zürich, Switzerland",
       addressNote: "placeholder",
@@ -762,6 +765,7 @@ const de: Content = {
       phoneLabel: "Telefon",
       phone: "+41 00 000 00 00",
       phoneNote: "Platzhalter",
+      callLabel: "Anrufen",
       addressLabel: "Büro",
       address: "Musterstrasse 0, 8000 Zürich, Schweiz",
       addressNote: "Platzhalter",

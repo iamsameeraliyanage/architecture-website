@@ -164,16 +164,35 @@ export default function ServicesTrackPin({
 
   return (
     <div ref={root} className="services-pin">
-      <div ref={headerWrap} className="mx-auto max-w-7xl px-5 md:px-8">
+      <div ref={headerWrap} className="shell">
         {header}
       </div>
 
-      <div ref={viewport} className="services-viewport mx-auto max-w-7xl px-5 md:px-8">
-        <ul ref={track} className="services-track grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      {/*
+        Below sm the four plates are a swipe rail, not a stack.
+
+        Stacked, the four services cost 1,880px — two and a bit screens of
+        scroll to read four links, and by the fourth plate there is nothing on
+        screen to say the section was ever a set. The pinned desktop treatment
+        exists precisely because the section's claim is "four services, one
+        continuous chain"; a phone can make that claim directly, because a
+        lateral swipe is the gesture the content already describes.
+
+        Same markup, same plates, same anchors — only the container changes.
+        From sm up it is the ordinary grid again, and from lg the GSAP pan
+        takes it over (data-track-enhanced overrides all of this in CSS).
+      */}
+      <div
+        ref={viewport}
+        className="services-viewport no-scrollbar shell max-sm:flex max-sm:snap-x max-sm:snap-mandatory max-sm:overflow-x-auto"
+      >
+        <ul
+          ref={track}
+          className="services-track grid gap-6 max-sm:flex max-sm:w-max sm:grid-cols-2 lg:grid-cols-4"
+        >
           {children}
         </ul>
       </div>
-
     </div>
   );
 }

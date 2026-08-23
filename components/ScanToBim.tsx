@@ -18,7 +18,7 @@ export default function ScanToBim({ locale, t }: { locale: Locale; t: Content["s
   return (
     <section className="relative isolate on-paper bg-paper" aria-labelledby="scan-to-bim-title">
       <SectionDots />
-      <div className="mx-auto max-w-7xl px-5 py-20 md:px-8 md:py-28">
+      <div className="shell band">
         <Reveal>
           <SectionHeader id="scan-to-bim-title" kicker={t.kicker} title={t.title} tone="light" />
         </Reveal>
@@ -41,7 +41,7 @@ export default function ScanToBim({ locale, t }: { locale: Locale; t: Content["s
             <Reveal delay={0.2}>
               <Link
                 href={pagePath(locale, "services")}
-                className="group mt-8 inline-flex items-center gap-2 border-b border-ink-soft/30 pb-1 text-sm font-medium text-ink transition-colors hover:border-coral hover:text-coral"
+                className="group mt-8 inline-flex min-h-11 items-center gap-2 border-b border-ink-soft/30 pb-1 text-sm font-medium text-ink transition-colors hover:border-coral hover:text-coral"
               >
                 {t.link}
                 <span

@@ -47,12 +47,19 @@ export default function Nav({ locale, t }: { locale: Locale; t: Content["nav"] }
   // inert so tabbing can't wander into content hidden behind the panel
   useEffect(() => {
     document.documentElement.style.overflow = open ? "hidden" : "";
+    /* Published state, for the fixed surfaces that are siblings of this one
+       rather than descendants of it — the mobile quote bar is z-40 like the
+       panel and renders after it, so without a signal to stand down it paints
+       its own CTA over the open menu. `inert` below cannot reach it either:
+       it sits outside main and footer. */
+    document.documentElement.toggleAttribute("data-menu-open", open);
     const covered = document.querySelectorAll("main, footer");
     covered.forEach((el) =>
       open ? el.setAttribute("inert", "") : el.removeAttribute("inert"),
     );
     return () => {
       document.documentElement.style.overflow = "";
+      document.documentElement.removeAttribute("data-menu-open");
       covered.forEach((el) => el.removeAttribute("inert"));
     };
   }, [open]);
@@ -118,7 +125,10 @@ export default function Nav({ locale, t }: { locale: Locale; t: Content["nav"] }
       >
         {t.skipToContent}
       </a>
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-2 px-3 min-[360px]:gap-3 min-[360px]:px-4 md:h-[72px] md:gap-6 md:px-8">
+      {/* nav-shell is the page shell on a tighter gutter — this row is dense
+          (logo + CTA + toggle) and cannot afford the full page margin on a
+          320px screen, but it still has to clear a landscape notch */}
+      <div className="nav-shell flex h-16 items-center justify-between gap-2 min-[360px]:gap-3 md:h-[72px] md:gap-6">
         <Link href={pagePath(locale, "home")} aria-label="ScanCrew — Home" className="shrink-0">
           <Logo tone="light" height={open ? "h-5 min-[360px]:h-6 lg:h-8" : "h-8"} />
         </Link>
@@ -275,9 +285,12 @@ export default function Nav({ locale, t }: { locale: Locale; t: Content["nav"] }
               </Link>
             </motion.div>
           ) : (
+            /* 40px tall, not 28: this is the header's only conversion target
+               and it sits next to a 44px toggle — a 28px button beside a 44px
+               one reads as the secondary control, which is backwards */
             <Link
               href={pagePath(locale, "contact")}
-              className="bg-coral px-3 py-1.5 text-xs font-medium text-white transition-colors hover:bg-coral-bright"
+              className="flex min-h-10 items-center whitespace-nowrap bg-coral px-3.5 text-xs font-medium text-white transition-colors hover:bg-coral-bright"
             >
               {t.cta}
             </Link>
@@ -312,7 +325,7 @@ export default function Nav({ locale, t }: { locale: Locale; t: Content["nav"] }
             {/* links take the free space and centre in it; the services children
                 are listed inline rather than behind a second tap — four items
                 is not enough to be worth hiding */}
-            <nav aria-label="Main" className="flex flex-1 flex-col justify-center px-5 py-8">
+            <nav aria-label="Main" className="flex flex-1 flex-col justify-center py-8 ps-[max(1.25rem,env(safe-area-inset-left))] pe-[max(1.25rem,env(safe-area-inset-right))]">
               <ul className="mx-auto w-full max-w-md">
                 {links.map((link, i) => (
                   <motion.li
@@ -388,7 +401,7 @@ export default function Nav({ locale, t }: { locale: Locale; t: Content["nav"] }
                 delay: reduced ? 0 : 0.06 + links.length * 0.055,
                 ease: [0.22, 1, 0.36, 1],
               }}
-              className="mx-auto w-full max-w-md px-5 pb-[max(2rem,env(safe-area-inset-bottom))] pt-8"
+              className="mx-auto w-full max-w-md pb-[max(2rem,env(safe-area-inset-bottom))] pt-8 ps-[max(1.25rem,env(safe-area-inset-left))] pe-[max(1.25rem,env(safe-area-inset-right))]"
             >
               {/* language and client login now sit in the header itself, so the
                   panel keeps only the theme toggle */}

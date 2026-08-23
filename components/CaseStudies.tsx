@@ -15,7 +15,7 @@ export default function CaseStudies({ locale, t }: { locale: Locale; t: Content[
   return (
     <section className="relative isolate bg-ground" aria-labelledby="cases-title">
       <SectionDots />
-      <div className="mx-auto max-w-7xl px-5 py-20 md:px-8 md:py-28">
+      <div className="shell band">
         <Reveal>
           <SectionHeader id="cases-title" kicker={t.kicker} title={t.title} intro={t.note} tone="dark" />
         </Reveal>

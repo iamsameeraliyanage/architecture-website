@@ -31,7 +31,7 @@ export default function NotFoundBody({ locale }: { locale: Locale }) {
       <main id="main" tabIndex={-1}>
         <section className="relative isolate bg-ground" aria-labelledby="nf-title">
           <SectionDots />
-          <div className="mx-auto max-w-7xl px-5 pb-24 pt-32 md:px-8 md:pb-32 md:pt-40">
+          <div className="shell pb-[var(--band)] pt-[calc(4rem+var(--band))] md:pt-[calc(4.5rem+var(--band))]">
             <Reveal immediate>
               <div className="flex items-center gap-3 border-b rule-dark pb-3 text-mist">
                 <RegistrationMark className="h-3 w-3 shrink-0 text-coral" />
@@ -64,7 +64,7 @@ export default function NotFoundBody({ locale }: { locale: Locale }) {
                 </Magnetic>
                 <Link
                   href={pagePath(locale, "services")}
-                  className="group inline-flex items-center gap-2 text-sm text-mist transition-colors hover:text-frost"
+                  className="group -my-3 inline-flex min-h-11 items-center gap-2 py-3 text-sm text-mist transition-colors hover:text-frost"
                 >
                   {t.notFound.secondary}
                   <span aria-hidden="true" className="transition-transform group-hover:translate-x-0.5">

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Instrument_Sans, Inter, IBM_Plex_Mono } from "next/font/google";
 import { notFound } from "next/navigation";
 import { content } from "@/lib/content";
@@ -30,6 +30,29 @@ const plexMono = IBM_Plex_Mono({
 });
 
 export const dynamicParams = false;
+
+/*
+  `viewportFit: "cover"` is what makes env(safe-area-inset-*) resolve to
+  anything but zero — the layout already asks for those insets (the shell
+  gutters, the mobile menu's bottom padding, the quote bar), and without it
+  they are all silently 0 and the page is letterboxed inside the notch.
+  Everything that runs to a screen edge therefore has to pad itself; see the
+  --gutter definition in globals.css.
+
+  themeColor paints the browser chrome to match the band behind it, so the
+  status bar is part of the page rather than a white strip above it. Both
+  entries are listed because the site's theme is user-switchable and the
+  media query is the only signal the UA reads.
+*/
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+  themeColor: [
+    { media: "(prefers-color-scheme: dark)", color: "#05090f" },
+    { media: "(prefers-color-scheme: light)", color: "#e6ecf2" },
+  ],
+};
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));

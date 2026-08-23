@@ -163,12 +163,12 @@ export default function Pipeline({ t }: { t: Content["pipeline"] }) {
       aria-labelledby="pipeline-title"
     >
       <SectionDots />
-      <div className="mx-auto max-w-7xl px-5 pt-20 md:px-8 md:pt-28">
+      <div className="shell band-t">
         <SectionHeader id="pipeline-title" kicker={t.kicker} title={t.title} intro={t.intro} tone="dark" />
       </div>
 
       <div ref={pinArea} className="pipeline-pin">
-        <div className="mx-auto max-w-7xl px-5 pb-20 md:px-8 lg:pb-10">
+        <div className="shell band-b lg:pb-10">
           {/* progress rail — visible only in the pinned experience */}
           <div className="pipeline-rail mb-12 hidden">
             <div className="relative w-full">
@@ -194,20 +194,47 @@ export default function Pipeline({ t }: { t: Content["pipeline"] }) {
           </div>
 
           <div className="lg:grid lg:grid-cols-12 lg:items-center lg:gap-10">
-            {/* stage panels — stacked list by default, crossfading panels when pinned */}
+            {/*
+              Stage panels — a vertical traverse below lg, crossfading panels
+              when pinned.
+
+              The section's claim is "one chain, no handoffs", and stacked
+              behind a plain hairline the five stages read as five unrelated
+              blocks: nothing on a phone said they were a sequence, which is
+              the one thing they had to say. So below lg each stage hangs off a
+              continuous rule down the left with its own station marker on it —
+              the survey traverse the rest of the site draws horizontally,
+              turned on its side because that is the axis a phone scrolls.
+
+              It is drawn in CSS, not scroll-driven: this is the section GSAP
+              pins on desktop, and a second scrubbed animation for the same
+              content on mobile would be paying twice for one idea.
+            */}
             <div className="stage-stack relative lg:col-span-6">
               {t.stages.map((stage, i) => (
                 <article
                   key={stage.code}
-                  className="stage-panel border-t rule-dark py-12 lg:border-t-0 lg:py-0"
+                  className="stage-panel relative pb-12 pl-9 last:pb-0 sm:pl-11"
                   data-first={i === 0 ? "true" : undefined}
                 >
+                  {/* the traverse line, drawn between this station and the next */}
+                  {i < t.stages.length - 1 && (
+                    <span
+                      aria-hidden="true"
+                      className="stage-rail absolute bottom-0 left-[7px] top-2 w-px bg-line-dark sm:left-[9px]"
+                    />
+                  )}
+                  {/* the station itself, sitting on the line */}
+                  <span
+                    aria-hidden="true"
+                    className="stage-rail absolute left-0 top-[3px] block h-[15px] w-[15px] rotate-45 border border-cerulean bg-ground sm:h-[19px] sm:w-[19px]"
+                  />
                   <span className="mono-label block text-cerulean">{stage.code}</span>
-                  <h3 className="display-tight mt-4 text-display-md text-frost">{stage.name}</h3>
-                  <p className="mt-5 max-w-lg text-base leading-relaxed text-mist md:text-lg">
+                  <h3 className="display-tight mt-3 text-display-md text-frost">{stage.name}</h3>
+                  <p className="mt-4 max-w-lg text-base leading-relaxed text-mist md:text-lg">
                     {stage.body}
                   </p>
-                  <ul className="mt-7 flex flex-wrap gap-2">
+                  <ul className="mt-6 flex flex-wrap gap-2">
                     {stage.specs.map((spec) => (
                       <li key={spec} className="mono-label border rule-dark px-3 py-1.5 text-mist">
                         {spec}
